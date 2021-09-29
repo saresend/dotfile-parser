@@ -21,12 +21,21 @@ enum Token {
     #[token("nw")]
     CompassPtNorthWest,
 
+    #[token("subgraph")]
+    Subgraph, 
+    #[token("graph")]
+    Graph, 
+    #[token("digraph")]
+    Digraph,
+    #[token("strict")]
+    #[token("node")]
+    Node, 
+    #[token("edge")]
+    Edge,
     #[token("->")]
     DirectedEdge,
-
     #[token("--")]
     UndirectedEdge,
-
     #[error]
     Error,
 
