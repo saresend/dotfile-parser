@@ -2,10 +2,8 @@ use logos::Logos;
 
 #[derive(Logos, Debug, PartialEq)]
 enum Token {
-
-
     #[token("n")]
-    CompassPtNorth, 
+    CompassPtNorth,
     #[token("ne")]
     CompassPtNorthEast,
     #[token("e")]
@@ -13,31 +11,44 @@ enum Token {
     #[token("se")]
     CompassPtSouthEast,
     #[token("s")]
-    CompassPtSouth, 
+    CompassPtSouth,
     #[token("sw")]
-    CompassPtSouthWest, 
+    CompassPtSouthWest,
     #[token("w")]
-    CompassPtWest, 
+    CompassPtWest,
     #[token("nw")]
     CompassPtNorthWest,
 
+    #[regex(r"[a-zA-Z_][a-zA-Z0-9_]+")]
+    ID,
+
     #[token("subgraph")]
-    Subgraph, 
+    Subgraph,
     #[token("graph")]
-    Graph, 
+    Graph,
     #[token("digraph")]
     Digraph,
     #[token("strict")]
     #[token("node")]
-    Node, 
+    Node,
     #[token("edge")]
     Edge,
     #[token("->")]
     DirectedEdge,
     #[token("--")]
     UndirectedEdge,
+    #[token("{")]
+    OpenParen,
+    #[token("}")]
+    CloseParen,
+
+    #[token(",")]
+    Comma,
+    #[token(";")]
+    SemiColon,
+    #[token(":")]
+    Colon,
+
     #[error]
     Error,
-
-
 }
