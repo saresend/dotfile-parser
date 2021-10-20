@@ -2,6 +2,7 @@ use clap::{App, Arg, SubCommand};
 use petgraph::graph::Graph;
 use std::io::prelude::*;
 
+mod parse;
 mod lex;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

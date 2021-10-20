@@ -49,6 +49,9 @@ enum Token {
     #[token(":")]
     Colon,
 
+    #[token("\"")]
+    Quotation,
+
     #[error]
     Error,
 }
