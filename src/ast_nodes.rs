@@ -1,6 +1,18 @@
+use crate::lex::Token;
+
 #[derive(Clone, Debug)]
 pub struct GraphNode {
     statements: Vec<StatementNode>,
+}
+
+impl GraphNode {
+    pub fn parse_from_tks<'a>(
+        token_stream: &mut impl Iterator<Item = Token>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
+        while let Some(c_tok) = token_stream.next() {
+        }
+        todo!()
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -12,7 +24,7 @@ pub enum StatementNode {
     SubgraphStatement(SubgraphNode),
 }
 
-// TODO: Should add compass pt support 
+// TODO: Should add compass pt support
 type Port = String;
 
 type Ident = String; // using strings as Identifiers for now
@@ -24,7 +36,7 @@ pub enum EdgeOP {
 }
 #[derive(Clone, Debug)]
 pub struct IDNode {
-    id: Ident,  
+    id: Ident,
 }
 
 #[derive(Clone, Debug)]
@@ -41,8 +53,8 @@ pub struct NodeID {
 
 #[derive(Clone, Debug)]
 pub enum EdgeRHSNode {
-   Node((EdgeOP, NodeID, Box<Option<EdgeRHSNode>>)),
-   Subgraph(SubgraphNode, Box<Option<EdgeRHSNode>>), 
+    Node((EdgeOP, NodeID, Box<Option<EdgeRHSNode>>)),
+    Subgraph(SubgraphNode, Box<Option<EdgeRHSNode>>),
 }
 
 #[derive(Clone, Debug)]
@@ -56,7 +68,7 @@ pub struct AttributeNode {
     lhs_id: IDNode,
     rhs_id: IDNode,
 }
-    
+
 #[derive(Clone, Debug)]
 pub struct AttributeListNode {
     attributes: Vec<AttributeNode>,
@@ -69,10 +81,9 @@ pub enum AttributeStatementNode {
     Edge(Vec<AttributeListNode>),
 }
 
-
 #[derive(Clone, Debug)]
 pub struct AssignmentStatementNode {
-    lhs_id: IDNode, 
+    lhs_id: IDNode,
     rhs_id: IDNode,
 }
 

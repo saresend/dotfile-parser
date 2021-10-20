@@ -1,7 +1,7 @@
 use logos::Logos;
 
 #[derive(Logos, Debug, PartialEq)]
-enum Token {
+pub enum Token {
     #[token("n")]
     CompassPtNorth,
     #[token("ne")]
@@ -22,13 +22,15 @@ enum Token {
     #[regex(r"[a-zA-Z_][a-zA-Z0-9_]+")]
     ID,
 
+    #[token("strict")]
+    Strict,
+
     #[token("subgraph")]
     Subgraph,
     #[token("graph")]
     Graph,
     #[token("digraph")]
     Digraph,
-    #[token("strict")]
     #[token("node")]
     Node,
     #[token("edge")]
