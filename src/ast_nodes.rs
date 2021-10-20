@@ -42,12 +42,13 @@ pub struct NodeID {
 #[derive(Clone, Debug)]
 pub enum EdgeRHSNode {
    Node((EdgeOP, NodeID, Box<Option<EdgeRHSNode>>)),
-
+   Subgraph(SubgraphNode, Box<Option<EdgeRHSNode>>), 
 }
 
 #[derive(Clone, Debug)]
 pub enum EdgeStatementNode {
     Node((NodeID, EdgeRHSNode, Vec<AttributeListNode>)),
+    Subgraph((SubgraphNode, EdgeRHSNode, Vec<AttributeListNode>)),
 }
 
 #[derive(Clone, Debug)]
@@ -62,11 +63,21 @@ pub struct AttributeListNode {
 }
 
 #[derive(Clone, Debug)]
-pub struct AttributeStatementNode {}
+pub enum AttributeStatementNode {
+    Graph(Vec<AttributeListNode>),
+    Node(Vec<AttributeListNode>),
+    Edge(Vec<AttributeListNode>),
+}
 
 
 #[derive(Clone, Debug)]
-pub struct AssignmentStatementNode {}
+pub struct AssignmentStatementNode {
+    lhs_id: IDNode, 
+    rhs_id: IDNode,
+}
 
 #[derive(Clone, Debug)]
-pub struct SubgraphNode {}
+pub struct SubgraphNode {
+    id: Option<IDNode>,
+    statements: Vec<StatementNode>,
+}
