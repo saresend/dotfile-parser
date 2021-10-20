@@ -2,8 +2,9 @@ use clap::{App, Arg, SubCommand};
 use petgraph::graph::Graph;
 use std::io::prelude::*;
 
-mod parse;
+mod ast_nodes;
 mod lex;
+mod parse;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = App::new("Dotfile Parser")
