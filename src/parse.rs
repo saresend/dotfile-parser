@@ -1,8 +1,7 @@
-use crate::ast_nodes::*;
+use crate::nodes::graph_node::GraphNode;
 use crate::lex::Token;
 use logos::Logos;
 use petgraph::data::Build;
-use std::fs::File;
 use std::io::BufReader;
 use std::io::Read;
 use std::marker::PhantomData;
@@ -28,8 +27,8 @@ where
     }
 
     pub fn parse_into_graph(&mut self) -> Result<B, Box<dyn std::error::Error>> {
-        let mut parse_str = self.get_token_string();
-        let mut token_stream = Token::lexer(&mut parse_str);
+        let parse_str = self.get_token_string();
+        let mut token_stream = Token::lexer(&parse_str);
         while let Some(curr_token) = token_stream.next() {
             match curr_token {
                 Token::Strict => {
