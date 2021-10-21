@@ -1,5 +1,5 @@
-use super::edge_operation::EdgeOP;
 use super::common::NodeID;
+use super::edge_operation::EdgeOP;
 
 use super::graph_node::SubgraphNode;
 

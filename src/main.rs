@@ -3,8 +3,8 @@ use petgraph::graph::Graph;
 use std::io::prelude::*;
 
 mod lex;
-mod parse;
 mod nodes;
+mod parse;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = App::new("Dotfile Parser")

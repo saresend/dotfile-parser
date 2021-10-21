@@ -1,6 +1,5 @@
 use super::common::IDNode;
 
-
 #[derive(Clone, Debug)]
 pub struct AttributeNode {
     lhs_id: IDNode,

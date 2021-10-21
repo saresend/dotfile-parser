@@ -1,28 +1,33 @@
-use super::statement_node::StatementNode;
 use super::common::IDNode;
+use super::statement_node::StatementNode;
 use crate::lex::Token;
+use crate::parse::DotParseable;
 
 #[derive(Clone, Debug)]
 pub struct GraphNode {
     statements: Vec<StatementNode>,
 }
 
-impl GraphNode {
-    pub fn parse_from_tks<'a>(
+impl DotParseable for GraphNode {
+    fn from_lexer(
         token_stream: &mut impl Iterator<Item = Token>,
     ) -> Result<Self, Box<dyn std::error::Error>> {
-        while let Some(c_tok) = token_stream.next() {
-            match c_tok {
-                Token::OpenParen => {
-                         
-                },
-                _ => {},
-            }
+        let c = token_stream.next();
+        if c == Some(Token::OpenParen) {
+            let statements = Vec::<StatementNode>::from_lexer(token_stream)?;
+            Ok(Self { statements })
+        } else {
+            todo!()
         }
-        todo!()
     }
 }
 
+impl DotParseable for Vec<StatementNode> {
+
+    fn from_lexer(tstream: &mut impl Iterator<Item = Token>) -> Result<Self, Box<dyn std::error::Error>> {
+        todo!() 
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct SubgraphNode {

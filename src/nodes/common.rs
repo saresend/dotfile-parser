@@ -8,7 +8,6 @@ pub struct IDNode {
     id: Ident,
 }
 
-
 #[derive(Clone, Debug)]
 pub struct NodeID {
     id: Ident,
@@ -20,4 +19,3 @@ pub struct AssignmentStatementNode {
     lhs_id: IDNode,
     rhs_id: IDNode,
 }
-
