@@ -1,6 +1,6 @@
 use logos::Logos;
 
-#[derive(Logos, Debug, PartialEq)]
+#[derive(Logos, Debug, PartialEq, Clone)]
 pub enum Token {
     #[token("n")]
     CompassPtNorth,
@@ -65,6 +65,7 @@ pub trait Peekable {
 
 /// A lexing wrapper that supports the method
 /// .peek()
+#[derive(Clone)]
 pub struct PeekableLexer<'a> {
     inner_lexer: logos::Lexer<'a, Token>,
     peeked_token: Option<Token>,
