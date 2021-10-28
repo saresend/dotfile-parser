@@ -1,16 +1,17 @@
+use super::lex::PeekableLexer;
 use crate::lex::Token;
 use crate::nodes::graph_node::GraphNode;
+use anyhow::Result;
 use logos::Logos;
 use petgraph::data::Build;
 use std::io::BufReader;
 use std::io::Read;
 use std::marker::PhantomData;
-use anyhow::Result;
 
 pub trait DotParseable {
-    fn from_lexer(
-        tstream: &mut impl Iterator<Item = Token>,
-    ) -> Result<Self> where Self : Sized;
+    fn from_lexer(tstream: &mut impl Iterator<Item = Token>) -> Result<Self>
+    where
+        Self: Sized;
 }
 
 pub struct DotParser<R, B>

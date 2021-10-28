@@ -3,8 +3,8 @@ use super::common::{AssignmentStatementNode, NodeID};
 use super::edge_statement::EdgeStatementNode;
 use super::graph_node::SubgraphNode;
 
-use crate::parse::DotParseable;
 use crate::lex::Token;
+use crate::parse::DotParseable;
 use anyhow::Result;
 
 #[derive(Clone, Debug)]
@@ -16,9 +16,7 @@ pub enum StatementNode {
     Subgraph(SubgraphNode),
 }
 impl DotParseable for StatementNode {
-    fn from_lexer(
-        token_stream: &mut impl Iterator<Item = Token>,
-    ) -> Result<Self> {
+    fn from_lexer(token_stream: &mut impl Iterator<Item = Token>) -> Result<Self> {
         todo!()
     }
 }

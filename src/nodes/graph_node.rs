@@ -10,9 +10,7 @@ pub struct GraphNode {
 }
 
 impl DotParseable for GraphNode {
-    fn from_lexer(
-        token_stream: &mut impl Iterator<Item = Token>,
-    ) -> Result<Self> {
+    fn from_lexer(token_stream: &mut impl Iterator<Item = Token>) -> Result<Self> {
         let c = token_stream.next();
         if c == Some(Token::OpenParen) {
             let statements = Vec::<StatementNode>::from_lexer(token_stream)?;
@@ -30,7 +28,6 @@ impl DotParseable for Vec<StatementNode> {
         }
         todo!()
     }
-    
 }
 
 #[derive(Clone, Debug)]
