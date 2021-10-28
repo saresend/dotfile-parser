@@ -5,11 +5,12 @@ use petgraph::data::Build;
 use std::io::BufReader;
 use std::io::Read;
 use std::marker::PhantomData;
+use anyhow::Result;
 
 pub trait DotParseable {
     fn from_lexer(
         tstream: &mut impl Iterator<Item = Token>,
-    ) -> Result<Self, Box<dyn std::error::Error>>;
+    ) -> Result<Self> where Self : Sized;
 }
 
 pub struct DotParser<R, B>
@@ -32,13 +33,13 @@ where
         }
     }
 
-    pub fn parse_into_graph(&mut self) -> Result<B, Box<dyn std::error::Error>> {
+    pub fn parse_into_graph(&mut self) -> Result<B> {
         let parse_str = self.get_token_string();
         let mut token_stream = Token::lexer(&parse_str);
         while let Some(curr_token) = token_stream.next() {
             match curr_token {
                 Token::Strict => {
-                    let r = GraphNode::parse_from_tks(&mut token_stream)?;
+                    let r = GraphNode::from_lexer(&mut token_stream)?;
                 }
                 Token::Graph => {}
                 Token::Digraph => {}
