@@ -1,4 +1,4 @@
-use super::lex::PeekableLexer;
+use super::lex::{Peekable, PeekableLexer};
 use crate::lex::Token;
 use crate::nodes::graph_node::GraphNode;
 use anyhow::Result;
@@ -9,7 +9,7 @@ use std::io::Read;
 use std::marker::PhantomData;
 
 pub trait DotParseable {
-    fn from_lexer(tstream: &mut impl Iterator<Item = Token>) -> Result<Self>
+    fn from_lexer(tstream: &mut (impl Iterator<Item = Token> + Peekable)) -> Result<Self>
     where
         Self: Sized;
 }
@@ -36,7 +36,7 @@ where
 
     pub fn parse_into_graph(&mut self) -> Result<B> {
         let parse_str = self.get_token_string();
-        let mut token_stream = Token::lexer(&parse_str);
+        let mut token_stream = PeekableLexer::new(Token::lexer(&parse_str));
         while let Some(curr_token) = token_stream.next() {
             match curr_token {
                 Token::Strict => {
