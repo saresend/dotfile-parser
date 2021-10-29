@@ -19,21 +19,19 @@ impl DotParseable for StatementNode {
     fn from_lexer(token_stream: &mut (impl Iterator<Item = Token> + Peekable<Item = Token> + Clone)) -> Result<Self> {
         if let Some(token) = token_stream.peek()  {
             match token {
-                Token::ID => { 
-                    let node_option = NodeStatementNode::from_lexer(&mut token_stream.clone());
-                    if let Ok(node_option) = node_option {
-                        return Ok(Self::Node(node_option));
-                    } else {
-                        let edge_stmnt = EdgeStatementNode::from_lexer(&mut token_stream.clone()); 
-                    }
-                    todo!() 
-                },
+                Token::ID => { StatementNode::handle_Identifier() } ,
                 _ => Err(anyhow!("Syntax Error; unexpected token"))
             }
         } else {
             Err(anyhow!("Unexpected EOF, token not found"))
         }
     }
+}
+
+impl StatementNode {
+
+    pub fn handle_token(&smu
+
 }
 
 #[derive(Clone, Debug)]

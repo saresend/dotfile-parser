@@ -23,13 +23,15 @@ impl DotParseable for GraphNode {
 
 impl DotParseable for Vec<StatementNode> {
     fn from_lexer(tstream: &mut (impl Iterator<Item = Token> + Peekable<Item = Token> + Clone)) -> Result<Self> {
+        let mut statements = vec![];
         while let Ok(statement) = StatementNode::from_lexer(tstream) {
             let c_token = tstream.next();
             if c_token != Some(Token::SemiColon) {
                 return Err(anyhow!("Invalid syntax, missing semicolon"));
             }
+            statements.push(statement);
         }
-        todo!()
+        Ok(statements)
     }
 }
 
