@@ -73,6 +73,7 @@ pub struct PeekableLexer<'a> {
     inner_lexer: logos::Lexer<'a, Token>,
     peeked_token: Option<Token>,
     curr_span: Span,
+    curr_slice: &'a str,
 }
 
 impl<'a> std::iter::Iterator for PeekableLexer<'a> {
@@ -109,7 +110,11 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
     }
 
     fn slice(&self) -> &'a str {
-        self.inner_lexer.slice()
+        if self.peeked_token.is_none() {
+            self.inner_lexer.slice()
+        } else {
+            self.curr_slice
+        }
     }
 }
 
@@ -117,10 +122,31 @@ impl<'a> PeekableLexer<'a> {
     /// Constructs a new instance of the PeekableLexer
     pub fn new(inner_lexer: logos::Lexer<'a, Token>) -> Self {
         let curr_span = inner_lexer.span().clone();
+        let curr_slice = inner_lexer.slice();
         Self {
             inner_lexer,
             peeked_token: None,
             curr_span,
+            curr_slice,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn lexer_slice_indexing_1_test() {
+        let solution = vec!["big", "kahuna", "electric", "boogaloo"];
+        let test_text: String = solution.iter().map(|x| x.chars()).flatten().collect();
+        let mut lexer_to_test = PeekableLexer::new(Token::lexer(&test_text));
+
+        for sol in solution {
+            let _val = lexer_to_test.next();
+            let _ = lexer_to_test.peek();
+            assert_eq!(lexer_to_test.slice(), sol);
         }
     }
 }
