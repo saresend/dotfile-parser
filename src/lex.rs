@@ -87,7 +87,6 @@ impl<'a> std::iter::Iterator for PeekableLexer<'a> {
             self.inner_lexer.next()
         }
     }
-
 }
 
 impl<'a> Peekable<'a> for PeekableLexer<'a> {
@@ -103,7 +102,7 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 
     fn span(&self) -> Span {
         if self.peeked_token.is_none() {
-            self.inner_lexer.span() 
+            self.inner_lexer.span()
         } else {
             self.curr_span.clone()
         }
@@ -115,7 +114,6 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 }
 
 impl<'a> PeekableLexer<'a> {
-
     /// Constructs a new instance of the PeekableLexer
     pub fn new(inner_lexer: logos::Lexer<'a, Token>) -> Self {
         let curr_span = inner_lexer.span().clone();

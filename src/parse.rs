@@ -9,14 +9,12 @@ use std::io::Read;
 use std::marker::PhantomData;
 
 pub trait DotParseable {
-
-    fn from_lexer<'a>(token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone)) -> Result<Self> 
+    fn from_lexer<'a>(
+        token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone),
+    ) -> Result<Self>
     where
         Self: Sized;
-
 }
-
-
 
 pub struct DotParser<R, B>
 where

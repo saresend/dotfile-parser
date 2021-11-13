@@ -2,7 +2,7 @@ use super::attributes::AttributeListNode;
 use super::common::NodeID;
 use super::edge_rhs::EdgeRHSNode;
 use super::graph_node::SubgraphNode;
-use crate::lex::{Token, Peekable};
+use crate::lex::{Peekable, Token};
 use crate::parse::DotParseable;
 
 #[derive(Clone, Debug)]
@@ -12,10 +12,12 @@ pub enum EdgeStatementNode {
 }
 
 impl DotParseable for EdgeStatementNode {
-
-    fn from_lexer<'a>(token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone)) -> anyhow::Result<Self>
+    fn from_lexer<'a>(
+        token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone),
+    ) -> anyhow::Result<Self>
     where
-            Self: Sized {
+        Self: Sized,
+    {
         todo!()
     }
 }

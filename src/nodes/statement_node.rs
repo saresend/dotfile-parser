@@ -3,7 +3,7 @@ use super::common::{AssignmentStatementNode, NodeID};
 use super::edge_statement::EdgeStatementNode;
 use super::graph_node::SubgraphNode;
 
-use crate::lex::{Token, Peekable};
+use crate::lex::{Peekable, Token};
 use crate::parse::DotParseable;
 use anyhow::{anyhow, Result};
 
@@ -16,11 +16,15 @@ pub enum StatementNode {
     Subgraph(SubgraphNode),
 }
 impl DotParseable for StatementNode {
-    fn from_lexer<'a>(token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone)) -> Result<Self> {
-        if let Some(token) = token_stream.peek()  {
+    fn from_lexer<'a>(
+        token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone),
+    ) -> Result<Self> {
+        if let Some(token) = token_stream.peek() {
             match token {
-                Token::ID => { todo!() } ,
-                _ => Err(anyhow!("Syntax Error; unexpected token"))
+                Token::ID => {
+                    todo!()
+                }
+                _ => Err(anyhow!("Syntax Error; unexpected token")),
             }
         } else {
             Err(anyhow!("Unexpected EOF, token not found"))
@@ -28,10 +32,7 @@ impl DotParseable for StatementNode {
     }
 }
 
-impl StatementNode {
-
-
-}
+impl StatementNode {}
 
 #[derive(Clone, Debug)]
 pub struct NodeStatementNode {
@@ -39,9 +40,10 @@ pub struct NodeStatementNode {
     attributes: Vec<AttributeListNode>,
 }
 
-
 impl DotParseable for NodeStatementNode {
-    fn from_lexer<'a>(token_stream: &mut(impl Iterator<Item = Token> + Peekable<'a>)) -> Result<Self> {
+    fn from_lexer<'a>(
+        token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a>),
+    ) -> Result<Self> {
         todo!()
     }
 }
