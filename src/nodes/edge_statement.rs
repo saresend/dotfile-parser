@@ -13,7 +13,7 @@ pub enum EdgeStatementNode {
 
 impl DotParseable for EdgeStatementNode {
 
-    fn from_lexer(token_stream: &mut (impl Iterator<Item = Token> + Peekable<Item = Token> + Clone)) -> anyhow::Result<Self>
+    fn from_lexer<'a>(token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone)) -> anyhow::Result<Self>
     where
             Self: Sized {
         todo!()

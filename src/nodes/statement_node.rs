@@ -16,10 +16,10 @@ pub enum StatementNode {
     Subgraph(SubgraphNode),
 }
 impl DotParseable for StatementNode {
-    fn from_lexer(token_stream: &mut (impl Iterator<Item = Token> + Peekable<Item = Token> + Clone)) -> Result<Self> {
+    fn from_lexer<'a>(token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone)) -> Result<Self> {
         if let Some(token) = token_stream.peek()  {
             match token {
-                Token::ID => { StatementNode::handle_Identifier() } ,
+                Token::ID => { todo!() } ,
                 _ => Err(anyhow!("Syntax Error; unexpected token"))
             }
         } else {
@@ -30,7 +30,6 @@ impl DotParseable for StatementNode {
 
 impl StatementNode {
 
-    pub fn handle_token(&smu
 
 }
 
@@ -42,7 +41,7 @@ pub struct NodeStatementNode {
 
 
 impl DotParseable for NodeStatementNode {
-    fn from_lexer(token_stream: &mut(impl Iterator<Item = Token> + Peekable)) -> Result<Self> {
+    fn from_lexer<'a>(token_stream: &mut(impl Iterator<Item = Token> + Peekable<'a>)) -> Result<Self> {
         todo!()
     }
 }
