@@ -96,6 +96,7 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
     fn peek(&mut self) -> Option<&Token> {
         if self.peeked_token.is_none() {
             self.curr_span = self.inner_lexer.span();
+            self.curr_slice = self.inner_lexer.slice();
             self.peeked_token = self.inner_lexer.next();
         }
         self.peeked_token.as_ref()
@@ -136,6 +137,26 @@ impl<'a> PeekableLexer<'a> {
 mod tests {
 
     use super::*;
+
+    #[test]
+    fn lexer_peek_index_1_test() {
+        let solution = vec!["big", "kahuna", "electric", "boogaloo"];
+        let test_text: String = solution
+            .iter()
+            .map(|x| String::from(*x) + " ")
+            .collect::<Vec<String>>()
+            .iter()
+            .map(|x| x.chars())
+            .flatten()
+            .collect();
+
+        let mut lexer_to_test = PeekableLexer::new(Token::lexer(&test_text));
+        for _val in solution {
+            let v1 = lexer_to_test.peek().unwrap().clone();
+            let v2 = lexer_to_test.next().clone().unwrap();
+            assert_eq!(v1, v2);
+        }
+    }
 
     #[test]
     fn lexer_slice_indexing_1_test() {
