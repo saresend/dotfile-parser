@@ -22,7 +22,18 @@ impl DotParseable for StatementNode {
         if let Some(token) = token_stream.peek() {
             match token {
                 Token::ID => {
-                    todo!()
+                    let _id_token = token_stream.next();
+                    match token_stream.peek() {
+                        Some(&Token::DirectedEdge) => {
+                            let edge_statement = EdgeStatementNode::from_lexer(token_stream)?;
+                            Ok(StatementNode::Edge(edge_statement))
+                        }
+                        Some(&Token::UndirectedEdge) => {
+                            let edge_statement = EdgeStatementNode::from_lexer(token_stream)?;
+                            Ok(StatementNode::Edge(edge_statement))
+                        }
+                        _ => Err(anyhow!("Syntax Error: unexpected token")),
+                    }
                 }
                 _ => Err(anyhow!("Syntax Error; unexpected token")),
             }

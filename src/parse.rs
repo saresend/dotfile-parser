@@ -19,6 +19,7 @@ pub trait DotParseable {
 pub struct DotParser<R, B>
 where
     R: std::io::Read,
+    B: Build + Default,
 {
     input: BufReader<R>,
     _output: PhantomData<B>,
