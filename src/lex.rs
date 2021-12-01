@@ -44,6 +44,12 @@ pub enum Token {
     #[token("}")]
     CloseParen,
 
+    #[token("[")]
+    OpenBracket,
+
+    #[token("]")]
+    CloseBracket,
+
     #[token(",")]
     Comma,
     #[token(";")]

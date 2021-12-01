@@ -32,9 +32,17 @@ impl DotParseable for StatementNode {
                             let edge_statement = EdgeStatementNode::from_lexer(token_stream)?;
                             Ok(StatementNode::Edge(edge_statement))
                         }
+                        Some(&Token::OpenBracket) => {
+                            let node_statement = NodeStatementNode::from_lexer(token_stream)?;
+                            Ok(StatementNode::Node(node_statement))
+                        },
                         _ => Err(anyhow!("Syntax Error: unexpected token")),
                     }
                 }
+                Token::Graph | Token::Node | Token::Edge => {
+                    let attr_stmt = AttributeStatementNode::from_lexer(token_stream)?;
+                    Ok(StatementNode::Attribute(attr_stmt))
+                },
                 _ => Err(anyhow!("Syntax Error; unexpected token")),
             }
         } else {
