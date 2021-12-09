@@ -50,6 +50,9 @@ pub enum Token {
     #[token("]")]
     CloseBracket,
 
+    #[token("=")]
+    Equals,
+
     #[token(",")]
     Comma,
     #[token(";")]

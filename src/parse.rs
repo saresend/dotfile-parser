@@ -8,12 +8,19 @@ use std::io::BufReader;
 use std::io::Read;
 use std::marker::PhantomData;
 
+pub trait DotASTNode: RecurseDebug + DotParseable {}
+impl<T> DotASTNode for T where T: RecurseDebug + DotParseable {}
+
 pub trait DotParseable {
     fn from_lexer<'a>(
         token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone),
     ) -> Result<Self>
     where
         Self: Sized;
+}
+
+pub trait RecurseDebug {
+    fn rec_fmt(&self, f: &mut std::fmt::Formatter<'_>, indent_level: usize) -> Result<(), anyhow::Error>;
 }
 
 pub struct DotParser<R, B>
@@ -40,6 +47,7 @@ where
     pub fn parse_into_graph(&mut self) -> Result<B> {
         let parse_str = self.get_token_string();
         let mut token_stream = PeekableLexer::new(Token::lexer(&parse_str));
+
         while let Some(curr_token) = token_stream.next() {
             match curr_token {
                 Token::Strict => {

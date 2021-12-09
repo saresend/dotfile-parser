@@ -44,3 +44,13 @@ pub struct SubgraphNode {
     id: Option<IDNode>,
     statements: Vec<StatementNode>,
 }
+
+impl DotParseable for SubgraphNode {
+    fn from_lexer<'a>(
+        tstream: &mut (impl Iterator<Item = Token> + Peekable<'a, Item = Token> + Clone),
+    ) -> Result<Self> {
+        todo!()
+    }
+}
+
+

@@ -36,6 +36,10 @@ impl DotParseable for StatementNode {
                             let node_statement = NodeStatementNode::from_lexer(token_stream)?;
                             Ok(StatementNode::Node(node_statement))
                         },
+                        Some(&Token::Equals) => {
+                            let assign_stmt = AssignmentStatementNode::from_lexer(token_stream)?;
+                            Ok(StatementNode::Assignment(assign_stmt))
+                        },
                         _ => Err(anyhow!("Syntax Error: unexpected token")),
                     }
                 }
@@ -43,6 +47,11 @@ impl DotParseable for StatementNode {
                     let attr_stmt = AttributeStatementNode::from_lexer(token_stream)?;
                     Ok(StatementNode::Attribute(attr_stmt))
                 },
+                Token::Subgraph | Token::OpenParen => {
+                    let subgraph_stmt = SubgraphNode::from_lexer(token_stream)?;
+                    Ok(StatementNode::Subgraph(subgraph_stmt)) 
+                }
+
                 _ => Err(anyhow!("Syntax Error; unexpected token")),
             }
         } else {
