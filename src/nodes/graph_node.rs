@@ -1,7 +1,9 @@
+use std::fmt::Write;
+
 use super::common::IDNode;
 use super::statement_node::StatementNode;
 use crate::lex::{Peekable, Token};
-use crate::parse::DotParseable;
+use crate::parse::{RecurseDebug, DotParseable};
 use anyhow::{anyhow, Result};
 
 #[derive(Clone, Debug)]
@@ -37,6 +39,24 @@ impl DotParseable for Vec<StatementNode> {
         }
         Ok(statements)
     }
+}
+
+impl RecurseDebug for GraphNode {
+
+    fn rec_fmt(&self, f: &mut std::fmt::Formatter<'_>, indent_level: usize) ->Result<(), anyhow::Error> {
+        let mut indent_str = String::new();
+        for _ in 0..indent_level {
+            indent_str += " ";
+        }
+
+        for statement in &self.statements {
+            f.write_str(&indent_str)?;
+            statement.rec_fmt(f, indent_level + 1)?;
+        }
+
+        Ok(())
+    }
+
 }
 
 #[derive(Clone, Debug)]

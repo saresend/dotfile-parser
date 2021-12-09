@@ -4,7 +4,7 @@ use super::edge_statement::EdgeStatementNode;
 use super::graph_node::SubgraphNode;
 
 use crate::lex::{Peekable, Token};
-use crate::parse::DotParseable;
+use crate::parse::{RecurseDebug, DotParseable};
 use anyhow::{anyhow, Result};
 
 #[derive(Clone, Debug)]
@@ -60,6 +60,30 @@ impl DotParseable for StatementNode {
     }
 }
 
+impl RecurseDebug for StatementNode {
+
+    fn rec_fmt(&self, f: &mut std::fmt::Formatter<'_>, indent_level: usize) -> Result<(), anyhow::Error> {
+        let mut indent_str = String::new();
+        for _ in 0..indent_level { 
+            indent_str += " ";
+        }
+
+        f.write_str(&indent_str)?;
+
+        match self {
+            StatementNode::Node(innerNode) => innerNode.rec_fmt(f, indent_level + 1),
+            _ => Ok(()),
+            /*
+            StatementNode::Edge(innerEdge) => innerEdge.rec_fmt(f, indent_level + 1), 
+            StatementNode::Attribute(innerAttribute) => rec_fmt(f, indent_level + 1), 
+            StatementNode::Assignment(innerAssignment) => rec_fmt(f, indent_level + 1), 
+            StatementNode::Subgraph(innerSubgraph) => rec_fmt(f, indent_level + 1), 
+            */
+        }
+
+    }
+}
+
 impl StatementNode {}
 
 #[derive(Clone, Debug)]
@@ -73,5 +97,25 @@ impl DotParseable for NodeStatementNode {
         token_stream: &mut (impl Iterator<Item = Token> + Peekable<'a>),
     ) -> Result<Self> {
         todo!()
+    }
+}
+
+impl RecurseDebug for NodeStatementNode {
+
+    fn rec_fmt(&self, f: &mut std::fmt::Formatter<'_>, indent_level: usize) -> Result<(), anyhow::Error> {
+        let mut indent_str = String::new();
+        for _ in 0..indent_level {
+            indent_str += " ";
+        }
+        f.write_str(&indent_str)?;
+        f.write_str(&self.id.id)?;
+        f.write_str("\n")?;
+
+        if let Some(ref port_num) = self.id.port {
+            f.write_str(&indent_str)?;
+            f.write_str(port_num)?;
+        }
+
+        Ok(())
     }
 }

@@ -12,8 +12,8 @@ pub struct IDNode {
 
 #[derive(Clone, Debug)]
 pub struct NodeID {
-    id: Ident,
-    port: Option<Port>,
+    pub id: Ident,
+    pub port: Option<Port>,
 }
 
 #[derive(Clone, Debug)]
