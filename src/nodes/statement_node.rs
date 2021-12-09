@@ -71,7 +71,7 @@ impl RecurseDebug for StatementNode {
         f.write_str(&indent_str)?;
 
         match self {
-            StatementNode::Node(innerNode) => innerNode.rec_fmt(f, indent_level + 1),
+            StatementNode::Node(inner_node) => inner_node.rec_fmt(f, indent_level + 1),
             _ => Ok(()),
             /*
             StatementNode::Edge(innerEdge) => innerEdge.rec_fmt(f, indent_level + 1), 
@@ -115,7 +115,5 @@ impl RecurseDebug for NodeStatementNode {
             f.write_str(&indent_str)?;
             f.write_str(port_num)?;
         }
-
-        Ok(())
     }
 }
