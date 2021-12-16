@@ -19,7 +19,7 @@ pub enum Token {
     #[token("nw")]
     CompassPtNorthWest,
 
-    #[regex(r"[a-zA-Z_][a-zA-Z0-9_]+")]
+    #[regex(r"[a-zA-Z_][a-zA-Z0-9_]*")]
     ID,
 
     #[token("strict")]
@@ -55,8 +55,13 @@ pub enum Token {
 
     #[token(",")]
     Comma,
+
     #[token(";")]
     SemiColon,
+
+    #[token("\n")]
+    NewLine,
+
     #[token(":")]
     Colon,
 
@@ -64,6 +69,7 @@ pub enum Token {
     Quotation,
 
     #[error]
+    #[regex(r"[ \t\f]", logos::skip)]
     Error,
 }
 use logos::Span;
@@ -120,11 +126,7 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
     }
 
     fn slice(&self) -> &'a str {
-        if self.peeked_token.is_none() {
-            self.inner_lexer.slice()
-        } else {
-            self.curr_slice
-        }
+        self.curr_slice.as_ref()
     }
 }
 
@@ -168,15 +170,32 @@ mod tests {
     }
 
     #[test]
+    fn lexer_no_semicolon_test() {
+        let test_string = "
+            hi
+            there 
+        ";
+        let mut lexer = PeekableLexer::new(Token::lexer(test_string));
+        println!("{}", test_string);
+        assert_eq!(lexer.next(), Some(Token::NewLine));
+        assert_eq!(lexer.next(), Some(Token::ID)); 
+        assert_eq!(lexer.next(), Some(Token::NewLine)); 
+
+        assert_eq!(lexer.next(), Some(Token::ID)); 
+        assert_eq!(lexer.next(), Some(Token::NewLine)); 
+
+    }
+
+    #[test]
     fn lexer_slice_indexing_1_test() {
-        let solution = vec!["big", "kahuna", "electric", "boogaloo"];
+        let solution = vec!["big ", "kahuna ", "electric ", "boogaloo "];
         let test_text: String = solution.iter().map(|x| x.chars()).flatten().collect();
         let mut lexer_to_test = PeekableLexer::new(Token::lexer(&test_text));
 
         for sol in solution {
-            let _val = lexer_to_test.next();
-            let _ = lexer_to_test.peek();
-            assert_eq!(lexer_to_test.slice(), sol);
+            let _v = lexer_to_test.next();
+            let _j = lexer_to_test.peek();
+            assert_eq!(lexer_to_test.slice(), sol.trim());
         }
     }
 }
