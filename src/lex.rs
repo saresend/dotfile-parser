@@ -150,6 +150,34 @@ mod tests {
     use super::*;
 
     #[test]
+    fn lexer_test_lex_basic_dotfile() {
+        let test_str = "strict graph { 
+                        a -- b
+                        b -- a [color=blue]
+                        }
+        ";
+        let mut lexer_sut = PeekableLexer::new(Token::lexer(test_str));
+        assert_eq!(lexer_sut.next(), Some(Token::Strict));
+        assert_eq!(lexer_sut.next(), Some(Token::Graph));
+        assert_eq!(lexer_sut.next(), Some(Token::OpenParen));
+        assert_eq!(lexer_sut.next(), Some(Token::NewLine));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::UndirectedEdge));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::NewLine));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::UndirectedEdge));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+
+        assert_eq!(lexer_sut.next(), Some(Token::OpenBracket));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::Equals));
+        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::CloseBracket));
+        assert_eq!(lexer_sut.next(), Some(Token::NewLine));
+    }
+
+    #[test]
     fn lexer_peek_index_1_test() {
         let solution = vec!["big", "kahuna", "electric", "boogaloo"];
         let test_text: String = solution
@@ -178,12 +206,11 @@ mod tests {
         let mut lexer = PeekableLexer::new(Token::lexer(test_string));
         println!("{}", test_string);
         assert_eq!(lexer.next(), Some(Token::NewLine));
-        assert_eq!(lexer.next(), Some(Token::ID)); 
-        assert_eq!(lexer.next(), Some(Token::NewLine)); 
+        assert_eq!(lexer.next(), Some(Token::ID));
+        assert_eq!(lexer.next(), Some(Token::NewLine));
 
-        assert_eq!(lexer.next(), Some(Token::ID)); 
-        assert_eq!(lexer.next(), Some(Token::NewLine)); 
-
+        assert_eq!(lexer.next(), Some(Token::ID));
+        assert_eq!(lexer.next(), Some(Token::NewLine));
     }
 
     #[test]
