@@ -4,6 +4,7 @@ use std::io::prelude::*;
 
 mod lex;
 mod parse;
+mod ast_nodes;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = App::new("Dotfile Parser")
