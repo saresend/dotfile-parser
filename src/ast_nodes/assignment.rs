@@ -11,6 +11,10 @@ pub struct Assignment {
     rhs: ID,
 }
 
+pub type AttributeList = Vec<AssignmentGroup>;
+
+pub type AssignmentGroup = Vec<Assignment>;
+
 impl TryFrom<&mut PeekableLexer<'_>> for Assignment {
     type Error = anyhow::Error;
 
@@ -29,7 +33,7 @@ impl TryFrom<&mut PeekableLexer<'_>> for Assignment {
 }
 
 
-impl TryFrom<&mut PeekableLexer<'_>> for Vec<Assignment> {
+impl TryFrom<&mut PeekableLexer<'_>> for AssignmentGroup {
     type Error = anyhow::Error;
 
     fn try_from(token_stream: &mut PeekableLexer<'_>) -> Result<Self, Self::Error> {
@@ -53,9 +57,32 @@ impl TryFrom<&mut PeekableLexer<'_>> for Vec<Assignment> {
 
 }
 
+impl TryFrom<&mut PeekableLexer<'_>> for AttributeList {
+    type Error = anyhow::Error;
+
+    fn try_from(token_stream: &mut PeekableLexer<'_>) -> Result<Self, Self::Error> {
+        let mut result = vec![];
+        let mut cclone = token_stream.clone();
+        while let Some(Token::OpenBracket) = cclone.next() {
+            let agroup = AssignmentGroup::try_from(&mut cclone)?;
+            result.push(agroup);
+            if let Some(Token::CloseBracket) = token_stream.next() {
+                if token_stream.peek() != Some(&Token::OpenBracket) {
+                    *token_stream = cclone;
+                    return Ok(result);
+                }
+            }
+        }
+        Err(anyhow::anyhow!("Mismatched Tokens"))
+
+    }
+
+
+}
+
 #[cfg(test)]
 mod tests {
-    use super::Assignment;
+    use super::{AttributeList, Assignment};
     use crate::lex::PeekableLexer;
     use std::convert::TryFrom;
 
@@ -81,12 +108,19 @@ mod tests {
     fn assignment_vector_comma_sanity_test() {
         let test_str = "color = red, width = hello";
         let mut plexer = PeekableLexer::from(test_str);
-        let results = Vec::try_from(&mut plexer).unwrap();
+        let results: Vec<Assignment> = Vec::try_from(&mut plexer).unwrap();
         assert_eq!(results[0].lhs, String::from("color"));
         assert_eq!(results[0].rhs, String::from("red"));
         assert_eq!(results[1], Assignment { lhs: String::from("width"), rhs: String::from("hello") });
+    }
 
-
-
+    #[test]
+    fn assignment_attribute_list_sanity_test() {
+        let test_str = "[ color = red ][ color = red ]";
+        let valid = vec![Assignment { lhs: String::from("color"), rhs : String::from("red") }];
+        let mut plexer = PeekableLexer::from(test_str);
+        let result: AttributeList = Vec::try_from(&mut plexer).unwrap();
+        assert_eq!(result[0], valid);
+        assert_eq!(result[1], valid);
     }
 }
