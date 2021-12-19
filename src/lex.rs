@@ -99,7 +99,9 @@ impl<'a> std::iter::Iterator for PeekableLexer<'a> {
         if let Some(inner_tok) = self.peeked_token.take() {
             Some(inner_tok)
         } else {
-            self.inner_lexer.next()
+            let token = self.inner_lexer.next();
+            self.update_splice();
+            token
         }
     }
 }
@@ -109,8 +111,7 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 
     fn peek(&mut self) -> Option<&Token> {
         if self.peeked_token.is_none() {
-            self.curr_span = self.inner_lexer.span();
-            self.curr_slice = self.inner_lexer.slice();
+            self.update_splice();
             self.peeked_token = self.inner_lexer.next();
         }
         self.peeked_token.as_ref()
@@ -147,6 +148,11 @@ impl<'a> PeekableLexer<'a> {
             curr_span,
             curr_slice,
         }
+    }
+
+    fn update_splice(&mut self) {
+        self.curr_span = self.inner_lexer.span();
+        self.curr_slice = self.inner_lexer.slice();
     }
 }
 
@@ -230,5 +236,20 @@ mod tests {
             let _j = lexer_to_test.peek();
             assert_eq!(lexer_to_test.slice(), sol.trim());
         }
+    }
+
+    #[test]
+    fn lexer_slice_indexing_2_test() {
+    let solution = vec!["big ", "kahuna ", "electric ", "boogaloo "];
+        let test_text: String = solution.iter().map(|x| x.chars()).flatten().collect();
+        let mut lexer_to_test = PeekableLexer::from(&test_text);
+
+        for sol in solution {
+            let _v = lexer_to_test.next();
+            assert_eq!(lexer_to_test.slice(), sol.trim());
+        }
+
+
+
     }
 }
