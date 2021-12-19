@@ -18,7 +18,6 @@ pub enum Token {
     CompassPtWest,
     #[token("nw")]
     CompassPtNorthWest,
-
     #[regex(r"[a-zA-Z_][a-zA-Z0-9_]*")]
     ID,
 
@@ -131,8 +130,15 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 }
 
 impl<'a> PeekableLexer<'a> {
+
+    /// Creates a new lexer from a raw string 
+    pub fn from(ref_str: &'a str) -> Self {
+        let inner_lexer = logos::Lexer::new(ref_str); 
+        Self::from_lexer(inner_lexer)
+    }
+
     /// Constructs a new instance of the PeekableLexer
-    pub fn new(inner_lexer: logos::Lexer<'a, Token>) -> Self {
+    fn from_lexer(inner_lexer: logos::Lexer<'a, Token>) -> Self {
         let curr_span = inner_lexer.span().clone();
         let curr_slice = inner_lexer.slice();
         Self {
@@ -156,7 +162,7 @@ mod tests {
                         b -- a [color=blue]
                         }
         ";
-        let mut lexer_sut = PeekableLexer::new(Token::lexer(test_str));
+        let mut lexer_sut = PeekableLexer::from(test_str);
         assert_eq!(lexer_sut.next(), Some(Token::Strict));
         assert_eq!(lexer_sut.next(), Some(Token::Graph));
         assert_eq!(lexer_sut.next(), Some(Token::OpenParen));
@@ -189,7 +195,7 @@ mod tests {
             .flatten()
             .collect();
 
-        let mut lexer_to_test = PeekableLexer::new(Token::lexer(&test_text));
+        let mut lexer_to_test = PeekableLexer::from(&test_text);
         for _val in solution {
             let v1 = lexer_to_test.peek().unwrap().clone();
             let v2 = lexer_to_test.next().clone().unwrap();
@@ -203,7 +209,7 @@ mod tests {
             hi
             there 
         ";
-        let mut lexer = PeekableLexer::new(Token::lexer(test_string));
+        let mut lexer = PeekableLexer::from(test_string);
         println!("{}", test_string);
         assert_eq!(lexer.next(), Some(Token::NewLine));
         assert_eq!(lexer.next(), Some(Token::ID));
@@ -217,7 +223,7 @@ mod tests {
     fn lexer_slice_indexing_1_test() {
         let solution = vec!["big ", "kahuna ", "electric ", "boogaloo "];
         let test_text: String = solution.iter().map(|x| x.chars()).flatten().collect();
-        let mut lexer_to_test = PeekableLexer::new(Token::lexer(&test_text));
+        let mut lexer_to_test = PeekableLexer::from(&test_text);
 
         for sol in solution {
             let _v = lexer_to_test.next();
