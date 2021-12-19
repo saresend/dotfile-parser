@@ -45,6 +45,12 @@ mod tests {
         assert_eq!(assignment.rhs, String::from("red"));
     }
 
+    #[test]
+    fn assignment_correct_rejection_test() {
+        let test_str = "color = {";
+        let plexer = PeekableLexer::from(test_str);
+        let assignment = Assignment::try_from(plexer);
+        assert!(assignment.is_err());
 
-
+    }
 }
