@@ -12,6 +12,13 @@ pub struct Assignment {
     rhs: ID,
 }
 
+impl Assignment {
+    pub fn new(lhs: &str, rhs: &str) -> Self {
+        Assignment { lhs: lhs.to_owned(), rhs : rhs.to_owned() }
+    }
+
+}
+
 pub type AttributeList = Vec<AssignmentGroup>;
 
 pub type AssignmentGroup = Vec<Assignment>;
