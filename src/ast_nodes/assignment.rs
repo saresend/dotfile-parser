@@ -71,15 +71,14 @@ impl Constructable for AttributeList {
 
 #[cfg(test)]
 mod tests {
-    use super::{AttributeList, Assignment};
+    use super::{AttributeList, Assignment, AssignmentGroup};
     use crate::lex::PeekableLexer;
-    use std::convert::TryFrom;
     use crate::parse::Constructable;
 
     #[test]
     fn assignment_sanity_test() {
         let test_str = "color = red";
-        let mut plexer = PeekableLexer::from(test_str); 
+        let plexer = PeekableLexer::from(test_str); 
         let assignment = Assignment::from_lexer(plexer).unwrap().0;
         assert_eq!(assignment.lhs, String::from("color"));
         assert_eq!(assignment.rhs, String::from("red"));
@@ -88,7 +87,7 @@ mod tests {
     #[test]
     fn assignment_correct_rejection_test() {
         let test_str = "color = {";
-        let mut plexer = PeekableLexer::from(test_str);
+        let plexer = PeekableLexer::from(test_str);
         let assignment = Assignment::from_lexer(plexer);
         assert!(assignment.is_err());
 
@@ -97,7 +96,7 @@ mod tests {
     #[test]
     fn assignment_vector_comma_sanity_test() {
         let test_str = "color = red, width = hello";
-        let mut plexer = PeekableLexer::from(test_str);
+        let plexer = PeekableLexer::from(test_str);
         let results: Vec<Assignment> = Vec::from_lexer(plexer).unwrap().0;
         assert_eq!(results[0].lhs, String::from("color"));
         assert_eq!(results[0].rhs, String::from("red"));
@@ -108,9 +107,29 @@ mod tests {
     fn assignment_attribute_list_sanity_test() {
         let test_str = "[ color = red ][ color = red ]";
         let valid = vec![Assignment { lhs: String::from("color"), rhs : String::from("red") }];
-        let mut plexer = PeekableLexer::from(test_str);
+        let plexer = PeekableLexer::from(test_str);
         let result: AttributeList = Vec::from_lexer(plexer).unwrap().0;
         assert_eq!(result[0], valid);
         assert_eq!(result[1], valid);
+    }
+
+    #[test]
+    fn assignment_attribute_list_sanity2_test() {
+        let test_str = "[ color = red, color = red ][ color = red ]";
+        let valid = vec![Assignment { lhs: String::from("color"), rhs : String::from("red") }];
+        let plexer = PeekableLexer::from(test_str);
+        let result: AttributeList = Vec::from_lexer(plexer).unwrap().0;
+
+        assert_eq!(result[0][0], valid[0]);
+        assert_eq!(result[0][1], valid[0]);
+        assert_eq!(result[1], valid);
+    }
+
+    #[test]
+    fn assignment_attribute_list_failure1_test() {
+        let test_str = "[ color = red, color = red ][ color = { ]";
+        let plexer = PeekableLexer::from(test_str);
+        let result = Vec::<AssignmentGroup>::from_lexer(plexer);
+        assert!(result.is_err());
     }
 }
