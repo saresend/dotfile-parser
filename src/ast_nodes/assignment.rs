@@ -23,6 +23,7 @@ pub type AttributeList = Vec<AssignmentGroup>;
 
 pub type AssignmentGroup = Vec<Assignment>;
 
+
 impl Constructable for Assignment {
     fn from_lexer(mut lexer: PeekableLexer<'_>) -> Result<(Self, PeekableLexer), anyhow::Error> {
         if let Some(Token::ID) = lexer.next() {
@@ -63,6 +64,9 @@ impl Constructable for AssignmentGroup {
 impl Constructable for AttributeList {
     fn from_lexer(mut token_stream: PeekableLexer<'_>) -> Result<(Self, PeekableLexer), anyhow::Error> {
         let mut result = vec![];
+        if token_stream.peek() != Some(&Token::OpenBracket) {
+           return Err(anyhow::anyhow!("Invalid token to construct attributeList"));
+        }
         while let Some(Token::OpenBracket) = token_stream.next() {
             let agroup = AssignmentGroup::from_lexer(token_stream.clone())?;
             result.push(agroup.0);

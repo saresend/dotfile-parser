@@ -46,4 +46,13 @@ mod tests {
         assert_eq!(node.attribute_list[0], asgng_1);
     }
 
+    #[test]
+    fn node_statement_sanity2_test() {
+            let test_str = "color = blue";
+            let lexer = PeekableLexer::from(test_str);
+            let node = Node::from_lexer(lexer);
+            assert!(node.is_err());
+
+    }
+
 }
