@@ -11,29 +11,15 @@ use crate::parse::{Constructable, ParseOR};
 struct Directed;
 struct Undirected;
 
-pub struct Edge<LHS, T> {
-    lhs: LHS,
+enum EdgeLHS {
+    Node(Node),
+    Subgraph(Subgraph),
+}
+
+pub struct Edge<T>  {
+    lhs: EdgeLHS,
+    rhs: Box<Edge<T>>,
     ty: PhantomData<T>,
     attr_list: AttributeList,
 
-}
-
-impl Constructable for Edge<ID, Directed> {
-    type Output = Edge::<Node, Directed>;
-
-    fn from_lexer(
-        mut token_stream: crate::lex::PeekableLexer,
-    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        todo!()
-    }
-}
-
-impl Constructable for Edge<Subgraph, Directed> {
-    type Output = Edge<Subgraph, Directed>;
-    
-    fn from_lexer(
-        token_stream: crate::lex::PeekableLexer,
-    ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        todo!()
-    }
 }
