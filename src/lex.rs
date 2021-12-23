@@ -131,10 +131,9 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 }
 
 impl<'a> PeekableLexer<'a> {
-
-    /// Creates a new lexer from a raw string 
+    /// Creates a new lexer from a raw string
     pub fn from(ref_str: &'a str) -> Self {
-        let inner_lexer = logos::Lexer::new(ref_str); 
+        let inner_lexer = logos::Lexer::new(ref_str);
         Self::from_lexer(inner_lexer)
     }
 
@@ -240,7 +239,7 @@ mod tests {
 
     #[test]
     fn lexer_slice_indexing_2_test() {
-    let solution = vec!["big ", "kahuna ", "electric ", "boogaloo "];
+        let solution = vec!["big ", "kahuna ", "electric ", "boogaloo "];
         let test_text: String = solution.iter().map(|x| x.chars()).flatten().collect();
         let mut lexer_to_test = PeekableLexer::from(&test_text);
 
@@ -248,8 +247,5 @@ mod tests {
             let _v = lexer_to_test.next();
             assert_eq!(lexer_to_test.slice(), sol.trim());
         }
-
-
-
     }
 }
