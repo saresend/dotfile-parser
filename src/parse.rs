@@ -7,9 +7,9 @@ pub trait Constructable: Sized {
     fn from_lexer(token_stream: PeekableLexer) -> Result<(Self, PeekableLexer), anyhow::Error>;
 }
 
-struct ParseOR<T, V> {
-    t_val: Option<T>,
-    v_val: Option<V>,
+pub struct ParseOR<T, V> {
+    pub t_val: Option<T>,
+    pub v_val: Option<V>,
 }
 
 impl<T, V> Constructable for ParseOR<T, V> where T: Constructable, V: Constructable {
@@ -26,7 +26,31 @@ impl<T, V> Constructable for ParseOR<T, V> where T: Constructable, V: Constructa
 }
 
 
+#[cfg(test)]
+mod tests {
+    use super::ParseOR;
+    use crate::ast_nodes::{Node, Assignment};
+    use super::Constructable;
+    use crate::lex::PeekableLexer;
 
+    #[test]
+    fn or_op_sanity_test1() {
+        let test_str = "color = green";
+        let pb = PeekableLexer::from(test_str);
+        let result: ParseOR<Assignment, Node> = ParseOR::from_lexer(pb).unwrap().0;
+        assert!(result.t_val.is_some());
+        assert_eq!(result.t_val.unwrap(), Assignment::new("color", "green"));
+    }
+
+    #[test]
+    fn or_op_sanity_test2() {
+        let test_str = "color = green";
+        let pb = PeekableLexer::from(test_str);
+        let result: ParseOR<Node, Assignment> = ParseOR::from_lexer(pb).unwrap().0;
+        assert!(result.v_val.is_some());
+        assert_eq!(result.v_val.unwrap(), Assignment::new("color", "green"));
+    }
+}
 
 
 
