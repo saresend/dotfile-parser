@@ -12,6 +12,7 @@ pub struct Node {
 }
 
 impl Constructable for Node {
+    type Output = Self;
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {

@@ -1,3 +1,4 @@
+#![feature(generic_associated_types)]
 use clap::{App, Arg, SubCommand};
 use petgraph::graph::Graph;
 use std::io::prelude::*;

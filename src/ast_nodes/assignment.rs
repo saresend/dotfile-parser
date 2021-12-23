@@ -26,7 +26,9 @@ pub type AttributeList = Vec<AssignmentGroup>;
 pub type AssignmentGroup = Vec<Assignment>;
 
 impl Constructable for Assignment {
-    fn from_lexer(mut lexer: PeekableLexer<'_>) -> Result<(Self, PeekableLexer), anyhow::Error> {
+    type Output = Self;
+
+    fn from_lexer(mut lexer: PeekableLexer<'_>) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
         if let Some(Token::ID) = lexer.next() {
             let lhs = String::from(lexer.slice());
             if let Some(Token::Equals) = lexer.next() {
@@ -41,9 +43,11 @@ impl Constructable for Assignment {
 }
 
 impl Constructable for AssignmentGroup {
+    type Output = Self;
+
     fn from_lexer(
         mut token_stream: PeekableLexer<'_>,
-    ) -> Result<(Self, PeekableLexer), anyhow::Error> {
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
         let mut result = vec![];
         while let Ok((assignment, stream)) = Assignment::from_lexer(token_stream.clone()) {
             result.push(assignment);
@@ -62,9 +66,11 @@ impl Constructable for AssignmentGroup {
 }
 
 impl Constructable for AttributeList {
+    type Output = Self;
+
     fn from_lexer(
         mut token_stream: PeekableLexer<'_>,
-    ) -> Result<(Self, PeekableLexer), anyhow::Error> {
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
         let mut result = vec![];
         if token_stream.peek() != Some(&Token::OpenBracket) {
             return Err(anyhow::anyhow!("Invalid token to construct attributeList"));
@@ -109,7 +115,7 @@ mod tests {
     fn assignment_vector_comma_sanity_test() {
         let test_str = "color = red, width = hello";
         let plexer = PeekableLexer::from(test_str);
-        let results: Vec<Assignment> = Vec::from_lexer(plexer).unwrap().0;
+        let results: Vec<Assignment> = Vec::<Assignment>::from_lexer(plexer).unwrap().0;
         assert_eq!(results[0].lhs, String::from("color"));
         assert_eq!(results[0].rhs, String::from("red"));
         assert_eq!(
@@ -129,7 +135,7 @@ mod tests {
             rhs: String::from("red"),
         }];
         let plexer = PeekableLexer::from(test_str);
-        let result: AttributeList = Vec::from_lexer(plexer).unwrap().0;
+        let result: AttributeList = AttributeList::from_lexer(plexer).unwrap().0;
         assert_eq!(result[0], valid);
         assert_eq!(result[1], valid);
     }
@@ -142,7 +148,7 @@ mod tests {
             rhs: String::from("red"),
         }];
         let plexer = PeekableLexer::from(test_str);
-        let result: AttributeList = Vec::from_lexer(plexer).unwrap().0;
+        let result: AttributeList = AttributeList::from_lexer(plexer).unwrap().0;
 
         assert_eq!(result[0][0], valid[0]);
         assert_eq!(result[0][1], valid[0]);

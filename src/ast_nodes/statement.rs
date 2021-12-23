@@ -10,6 +10,8 @@ pub enum Statement {
 }
 
 impl Constructable for Statement {
+    type Output = Self;
+
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {

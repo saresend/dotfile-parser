@@ -20,6 +20,8 @@ pub struct Edge<LHS, T> {
 }
 
 impl Constructable for Edge<Node, Directed> {
+    type Output = Self;
+
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
@@ -47,6 +49,8 @@ impl Constructable for Edge<Node, Directed> {
 }
 
 impl Constructable for Edge<Subgraph, Directed> {
+    type Output = Self;
+    
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
