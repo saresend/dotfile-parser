@@ -6,7 +6,7 @@ use crate::lex::{Peekable, PeekableLexer, Token};
 
 /// This is the primary node capable of parsing
 /// constructs of the form 'ID' = 'ID'
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Assignment {
     lhs: ID,
     rhs: ID,
@@ -28,7 +28,9 @@ pub type AssignmentGroup = Vec<Assignment>;
 impl Constructable for Assignment {
     type Output = Self;
 
-    fn from_lexer(mut lexer: PeekableLexer<'_>) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
+    fn from_lexer(
+        mut lexer: PeekableLexer<'_>,
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
         if let Some(Token::ID) = lexer.next() {
             let lhs = String::from(lexer.slice());
             if let Some(Token::Equals) = lexer.next() {

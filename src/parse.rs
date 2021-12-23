@@ -4,7 +4,9 @@ use anyhow::Result;
 
 pub trait Constructable: Sized {
     type Output;
-    fn from_lexer(token_stream: PeekableLexer) -> Result<(Self::Output, PeekableLexer), anyhow::Error>;
+    fn from_lexer(
+        token_stream: PeekableLexer,
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error>;
 }
 
 pub struct ParseOR<T: Constructable, V: Constructable> {
@@ -17,7 +19,7 @@ where
     T: Constructable,
     V: Constructable,
 {
-    type Output = ParseOR::<T, V>;
+    type Output = ParseOR<T, V>;
 
     fn from_lexer(token_stream: PeekableLexer) -> Result<(Self, PeekableLexer), anyhow::Error> {
         if let Ok((val, tok_s)) = T::from_lexer(token_stream.clone()) {
