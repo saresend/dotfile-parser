@@ -98,7 +98,7 @@ mod tests {
     use super::{EdgeLHS, EdgeRHS};
 
     #[test]
-    fn edge_directed_statement_sanity_node_test1() {
+    fn edge_directed_statement_sanity_node_test() {
         let test_str = "A -> B";
         let pb = PeekableLexer::from(test_str);
         let res = Edge::<Directed>::from_lexer(pb).unwrap();
@@ -111,5 +111,31 @@ mod tests {
         if let EdgeLHS::Node(id) = edg_lhs{ 
             assert_eq!("A", id);
         } else { unreachable!() };
+    }
+
+    #[test]
+    fn edge_directed_statement_multi_node_test() {
+        let test_str = "A -> B -> C -> D -> E";
+        let pb = PeekableLexer::from(test_str);
+        let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
+        if let EdgeLHS::Node(id) = res.lhs {
+            assert_eq!(id, "A");
+        } else { unreachable!() }
+
+        if let EdgeRHS::<Directed>::Edge(inner_edg) = *res.rhs {
+            if let EdgeLHS::Node(id) = inner_edg.lhs{ 
+                    assert_eq!("B", id); 
+            } else { unreachable!() }
+
+            if let EdgeRHS::<Directed>::Edge(inner_edg2) = *inner_edg.rhs {
+                if let EdgeLHS::Node(id) = inner_edg2.lhs {
+                        assert_eq!("C", id);
+                } else {
+                    unreachable!();
+                }
+            }
+        }
+
+
     }
 }
