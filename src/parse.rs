@@ -61,13 +61,4 @@ mod tests {
         assert!(result.t_val.is_some());
         assert_eq!(result.t_val.unwrap(), Assignment::new("color", "green"));
     }
-
-    #[test]
-    fn or_op_sanity_test2() {
-        let test_str = "color = green";
-        let pb = PeekableLexer::from(test_str);
-        let result: ParseOR<Node, Assignment> = ParseOR::from_lexer(pb).unwrap().0;
-        assert!(result.v_val.is_some());
-        assert_eq!(result.v_val.unwrap(), Assignment::new("color", "green"));
-    }
 }

@@ -1,7 +1,7 @@
 use super::Statement;
 use super::ID;
 
-use crate::lex::{Token, Peekable};
+use crate::lex::{Peekable, Token};
 use crate::parse::Constructable;
 
 pub struct Subgraph {
@@ -18,24 +18,33 @@ impl Constructable for Subgraph {
         if let Some(Token::ID) = token_stream.next() {
             let id = String::from(token_stream.slice());
             let (statements, tok_stream) = Vec::<Statement>::from_lexer(token_stream.clone())?;
-            Ok((Self { id: Some(id), statements }, tok_stream))
+            Ok((
+                Self {
+                    id: Some(id),
+                    statements,
+                },
+                tok_stream,
+            ))
         } else if let Some(Token::OpenParen) = token_stream.next() {
             let (statements, tok_stream) = Vec::<Statement>::from_lexer(token_stream.clone())?;
-            Ok((Self { id: None, statements }, tok_stream))
+            Ok((
+                Self {
+                    id: None,
+                    statements,
+                },
+                tok_stream,
+            ))
         } else {
             Err(anyhow::anyhow!("Invalid construction of subgraph"))
         }
     }
 }
 
-
-
-
 #[cfg(test)]
 mod tests {
 
-    use crate::lex::PeekableLexer;
     use super::Subgraph;
+    use crate::lex::PeekableLexer;
     use crate::parse::Constructable;
 
     #[test]
@@ -54,9 +63,7 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::from_lexer(pb).unwrap().0;
 
-        assert!(subgraph.id.is_none()); 
+        assert!(subgraph.id.is_none());
         assert_eq!(subgraph.statements.len(), 2);
-
     }
-
 }

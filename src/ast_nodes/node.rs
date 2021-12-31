@@ -21,23 +21,23 @@ impl Constructable for Node {
             let attribute_result = AttributeList::from_lexer(token_stream.clone());
             match attribute_result {
                 Ok(agroup) => {
-            return Ok((
-                Self {
-                    id: node_id,
-                    attribute_list: Some(agroup.0),
-                },
-                agroup.1,
-            ));
-                },
+                    return Ok((
+                        Self {
+                            id: node_id,
+                            attribute_list: Some(agroup.0),
+                        },
+                        agroup.1,
+                    ));
+                }
                 Err(_) => {
                     return Ok((
-                    Self { id: node_id, attribute_list: None },
-                    token_stream
+                        Self {
+                            id: node_id,
+                            attribute_list: None,
+                        },
+                        token_stream,
                     ));
-
-                },
-
-
+                }
             }
         }
         Err(anyhow::anyhow!("Invalid Node; can't find ID"))

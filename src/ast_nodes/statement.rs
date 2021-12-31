@@ -1,5 +1,5 @@
-use crate::parse::{Constructable};
 use crate::lex::Peekable;
+use crate::parse::Constructable;
 
 use super::assignment::*;
 use super::node::Node;
@@ -31,16 +31,17 @@ impl Constructable for Statement {
 }
 
 impl Constructable for Vec<Statement> {
-
     type Output = Self;
 
-    fn from_lexer(mut token_stream: crate::lex::PeekableLexer) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+    fn from_lexer(
+        mut token_stream: crate::lex::PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let mut statements = vec![];
         while let Ok(statement) = Statement::from_lexer(token_stream.clone()) {
             token_stream = statement.1;
             statements.push(statement.0);
         }
-       Ok((statements, token_stream))
+        Ok((statements, token_stream))
     }
 }
 
