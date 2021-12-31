@@ -21,22 +21,22 @@ impl Constructable for EdgeLHS<Directed> {
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let option = ParseOR::<ID, Subgraph<Directed>>::from_lexer(token_stream.clone())?;
+        let option = ParseOR::<Subgraph<Directed>, ID>::from_lexer(token_stream.clone())?;
         match option {
             (
                 ParseOR {
                     t_val: None,
-                    v_val: Some(subgraph),
-                },
-                tok_s,
-            ) => Ok((EdgeLHS::Subgraph(subgraph), tok_s)),
-            (
-                ParseOR {
-                    t_val: Some(id),
-                    v_val: None,
+                    v_val: Some(id),
                 },
                 tok_s,
             ) => Ok((EdgeLHS::Node(id), tok_s)),
+            (
+                ParseOR {
+                    t_val: Some(subgraph),
+                    v_val: None,
+                },
+                tok_s,
+            ) => Ok((EdgeLHS::Subgraph(subgraph), tok_s)),
             _ => Err(anyhow::anyhow!("Couldn't parse Edge LHS")),
         }
     }
