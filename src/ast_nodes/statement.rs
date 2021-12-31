@@ -1,4 +1,5 @@
-use crate::parse::Constructable;
+use crate::parse::{Constructable};
+use crate::lex::Peekable;
 
 use super::assignment::*;
 use super::node::Node;
@@ -15,6 +16,7 @@ impl Constructable for Statement {
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
+        println!("{:?}", token_stream.slice());
         if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
         } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())

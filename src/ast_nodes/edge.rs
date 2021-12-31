@@ -15,6 +15,27 @@ enum EdgeLHS {
     Subgraph(Subgraph),
 }
 
+
+
+impl Constructable for EdgeLHS {
+
+    type Output = Self;
+
+    fn from_lexer(token_stream: crate::lex::PeekableLexer) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        let option = ParseOR::<ID, Subgraph>::from_lexer(token_stream.clone())?;
+        match option {
+            (ParseOR {t_val: None, v_val: Some(subgraph) }, tok_s ) => { 
+                Ok((EdgeLHS::Subgraph(subgraph), tok_s))
+            },
+            (ParseOR {t_val:Some(id), v_val: None }, tok_s ) => {  
+                Ok((EdgeLHS::Node(id) , tok_s))
+            },
+            _ => { Err(anyhow::anyhow!("Couldn't parse Edge LHS")) },
+        }
+    }
+
+}
+
 enum EdgeRHS<T> {
     Edge(Edge<T>),
     Node(ID),
@@ -34,58 +55,7 @@ impl Constructable for Edge<Directed> {
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let mut p1 = ParseOR::<ID, Subgraph>::from_lexer(token_stream.clone())?;
-        if let Some(lhs) = p1.0.t_val {
-            if let Some(Token::DirectedEdge) = p1.1.next() {
-                let rhs = ParseOR::<Edge<Directed>, ParseOR<Subgraph, ID>>::from_lexer(p1.1)?;
-                if let Some(v) = rhs.0.t_val {
-                    Ok((
-                        Self {
-                            lhs: EdgeLHS::Node(lhs),
-                            rhs: Box::new(EdgeRHS::Edge(v)),
-                            ty: PhantomData,
-                            attr_list: vec![],
-                        },
-                        rhs.1,
-                    ))
-                } else if let Some(inner) = rhs.0.v_val {
-                    if let Some(id) = inner.v_val {
-                    Ok((
-                        Self {
-                            lhs: EdgeLHS::Node(lhs),
-                            rhs: Box::new(EdgeRHS::Node(id)),
-                            ty: PhantomData,
-                            attr_list: vec![],
-                        },
-                        rhs.1,
-                    ))
-
-                    } else if let Some(subgraph) = inner.t_val {
-                    Ok((
-                        Self {
-                            lhs: EdgeLHS::Node(lhs),
-                            rhs: Box::new(EdgeRHS::Subgraph(subgraph)),
-                            ty: PhantomData,
-                            attr_list: vec![],
-                        },
-                        rhs.1,
-                    ))
-                    } else {
-                        Err(anyhow::anyhow!("Invalid token following node id for edge"))
-                    }
-                } else {
-                    Err(anyhow::anyhow!("Invalid token following node id for edge"))
-                }
-            } else {
-                Err(anyhow::anyhow!("Invalid token following node id for edge"))
-            }
-        } else if let Some(lhs) = p1.0.v_val {
-                todo!() 
-        } else {
-            Err(anyhow::anyhow!(
-                "Couldn't parse either Node or Subgraph for Edge Node"
-            ))
-        }
+        todo!()
     }
 }
 
