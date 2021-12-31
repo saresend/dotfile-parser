@@ -17,9 +17,10 @@ impl Constructable for Subgraph<Directed> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = token_stream.next() {
+        if let Some(&Token::ID) = token_stream.peek() {
+            token_stream.next();
             let id = String::from(token_stream.slice());
-            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream.clone())?;
+            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream)?;
             Ok((
                 Self {
                     id: Some(id),
@@ -28,7 +29,8 @@ impl Constructable for Subgraph<Directed> {
                 tok_stream,
             ))
         } else if let Some(Token::OpenParen) = token_stream.next() {
-            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream.clone())?;
+            let (statements, mut tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+            if let Some(Token::CloseParen) = tok_stream.next() {
             Ok((
                 Self {
                     id: None,
@@ -36,7 +38,10 @@ impl Constructable for Subgraph<Directed> {
                 },
                 tok_stream,
             ))
-        } else {
+            } else {
+                Err(anyhow::anyhow!("Invalid closing paren for subgraph"))  
+            }
+                    } else {
             Err(anyhow::anyhow!("Invalid construction of subgraph"))
         }
     }

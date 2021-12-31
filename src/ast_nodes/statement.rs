@@ -5,6 +5,8 @@ use super::assignment::*;
 use super::{Edge, Subgraph, Node};
 use super::edge::Directed;
 
+use crate::lex::Token;
+
 
 pub enum Statement<T> {
     Node(Box<Node>),
@@ -32,7 +34,7 @@ impl Constructable for Statement<Directed> {
         } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else {
-            todo!()
+            Err(anyhow::anyhow!("Invalid statement"))
         }
     }
 }
@@ -47,6 +49,11 @@ impl Constructable for Vec<Statement<Directed>> {
         while let Ok(statement) = Statement::from_lexer(token_stream.clone()) {
             token_stream = statement.1;
             statements.push(statement.0);
+            match token_stream.peek() {
+                Some(&Token::SemiColon) | Some(&Token::Comma) => { token_stream.next(); },
+
+                _ => {}, // Intentional no-op
+            };
         }
         Ok((statements, token_stream))
     }
