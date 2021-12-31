@@ -2,11 +2,10 @@ use crate::lex::Peekable;
 use crate::parse::Constructable;
 
 use super::assignment::*;
-use super::{Edge, Subgraph, Node};
 use super::edge::Directed;
+use super::{Edge, Node, Subgraph};
 
 use crate::lex::Token;
-
 
 pub enum Statement<T> {
     Node(Box<Node>),
@@ -29,7 +28,9 @@ impl Constructable for Statement<Directed> {
         } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
-        } else if let Ok((subgraph, tok_stream)) = Subgraph::<Directed>::from_lexer(token_stream.clone()) {
+        } else if let Ok((subgraph, tok_stream)) =
+            Subgraph::<Directed>::from_lexer(token_stream.clone())
+        {
             Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
         } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
@@ -50,9 +51,10 @@ impl Constructable for Vec<Statement<Directed>> {
             token_stream = statement.1;
             statements.push(statement.0);
             match token_stream.peek() {
-                Some(&Token::SemiColon) | Some(&Token::Comma) => { token_stream.next(); },
-
-                _ => {}, // Intentional no-op
+                Some(&Token::SemiColon) | Some(&Token::Comma) => {
+                    token_stream.next();
+                }
+                _ => {} // Intentional no-op
             };
         }
         Ok((statements, token_stream))

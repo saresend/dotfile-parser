@@ -17,31 +17,27 @@ impl Constructable for Subgraph<Directed> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        let mut id = None;
         if let Some(&Token::ID) = token_stream.peek() {
             token_stream.next();
-            let id = String::from(token_stream.slice());
-            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream)?;
-            Ok((
-                Self {
-                    id: Some(id),
-                    statements,
-                },
-                tok_stream,
-            ))
-        } else if let Some(Token::OpenParen) = token_stream.next() {
-            let (statements, mut tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+            token_stream.peek(); // required due to lexer bug
+            id = Some(String::from(token_stream.slice()));
+        }
+        if let Some(Token::OpenParen) = token_stream.next() {
+            let (statements, mut tok_stream) =
+                Vec::<Statement<Directed>>::from_lexer(token_stream)?;
             if let Some(Token::CloseParen) = tok_stream.next() {
-            Ok((
-                Self {
-                    id: None,
-                    statements,
-                },
-                tok_stream,
-            ))
+                Ok((
+                    Self {
+                        id,
+                        statements,
+                    },
+                    tok_stream,
+                ))
             } else {
-                Err(anyhow::anyhow!("Invalid closing paren for subgraph"))  
+                Err(anyhow::anyhow!("Invalid closing paren for subgraph"))
             }
-                    } else {
+        } else {
             Err(anyhow::anyhow!("Invalid construction of subgraph"))
         }
     }
@@ -66,7 +62,7 @@ mod tests {
 
     #[test]
     fn test_subgraph_sanity2_test() {
-        let test_str = "test1 { A, B }";
+        let test_str = "{ A, B }";
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::from_lexer(pb).unwrap().0;
 
