@@ -4,12 +4,14 @@ use super::ID;
 use crate::lex::{Peekable, Token};
 use crate::parse::Constructable;
 
-pub struct Subgraph {
+use super::edge::Directed;
+
+pub struct Subgraph<T> {
     pub id: Option<ID>,
-    pub statements: Vec<Statement>,
+    pub statements: Vec<Statement<T>>,
 }
 
-impl Constructable for Subgraph {
+impl Constructable for Subgraph<Directed> {
     type Output = Self;
 
     fn from_lexer(
@@ -17,7 +19,7 @@ impl Constructable for Subgraph {
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         if let Some(Token::ID) = token_stream.next() {
             let id = String::from(token_stream.slice());
-            let (statements, tok_stream) = Vec::<Statement>::from_lexer(token_stream.clone())?;
+            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream.clone())?;
             Ok((
                 Self {
                     id: Some(id),
@@ -26,7 +28,7 @@ impl Constructable for Subgraph {
                 tok_stream,
             ))
         } else if let Some(Token::OpenParen) = token_stream.next() {
-            let (statements, tok_stream) = Vec::<Statement>::from_lexer(token_stream.clone())?;
+            let (statements, tok_stream) = Vec::<Statement<Directed>>::from_lexer(token_stream.clone())?;
             Ok((
                 Self {
                     id: None,

@@ -2,15 +2,19 @@ use crate::lex::Peekable;
 use crate::parse::Constructable;
 
 use super::assignment::*;
-use super::node::Node;
+use super::{Edge, Subgraph, Node};
+use super::edge::Directed;
 
-pub enum Statement {
+
+pub enum Statement<T> {
     Node(Box<Node>),
     Attribute(Box<AttributeList>),
     Assignment(Box<Assignment>),
+    Edge(Box<Edge<T>>),
+    Subgraph(Box<Subgraph<T>>),
 }
 
-impl Constructable for Statement {
+impl Constructable for Statement<Directed> {
     type Output = Self;
 
     fn from_lexer(
@@ -23,13 +27,17 @@ impl Constructable for Statement {
         } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
+        } else if let Ok((subgraph, tok_stream)) = Subgraph::<Directed>::from_lexer(token_stream.clone()) {
+            Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
+        } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
+            Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else {
             todo!()
         }
     }
 }
 
-impl Constructable for Vec<Statement> {
+impl Constructable for Vec<Statement<Directed>> {
     type Output = Self;
 
     fn from_lexer(

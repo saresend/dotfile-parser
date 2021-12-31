@@ -7,21 +7,21 @@ use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
-struct Directed;
-struct Undirected;
+pub struct Directed;
+pub struct Undirected;
 
-enum EdgeLHS {
+enum EdgeLHS<T> {
     Node(ID),
-    Subgraph(Subgraph),
+    Subgraph(Subgraph<T>),
 }
 
-impl Constructable for EdgeLHS {
+impl Constructable for EdgeLHS<Directed> {
     type Output = Self;
 
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let option = ParseOR::<ID, Subgraph>::from_lexer(token_stream.clone())?;
+        let option = ParseOR::<ID, Subgraph<Directed>>::from_lexer(token_stream.clone())?;
         match option {
             (
                 ParseOR {
@@ -45,7 +45,7 @@ impl Constructable for EdgeLHS {
 enum EdgeRHS<T> {
     Edge(Edge<T>),
     Node(ID),
-    Subgraph(Subgraph),
+    Subgraph(Subgraph<T>),
 }
 
 impl Constructable for EdgeRHS<Directed> {
@@ -55,7 +55,7 @@ impl Constructable for EdgeRHS<Directed> {
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let (options, token_stream) =
-            ParseOR::<Edge<Directed>, ParseOR<ID, Subgraph>>::from_lexer(token_stream)?;
+            ParseOR::<Edge<Directed>, ParseOR<ID, Subgraph<Directed>>>::from_lexer(token_stream)?;
         match options {
             ParseOR {
                 t_val: Some(edge),
@@ -83,7 +83,7 @@ impl Constructable for EdgeRHS<Directed> {
 }
 
 pub struct Edge<T> {
-    lhs: EdgeLHS,
+    lhs: EdgeLHS<T>,
     rhs: Box<EdgeRHS<T>>,
     ty: PhantomData<T>,
     attr_list: AttributeList,
