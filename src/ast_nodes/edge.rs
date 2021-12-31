@@ -1,10 +1,9 @@
 use super::assignment::AttributeList;
-use super::node::Node;
 use super::Subgraph;
 use super::ID;
 use std::marker::PhantomData;
 
-use crate::lex::{Peekable, Token};
+use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
@@ -38,7 +37,7 @@ impl Constructable for Edge<Directed> {
         let mut p1 = ParseOR::<ID, Subgraph>::from_lexer(token_stream.clone())?;
         if let Some(lhs) = p1.0.t_val {
             if let Some(Token::DirectedEdge) = p1.1.next() {
-                let rhs = ParseOR::<Edge<Directed>, ParseOR<ID, Subgraph>>::from_lexer(p1.1)?;
+                let rhs = ParseOR::<Edge<Directed>, ParseOR<Subgraph, ID>>::from_lexer(p1.1)?;
                 if let Some(v) = rhs.0.t_val {
                     Ok((
                         Self {
@@ -50,7 +49,7 @@ impl Constructable for Edge<Directed> {
                         rhs.1,
                     ))
                 } else if let Some(inner) = rhs.0.v_val {
-                    if let Some(id) = inner.t_val {
+                    if let Some(id) = inner.v_val {
                     Ok((
                         Self {
                             lhs: EdgeLHS::Node(lhs),
@@ -61,7 +60,7 @@ impl Constructable for Edge<Directed> {
                         rhs.1,
                     ))
 
-                    } else if let Some(subgraph) = inner.v_val {
+                    } else if let Some(subgraph) = inner.t_val {
                     Ok((
                         Self {
                             lhs: EdgeLHS::Node(lhs),
@@ -81,7 +80,7 @@ impl Constructable for Edge<Directed> {
                 Err(anyhow::anyhow!("Invalid token following node id for edge"))
             }
         } else if let Some(lhs) = p1.0.v_val {
-            todo!()
+                todo!() 
         } else {
             Err(anyhow::anyhow!(
                 "Couldn't parse either Node or Subgraph for Edge Node"
@@ -135,7 +134,16 @@ mod tests {
                 }
             }
         }
-
-
     }
+
+    #[test]
+    fn node_statement_subgraph1_test() {
+        let test_str = "test1 {A, B} -> {C, D}";
+        let pb = PeekableLexer::from(test_str);
+        let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
+        if let EdgeLHS::Subgraph(subgraph) = edge.lhs {
+            assert_eq!(subgraph.id, Some(String::from("test1")));
+        } else { unreachable!() }
+    }
+
 }
