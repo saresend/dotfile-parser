@@ -20,7 +20,6 @@ impl Constructable for Subgraph<Directed> {
         let mut id = None;
         if let Some(&Token::ID) = token_stream.peek() {
             token_stream.next();
-            token_stream.peek(); // required due to lexer bug
             id = Some(String::from(token_stream.slice()));
         }
         if let Some(Token::OpenParen) = token_stream.next() {
@@ -62,5 +61,17 @@ mod tests {
 
         assert!(subgraph.id.is_none());
         assert_eq!(subgraph.statements.len(), 2);
+    }
+
+    #[test]
+    fn test_subgraph_sanity3_test() {
+        let test_str= "subgraph g { A, B }";
+
+        let pb = PeekableLexer::from(test_str);
+        let subgraph = Subgraph::from_lexer(pb).unwrap().0;
+
+        assert_eq!(subgraph.id, Some(String::from("g")));
+        assert_eq!(subgraph.statements.len(), 2);
+
     }
 }

@@ -97,6 +97,7 @@ impl<'a> std::iter::Iterator for PeekableLexer<'a> {
     /// has earlier been peeked, otherwise it will return the peeked token
     fn next(&mut self) -> Option<Token> {
         if let Some(inner_tok) = self.peeked_token.take() {
+            self.update_splice();
             Some(inner_tok)
         } else {
             let token = self.inner_lexer.next();
