@@ -18,6 +18,10 @@ impl Constructable for Subgraph<Directed> {
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let mut id = None;
+        if let Some(&Token::Subgraph) = token_stream.peek() {
+            token_stream.next();
+        }
+
         if let Some(&Token::ID) = token_stream.peek() {
             token_stream.next();
             id = Some(String::from(token_stream.slice()));
