@@ -27,13 +27,7 @@ impl Constructable for Subgraph<Directed> {
             let (statements, mut tok_stream) =
                 Vec::<Statement<Directed>>::from_lexer(token_stream)?;
             if let Some(Token::CloseParen) = tok_stream.next() {
-                Ok((
-                    Self {
-                        id,
-                        statements,
-                    },
-                    tok_stream,
-                ))
+                Ok((Self { id, statements }, tok_stream))
             } else {
                 Err(anyhow::anyhow!("Invalid closing paren for subgraph"))
             }

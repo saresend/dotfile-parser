@@ -61,4 +61,10 @@ mod tests {
         assert!(result.t_val.is_some());
         assert_eq!(result.t_val.unwrap(), Assignment::new("color", "green"));
     }
+
+    #[test]
+    fn test_ast_build_sanity1() {
+        let test_str = "digraph G { subgraph t1 { A [color = green] } }";
+        let pb = PeekableLexer::from(test_str);
+    }
 }

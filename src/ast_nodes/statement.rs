@@ -9,9 +9,9 @@ use crate::lex::Token;
 
 pub enum Statement<T> {
     Node(Box<Node>),
+    Edge(Box<Edge<T>>),
     Attribute(Box<AttributeList>),
     Assignment(Box<Assignment>),
-    Edge(Box<Edge<T>>),
     Subgraph(Box<Subgraph<T>>),
 }
 
