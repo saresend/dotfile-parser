@@ -18,7 +18,7 @@ pub enum Token {
     CompassPtWest,
     #[token("nw")]
     CompassPtNorthWest,
-    #[regex(r"[a-zA-Z_][a-zA-Z0-9_]*")]
+    #[regex(r"[a-zA-Z0-9_]+")]
     ID,
 
     #[token("strict")]
@@ -88,6 +88,16 @@ pub struct PeekableLexer<'a> {
     peeked_token: Option<Token>,
     curr_span: Span,
     curr_slice: &'a str,
+}
+
+impl<'a> std::fmt::Debug for PeekableLexer<'a> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut v = self.clone();
+        while v.next().is_some() {
+            write!(f, "{}", v.slice())?;
+        }
+        write!(f, "\n")
+    }
 }
 
 impl<'a> std::iter::Iterator for PeekableLexer<'a> {

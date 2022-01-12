@@ -17,6 +17,7 @@ pub enum Statement<T> {
 }
 
 impl Constructable for Statement<Directed> {
+
     type Output = Self;
 
     fn from_lexer(

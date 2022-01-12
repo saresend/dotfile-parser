@@ -98,17 +98,26 @@ impl Constructable for Edge<Directed> {
     type Output = Self;
 
     fn from_lexer(
-        mut token_stream: crate::lex::PeekableLexer,
+        token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let (lhs, mut token_stream) = EdgeLHS::from_lexer(token_stream)?;
         if let Some(Token::DirectedEdge) = token_stream.next() {
-            let (rhs, token_stream) = EdgeRHS::from_lexer(token_stream)?;
+            let (rhs, mut token_stream) = EdgeRHS::from_lexer(token_stream)?;
+            let mut attributes = vec![];
+            match AttributeList::from_lexer(token_stream.clone()) {
+                Ok((attr_list, t_stream)) => {
+                     attributes = attr_list;
+                    token_stream = t_stream;
+                },
+                Err(_) => {}, // TODO: Address issues
+            };
+
             Ok((
                 Self {
                     lhs,
                     rhs: Box::new(rhs),
                     ty: PhantomData,
-                    attr_list: vec![],
+                    attr_list: attributes,
                 },
                 token_stream,
             ))
@@ -145,6 +154,15 @@ mod tests {
         } else {
             unreachable!()
         };
+    }
+
+    #[test]
+    fn edge_directed_attribute_test() {
+        let test_str = "A -> B [color=green, shape=circle]";
+        let pb = PeekableLexer::from(test_str);
+        let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
+        assert_eq!(res.attr_list[0].len(), 2);
+
     }
 
     #[test]

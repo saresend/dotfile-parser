@@ -40,7 +40,7 @@ impl Constructable for Assignment {
                 }
             }
         }
-        Err(anyhow::anyhow!("Mismatched Tokens"))
+        Err(anyhow::anyhow!("Assignment: Mismatched Tokens"))
     }
 }
 
@@ -83,7 +83,7 @@ impl Constructable for AttributeList {
             token_stream = agroup.1;
             match token_stream.next() {
                 Some(Token::CloseBracket) => {}
-                _ => return Err(anyhow::anyhow!("Mismatched Tokens")),
+                _ => return Err(anyhow::anyhow!("AttributeList: Mismatched Tokens")),
             }
         }
         Ok((result, token_stream))
@@ -163,5 +163,14 @@ mod tests {
         let plexer = PeekableLexer::from(test_str);
         let result = Vec::<AssignmentGroup>::from_lexer(plexer);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn assignment_attr_test_penwidth() {
+        let test_str = "[penwidth=5,arrowhead=none]";
+        let plexer = PeekableLexer::from(test_str);
+        let result = Vec::<AssignmentGroup>::from_lexer(plexer).unwrap();
+        assert!(result.0[0].len() == 2);
+
     }
 }
