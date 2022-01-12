@@ -51,6 +51,7 @@ mod tests {
     use super::Constructable;
     use super::ParseOR;
     use crate::ast_nodes::{Assignment, Node};
+    use crate::ast_nodes::{Graph, Directed};
     use crate::lex::PeekableLexer;
 
     #[test]
@@ -66,5 +67,8 @@ mod tests {
     fn test_ast_build_sanity1() {
         let test_str = "digraph G { subgraph t1 { A [color = green] } }";
         let pb = PeekableLexer::from(test_str);
+        let g = Graph::<Directed>::from_lexer(pb).unwrap().0;
+        assert_eq!(g.id, String::from("G"));
+        assert_eq!(g.statements.len(), 1);
     }
 }

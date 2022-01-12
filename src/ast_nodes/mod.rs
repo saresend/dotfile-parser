@@ -4,9 +4,9 @@ mod node;
 mod statement;
 mod subgraph;
 
-use edge::{Directed, Undirected};
 use std::marker::PhantomData;
 
+pub use edge::{Directed, Undirected};
 pub use assignment::Assignment;
 pub use edge::Edge;
 pub use node::Node;
@@ -32,8 +32,8 @@ impl Constructable for ID {
 }
 
 pub struct Graph<T> {
-    id: ID,
-    statements: Vec<Statement<T>>,
+    pub id: ID,
+    pub statements: Vec<Statement<T>>,
     _pd: PhantomData<T>,
 }
 
