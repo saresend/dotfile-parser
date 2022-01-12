@@ -7,6 +7,7 @@ use super::{Edge, Node, Subgraph};
 
 use crate::lex::Token;
 
+#[derive(Debug)]
 pub enum Statement<T> {
     Node(Box<Node>),
     Edge(Box<Edge<T>>),

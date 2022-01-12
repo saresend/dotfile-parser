@@ -31,6 +31,7 @@ impl Constructable for ID {
     }
 }
 
+#[derive(Debug)]
 pub struct Graph<T> {
     pub id: ID,
     pub statements: Vec<Statement<T>>,

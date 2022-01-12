@@ -6,6 +6,7 @@ use crate::parse::Constructable;
 
 use super::edge::Directed;
 
+#[derive(Debug)]
 pub struct Subgraph<T> {
     pub id: Option<ID>,
     pub statements: Vec<Statement<T>>,

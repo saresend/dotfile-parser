@@ -6,6 +6,7 @@ use crate::lex::{Peekable, Token};
 /// The main ASTNode type that represents
 /// any sort of node statement that configures attributes for a node
 /// example: 'A [color = red][length = long]'
+#[derive(Debug)]
 pub struct Node {
     id: ID,
     attribute_list: Option<AttributeList>,

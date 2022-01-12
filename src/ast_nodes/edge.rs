@@ -7,9 +7,13 @@ use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
+#[derive(Debug)]
 pub struct Directed;
+
+#[derive(Debug)]
 pub struct Undirected;
 
+#[derive(Debug)]
 enum EdgeLHS<T> {
     Node(ID),
     Subgraph(Subgraph<T>),
@@ -42,6 +46,7 @@ impl Constructable for EdgeLHS<Directed> {
     }
 }
 
+#[derive(Debug)]
 enum EdgeRHS<T> {
     Edge(Edge<T>),
     Node(ID),
@@ -81,7 +86,7 @@ impl Constructable for EdgeRHS<Directed> {
         }
     }
 }
-
+#[derive(Debug)]
 pub struct Edge<T> {
     lhs: EdgeLHS<T>,
     rhs: Box<EdgeRHS<T>>,
