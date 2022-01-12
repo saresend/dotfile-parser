@@ -26,8 +26,11 @@ impl Constructable for Statement<Directed> {
         while let Some(&Token::NewLine) = token_stream.peek() { 
             token_stream.next();
         }
+
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
+        } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
+            Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
         } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())
@@ -37,8 +40,6 @@ impl Constructable for Statement<Directed> {
             Subgraph::<Directed>::from_lexer(token_stream.clone())
         {
             Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
-        } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
-            Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else {
             Err(anyhow::anyhow!("Invalid statement"))
         }
