@@ -51,13 +51,13 @@ mod tests {
     use super::Constructable;
     use super::ParseOR;
     use crate::ast_nodes::{Assignment, Node};
-    use crate::ast_nodes::{Graph, Directed};
+    use crate::ast_nodes::{Directed, Graph};
     use crate::lex::PeekableLexer;
 
     fn test_for_file(file_path: &str) -> Graph<Directed> {
-            let test_str = ::std::fs::read_to_string(file_path).unwrap();
-            let pb = PeekableLexer::from(&test_str);
-            Graph::<Directed>::from_lexer(pb).unwrap().0
+        let test_str = ::std::fs::read_to_string(file_path).unwrap();
+        let pb = PeekableLexer::from(&test_str);
+        Graph::<Directed>::from_lexer(pb).unwrap().0
     }
 
     #[test]

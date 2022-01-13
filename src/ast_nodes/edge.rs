@@ -121,7 +121,9 @@ impl Constructable for EdgeRHS<Undirected> {
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let (options, token_stream) =
-            ParseOR::<Edge<Undirected>, ParseOR<ID, Subgraph<Undirected>>>::from_lexer(token_stream)?;
+            ParseOR::<Edge<Undirected>, ParseOR<ID, Subgraph<Undirected>>>::from_lexer(
+                token_stream,
+            )?;
         match options {
             ParseOR {
                 t_val: Some(edge),
@@ -148,7 +150,6 @@ impl Constructable for EdgeRHS<Undirected> {
     }
 }
 
-
 #[derive(Debug)]
 pub struct Edge<T> {
     lhs: EdgeLHS<T>,
@@ -169,10 +170,10 @@ impl Constructable for Edge<Directed> {
             let mut attributes = vec![];
             match AttributeList::from_lexer(token_stream.clone()) {
                 Ok((attr_list, t_stream)) => {
-                     attributes = attr_list;
+                    attributes = attr_list;
                     token_stream = t_stream;
-                },
-                Err(_) => {}, // TODO: Address issues
+                }
+                Err(_) => {} // TODO: Address issues
             };
 
             Ok((
@@ -204,10 +205,10 @@ impl Constructable for Edge<Undirected> {
             let mut attributes = vec![];
             match AttributeList::from_lexer(token_stream.clone()) {
                 Ok((attr_list, t_stream)) => {
-                     attributes = attr_list;
+                    attributes = attr_list;
                     token_stream = t_stream;
-                },
-                Err(_) => {}, // TODO: Address issues
+                }
+                Err(_) => {} // TODO: Address issues
             };
 
             Ok((
@@ -226,7 +227,6 @@ impl Constructable for Edge<Undirected> {
         }
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -261,7 +261,6 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(res.attr_list[0].len(), 2);
-
     }
 
     #[test]

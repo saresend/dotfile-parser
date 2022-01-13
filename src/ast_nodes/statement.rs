@@ -17,14 +17,12 @@ pub enum Statement<T> {
 }
 
 impl Constructable for Statement<Directed> {
-
     type Output = Self;
 
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-
-        while let Some(&Token::NewLine) = token_stream.peek() { 
+        while let Some(&Token::NewLine) = token_stream.peek() {
             token_stream.next();
         }
 
@@ -47,22 +45,20 @@ impl Constructable for Statement<Directed> {
     }
 }
 
-
 impl Constructable for Statement<Undirected> {
-
     type Output = Self;
 
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-
-        while let Some(&Token::NewLine) = token_stream.peek() { 
+        while let Some(&Token::NewLine) = token_stream.peek() {
             token_stream.next();
         }
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
-        } else if let Ok((edge, tok_stream)) = Edge::<Undirected>::from_lexer(token_stream.clone()) {
+        } else if let Ok((edge, tok_stream)) = Edge::<Undirected>::from_lexer(token_stream.clone())
+        {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
@@ -78,7 +74,6 @@ impl Constructable for Statement<Undirected> {
         }
     }
 }
-
 
 impl Constructable for Vec<Statement<Directed>> {
     type Output = Self;
@@ -124,8 +119,8 @@ impl Constructable for Vec<Statement<Undirected>> {
 
 #[cfg(test)]
 mod tests {
-    use super::Statement;
     use super::Directed;
+    use super::Statement;
     use crate::lex::PeekableLexer;
     use crate::parse::Constructable;
 

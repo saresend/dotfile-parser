@@ -1,8 +1,7 @@
 use logos::Logos;
 
-
 /// A Token represents all terminals supported by the graphviz dot format
-/// 
+///
 /// For more info on the actual tokens, see
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]

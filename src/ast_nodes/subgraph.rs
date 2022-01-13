@@ -70,13 +70,12 @@ impl Constructable for Subgraph<Undirected> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
 
+    use super::Directed;
     use super::Subgraph;
     use crate::lex::PeekableLexer;
-    use super::Directed;
     use crate::parse::Constructable;
 
     #[test]
@@ -101,13 +100,12 @@ mod tests {
 
     #[test]
     fn test_subgraph_sanity3_test() {
-        let test_str= "subgraph g { A, B }";
+        let test_str = "subgraph g { A, B }";
 
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
 
         assert_eq!(subgraph.id, Some(String::from("g")));
         assert_eq!(subgraph.statements.len(), 2);
-
     }
 }

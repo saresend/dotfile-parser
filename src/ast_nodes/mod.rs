@@ -6,9 +6,9 @@ mod subgraph;
 
 use std::marker::PhantomData;
 
-pub use edge::{Directed, Undirected};
 pub use assignment::Assignment;
 pub use edge::Edge;
+pub use edge::{Directed, Undirected};
 pub use node::Node;
 pub use statement::Statement;
 pub use subgraph::Subgraph;
@@ -51,8 +51,16 @@ impl Constructable for Graph<Directed> {
                     token_stream.next(),
                 ) {
                     (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) = Vec::<Statement<Directed>>::from_lexer(token_stream)?;
-                        Ok((Self { id: graph_id, statements, _pd: PhantomData }, tstream))
+                        let (statements, tstream) =
+                            Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+                        Ok((
+                            Self {
+                                id: graph_id,
+                                statements,
+                                _pd: PhantomData,
+                            },
+                            tstream,
+                        ))
                     }
                     _ => {
                         todo!()
@@ -77,8 +85,16 @@ impl Constructable for Graph<Undirected> {
                     token_stream.next(),
                 ) {
                     (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) = Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
-                        Ok((Self { id: graph_id, statements, _pd: PhantomData }, tstream))
+                        let (statements, tstream) =
+                            Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
+                        Ok((
+                            Self {
+                                id: graph_id,
+                                statements,
+                                _pd: PhantomData,
+                            },
+                            tstream,
+                        ))
                     }
                     _ => {
                         todo!()

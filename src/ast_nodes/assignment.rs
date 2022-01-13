@@ -171,6 +171,5 @@ mod tests {
         let plexer = PeekableLexer::from(test_str);
         let result = Vec::<AssignmentGroup>::from_lexer(plexer).unwrap();
         assert!(result.0[0].len() == 2);
-
     }
 }
