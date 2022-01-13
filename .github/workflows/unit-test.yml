@@ -1,0 +1,11 @@
+name: Dot Parser Unit Test
+on: [push]
+
+jobs:
+    build_and_test:
+        name: Dot Parser
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run Tests
+              run: cargo test --verbose
