@@ -122,8 +122,6 @@ impl Constructable for Vec<Statement<Undirected>> {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use super::Statement;
