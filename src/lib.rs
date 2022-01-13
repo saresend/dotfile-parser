@@ -19,10 +19,7 @@
 //!  let graph = DotGraph::from_str(dotfile_str);
 //!
 //!  assert!(graph.is_ok());
-//! ```
-//!
-//!
-//!
+//!  ```
 
 use ast_nodes::{Directed, Undirected};
 use lex::PeekableLexer;
