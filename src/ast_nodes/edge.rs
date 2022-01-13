@@ -46,6 +46,33 @@ impl Constructable for EdgeLHS<Directed> {
     }
 }
 
+impl Constructable for EdgeLHS<Undirected> {
+    type Output = Self;
+
+    fn from_lexer(
+        token_stream: crate::lex::PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        let option = ParseOR::<Subgraph<Undirected>, ID>::from_lexer(token_stream.clone())?;
+        match option {
+            (
+                ParseOR {
+                    t_val: None,
+                    v_val: Some(id),
+                },
+                tok_s,
+            ) => Ok((EdgeLHS::Node(id), tok_s)),
+            (
+                ParseOR {
+                    t_val: Some(subgraph),
+                    v_val: None,
+                },
+                tok_s,
+            ) => Ok((EdgeLHS::Subgraph(subgraph), tok_s)),
+            _ => Err(anyhow::anyhow!("Couldn't parse Edge LHS")),
+        }
+    }
+}
+
 #[derive(Debug)]
 enum EdgeRHS<T> {
     Edge(Edge<T>),
@@ -86,6 +113,42 @@ impl Constructable for EdgeRHS<Directed> {
         }
     }
 }
+
+impl Constructable for EdgeRHS<Undirected> {
+    type Output = Self;
+
+    fn from_lexer(
+        token_stream: crate::lex::PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        let (options, token_stream) =
+            ParseOR::<Edge<Undirected>, ParseOR<ID, Subgraph<Undirected>>>::from_lexer(token_stream)?;
+        match options {
+            ParseOR {
+                t_val: Some(edge),
+                v_val: None,
+            } => Ok((EdgeRHS::Edge(edge), token_stream)),
+            ParseOR {
+                t_val: None,
+                v_val:
+                    Some(ParseOR {
+                        t_val: Some(id),
+                        v_val: None,
+                    }),
+            } => Ok((EdgeRHS::Node(id), token_stream)),
+            ParseOR {
+                t_val: None,
+                v_val:
+                    Some(ParseOR {
+                        t_val: None,
+                        v_val: Some(subgraph),
+                    }),
+            } => Ok((EdgeRHS::Subgraph(subgraph), token_stream)),
+            _ => Err(anyhow::anyhow!("Couldn't construct EdgeRHS")),
+        }
+    }
+}
+
+
 #[derive(Debug)]
 pub struct Edge<T> {
     lhs: EdgeLHS<T>,
@@ -100,9 +163,9 @@ impl Constructable for Edge<Directed> {
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let (lhs, mut token_stream) = EdgeLHS::from_lexer(token_stream)?;
+        let (lhs, mut token_stream) = EdgeLHS::<Directed>::from_lexer(token_stream)?;
         if let Some(Token::DirectedEdge) = token_stream.next() {
-            let (rhs, mut token_stream) = EdgeRHS::from_lexer(token_stream)?;
+            let (rhs, mut token_stream) = EdgeRHS::<Directed>::from_lexer(token_stream)?;
             let mut attributes = vec![];
             match AttributeList::from_lexer(token_stream.clone()) {
                 Ok((attr_list, t_stream)) => {
@@ -128,6 +191,42 @@ impl Constructable for Edge<Directed> {
         }
     }
 }
+
+impl Constructable for Edge<Undirected> {
+    type Output = Self;
+
+    fn from_lexer(
+        token_stream: crate::lex::PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        let (lhs, mut token_stream) = EdgeLHS::<Undirected>::from_lexer(token_stream)?;
+        if let Some(Token::DirectedEdge) = token_stream.next() {
+            let (rhs, mut token_stream) = EdgeRHS::<Undirected>::from_lexer(token_stream)?;
+            let mut attributes = vec![];
+            match AttributeList::from_lexer(token_stream.clone()) {
+                Ok((attr_list, t_stream)) => {
+                     attributes = attr_list;
+                    token_stream = t_stream;
+                },
+                Err(_) => {}, // TODO: Address issues
+            };
+
+            Ok((
+                Self {
+                    lhs,
+                    rhs: Box::new(rhs),
+                    ty: PhantomData,
+                    attr_list: attributes,
+                },
+                token_stream,
+            ))
+        } else {
+            Err(anyhow::anyhow!(
+                "Couldn't find directed edge for Edge<Directed>"
+            ))
+        }
+    }
+}
+
 
 #[cfg(test)]
 mod tests {

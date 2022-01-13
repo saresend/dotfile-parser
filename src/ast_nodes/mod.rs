@@ -63,3 +63,29 @@ impl Constructable for Graph<Directed> {
         }
     }
 }
+
+impl Constructable for Graph<Undirected> {
+    type Output = Self;
+    fn from_lexer(
+        mut token_stream: PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        match token_stream.next() {
+            Some(Token::Graph) => {
+                match (
+                    token_stream.next(),
+                    String::from(token_stream.slice()),
+                    token_stream.next(),
+                ) {
+                    (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
+                        let (statements, tstream) = Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
+                        Ok((Self { id: graph_id, statements, _pd: PhantomData }, tstream))
+                    }
+                    _ => {
+                        todo!()
+                    }
+                }
+            }
+            _ => Err(anyhow::anyhow!("Error; invalid start token")),
+        }
+    }
+}
