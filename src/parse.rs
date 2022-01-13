@@ -79,10 +79,16 @@ mod tests {
     }
 
     #[test]
-    fn test_ast_build_sample1_test() {
+    fn test_ast_build_basic1_test() {
         let g = test_for_file("samples/basic1.dot");
-        println!("{:#?}", g);
+        let reference = std::fs::read_to_string("samples/reference/basic1.ref").unwrap();
+        assert_eq!(reference, format!("{:?}\n", g));
     }
 
-
+    #[test]
+    fn test_ast_build_basic2_test() {
+        let g = test_for_file("samples/basic2.dot");
+        let reference = std::fs::read_to_string("samples/reference/basic2.ref").unwrap();
+        assert_eq!(reference, format!("{:#?}\n", g));
+    }
 }
