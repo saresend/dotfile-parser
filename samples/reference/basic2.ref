@@ -1,0 +1,59 @@
+Graph {
+    id: "D",
+    statements: [
+        Edge(
+            Edge {
+                lhs: Node(
+                    "A",
+                ),
+                rhs: Edge(
+                    Edge {
+                        lhs: Subgraph(
+                            Subgraph {
+                                id: None,
+                                statements: [
+                                    Node(
+                                        Node {
+                                            id: "B",
+                                            attribute_list: None,
+                                        },
+                                    ),
+                                    Node(
+                                        Node {
+                                            id: "C",
+                                            attribute_list: None,
+                                        },
+                                    ),
+                                    Node(
+                                        Node {
+                                            id: "D",
+                                            attribute_list: None,
+                                        },
+                                    ),
+                                ],
+                            },
+                        ),
+                        rhs: Subgraph(
+                            Subgraph {
+                                id: None,
+                                statements: [
+                                    Node(
+                                        Node {
+                                            id: "F",
+                                            attribute_list: None,
+                                        },
+                                    ),
+                                ],
+                            },
+                        ),
+                        ty: PhantomData,
+                        attr_list: [],
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [],
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}
