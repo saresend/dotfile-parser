@@ -90,7 +90,7 @@ impl Constructable for AssignmentGroup {
                     token_stream.next();
                 }
                 _ => {
-                    return Ok((result, token_stream));
+                    // intentional no-op
                 }
             }
         }

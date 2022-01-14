@@ -112,12 +112,23 @@ mod tests {
     #[test]
     fn test_subgraph_sample3_subset_test() {
         let test_str = "subgraph cluster_R {
+            nd_3_l -> nd_3 -> nd_3_r [color=grey, arrowhead=none]
+        }";
+        let pb = PeekableLexer::from(test_str);
+        let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
+        assert_eq!(subgraph.id, Some(String::from("cluster_R")));
+        assert_eq!(subgraph.statements.len(), 1); 
+    }
+
+    #[test]
+    fn test_subgraph_sample3_commaless_test() {
+        let test_str = "subgraph cluster_R {
             nd_3_l -> nd_3 -> nd_3_r [color=grey arrowhead=none]
         }";
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
-
         assert_eq!(subgraph.id, Some(String::from("cluster_R")));
-        assert_eq!(subgraph.statements.len(), 2);
+        assert_eq!(subgraph.statements.len(), 1); 
     }
+
 }
