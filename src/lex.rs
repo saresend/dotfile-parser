@@ -164,6 +164,12 @@ impl<'a> PeekableLexer<'a> {
         }
     }
 
+    pub(crate) fn clear_filler(&mut self) {
+        while self.peek() == Some(&Token::NewLine) || self.peek() == Some(&Token::SemiColon) {
+            self.next();
+        }
+    }
+
     fn update_splice(&mut self) {
         self.curr_span = self.inner_lexer.span();
         self.curr_slice = self.inner_lexer.slice();

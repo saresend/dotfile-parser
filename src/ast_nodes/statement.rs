@@ -34,7 +34,8 @@ impl Constructable for Statement<Directed> {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
-        } else if let Ok((attribute, tok_stream)) = AttributeStatement::from_lexer(token_stream.clone())
+        } else if let Ok((attribute, tok_stream)) =
+            AttributeStatement::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
         } else if let Ok((subgraph, tok_stream)) =
@@ -66,7 +67,8 @@ impl Constructable for Statement<Undirected> {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
-        } else if let Ok((attribute, tok_stream)) = AttributeStatement::from_lexer(token_stream.clone())
+        } else if let Ok((attribute, tok_stream)) =
+            AttributeStatement::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
         } else if let Ok((subgraph, tok_stream)) =

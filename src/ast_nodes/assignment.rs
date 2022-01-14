@@ -31,26 +31,27 @@ pub enum AttributeStatement {
     Edge(AttributeList),
 }
 
-
 impl Constructable for AttributeStatement {
-
-    type Output = Self; 
-    fn from_lexer(mut token_stream: PeekableLexer) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
+    type Output = Self;
+    fn from_lexer(
+        mut token_stream: PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
         match token_stream.next() {
-            Some(Token::Graph) => { 
-                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+            Some(Token::Graph) => {
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;
                 Ok((Self::Graph(attributes), token_stream))
             }
             Some(Token::Node) => {
-                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;
                 Ok((Self::Node(attributes), token_stream))
-
             }
             Some(Token::Edge) => {
-                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;
                 Ok((Self::Edge(attributes), token_stream))
             }
-            _ => { Err(anyhow::anyhow!("Invalid token found when parsing AttributeStatement")) }
+            _ => Err(anyhow::anyhow!(
+                "Invalid token found when parsing AttributeStatement"
+            )),
         }
     }
 }
