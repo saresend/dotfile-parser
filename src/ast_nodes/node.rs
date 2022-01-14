@@ -72,4 +72,15 @@ mod tests {
         let node = Node::from_lexer(lexer).unwrap();
         assert_eq!(node.0.id, String::from("A"));
     }
+
+    #[test]
+    fn node_statement_underscore_test() {
+        let test_str = "nd_1 [label = \"Node 1\"]";
+        let lexer = PeekableLexer::from(test_str);
+        let node = Node::from_lexer(lexer).unwrap();
+        assert_eq!(node.0.id, String::from("nd_1"));
+        assert_eq!(node.0.attribute_list.unwrap().len(), 1);
+
+
+    }
 }

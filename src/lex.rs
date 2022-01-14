@@ -22,7 +22,7 @@ pub enum Token {
     CompassPtWest,
     #[token("nw")]
     CompassPtNorthWest,
-    #[regex(r"[a-zA-Z0-9_]+")]
+    #[regex("(\"[^\"]*\"|[a-zA-Z0-9_]+)")]
     ID,
 
     #[token("strict")]
@@ -201,6 +201,14 @@ mod tests {
         assert_eq!(lexer_sut.next(), Some(Token::ID));
         assert_eq!(lexer_sut.next(), Some(Token::CloseBracket));
         assert_eq!(lexer_sut.next(), Some(Token::NewLine));
+    }
+
+    #[test]
+    fn token_test_for_id_regex() {
+        let test_str = "\"___ooogabooga:asdf\"";
+        let mut lxt = PeekableLexer::from(test_str);
+        assert_eq!(Some(Token::ID), lxt.next());
+        assert_eq!(String::from(test_str), lxt.slice());
     }
 
     #[test]
