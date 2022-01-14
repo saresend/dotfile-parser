@@ -11,7 +11,7 @@ use crate::lex::Token;
 pub enum Statement<T> {
     Node(Box<Node>),
     Edge(Box<Edge<T>>),
-    Attribute(Box<AttributeList>),
+    Attribute(Box<AttributeStatement>),
     Assignment(Box<Assignment>),
     Subgraph(Box<Subgraph<T>>),
 }
@@ -22,7 +22,9 @@ impl Constructable for Statement<Directed> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        while let Some(&Token::NewLine) = token_stream.peek() {
+        while Some(&Token::NewLine) == token_stream.peek()
+            || Some(&Token::SemiColon) == token_stream.peek()
+        {
             token_stream.next();
         }
 
@@ -32,7 +34,7 @@ impl Constructable for Statement<Directed> {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
-        } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())
+        } else if let Ok((attribute, tok_stream)) = AttributeStatement::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
         } else if let Ok((subgraph, tok_stream)) =
@@ -51,7 +53,9 @@ impl Constructable for Statement<Undirected> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        while let Some(&Token::NewLine) = token_stream.peek() {
+        while Some(&Token::NewLine) == token_stream.peek()
+            || Some(&Token::SemiColon) == token_stream.peek()
+        {
             token_stream.next();
         }
 
@@ -62,7 +66,7 @@ impl Constructable for Statement<Undirected> {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
-        } else if let Ok((attribute, tok_stream)) = AttributeList::from_lexer(token_stream.clone())
+        } else if let Ok((attribute, tok_stream)) = AttributeStatement::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
         } else if let Ok((subgraph, tok_stream)) =
@@ -135,7 +139,7 @@ mod tests {
 
     #[test]
     fn statement_enum_attributelist_test() {
-        let test_str = "[color = blue, color = green]";
+        let test_str = "graph [color = blue, color = green]";
         let pbl = PeekableLexer::from(test_str);
         let result = Statement::<Directed>::from_lexer(pbl).unwrap().0;
 

@@ -80,7 +80,5 @@ mod tests {
         let node = Node::from_lexer(lexer).unwrap();
         assert_eq!(node.0.id, String::from("nd_1"));
         assert_eq!(node.0.attribute_list.unwrap().len(), 1);
-
-
     }
 }

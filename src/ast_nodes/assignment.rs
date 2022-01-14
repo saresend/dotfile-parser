@@ -22,8 +22,38 @@ impl Assignment {
 }
 
 pub type AttributeList = Vec<AssignmentGroup>;
-
 pub type AssignmentGroup = Vec<Assignment>;
+
+#[derive(Debug)]
+pub enum AttributeStatement {
+    Graph(AttributeList),
+    Node(AttributeList),
+    Edge(AttributeList),
+}
+
+
+impl Constructable for AttributeStatement {
+
+    type Output = Self; 
+    fn from_lexer(mut token_stream: PeekableLexer) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        match token_stream.next() {
+            Some(Token::Graph) => { 
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+                Ok((Self::Graph(attributes), token_stream))
+            }
+            Some(Token::Node) => {
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+                Ok((Self::Node(attributes), token_stream))
+
+            }
+            Some(Token::Edge) => {
+                let (attributes, token_stream) = AttributeList::from_lexer(token_stream)?;                
+                Ok((Self::Edge(attributes), token_stream))
+            }
+            _ => { Err(anyhow::anyhow!("Invalid token found when parsing AttributeStatement")) }
+        }
+    }
+}
 
 impl Constructable for Assignment {
     type Output = Self;
