@@ -22,11 +22,8 @@ impl Constructable for Statement<Directed> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        while Some(&Token::NewLine) == token_stream.peek()
-            || Some(&Token::SemiColon) == token_stream.peek()
-        {
-            token_stream.next();
-        }
+
+        token_stream.clear_filler(); 
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
@@ -54,11 +51,8 @@ impl Constructable for Statement<Undirected> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        while Some(&Token::NewLine) == token_stream.peek()
-            || Some(&Token::SemiColon) == token_stream.peek()
-        {
-            token_stream.next();
-        }
+        
+        token_stream.clear_filler();
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
