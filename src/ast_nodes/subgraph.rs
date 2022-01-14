@@ -4,7 +4,7 @@ use super::ID;
 use crate::lex::{Peekable, Token};
 use crate::parse::Constructable;
 
-use super::edge::{Directed, Undirected};
+use super::edge::{GraphDirection, Directed, Undirected};
 
 #[derive(Debug)]
 pub struct Subgraph<T> {
@@ -12,7 +12,7 @@ pub struct Subgraph<T> {
     pub statements: Vec<Statement<T>>,
 }
 
-impl Constructable for Subgraph<Directed> {
+impl<T:GraphDirection> Constructable for Subgraph<T> {
     type Output = Self;
 
     fn from_lexer(
@@ -29,7 +29,7 @@ impl Constructable for Subgraph<Directed> {
         }
         if let Some(Token::OpenParen) = token_stream.next() {
             let (statements, mut tok_stream) =
-                Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+                Vec::<Statement<T>>::from_lexer(token_stream)?;
             if let Some(Token::CloseParen) = tok_stream.next() {
                 Ok((Self { id, statements }, tok_stream))
             } else {
@@ -41,34 +41,6 @@ impl Constructable for Subgraph<Directed> {
     }
 }
 
-impl Constructable for Subgraph<Undirected> {
-    type Output = Self;
-
-    fn from_lexer(
-        mut token_stream: crate::lex::PeekableLexer,
-    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let mut id = None;
-        if let Some(&Token::Subgraph) = token_stream.peek() {
-            token_stream.next();
-        }
-
-        if let Some(&Token::ID) = token_stream.peek() {
-            token_stream.next();
-            id = Some(String::from(token_stream.slice()));
-        }
-        if let Some(Token::OpenParen) = token_stream.next() {
-            let (statements, mut tok_stream) =
-                Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
-            if let Some(Token::CloseParen) = tok_stream.next() {
-                Ok((Self { id, statements }, tok_stream))
-            } else {
-                Err(anyhow::anyhow!("Invalid closing paren for subgraph"))
-            }
-        } else {
-            Err(anyhow::anyhow!("Invalid construction of subgraph"))
-        }
-    }
-}
 
 #[cfg(test)]
 mod tests {

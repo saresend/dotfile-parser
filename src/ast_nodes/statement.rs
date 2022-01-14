@@ -2,7 +2,7 @@ use crate::lex::Peekable;
 use crate::parse::Constructable;
 
 use super::assignment::*;
-use super::edge::{Directed, Undirected};
+use super::edge::{GraphDirection, Directed, Undirected};
 use super::{Edge, Node, Subgraph};
 
 use crate::lex::Token;
@@ -16,7 +16,7 @@ pub enum Statement<T> {
     Subgraph(Box<Subgraph<T>>),
 }
 
-impl Constructable for Statement<Directed> {
+impl<T:GraphDirection> Constructable for Statement<T> {
     type Output = Self;
 
     fn from_lexer(
@@ -27,7 +27,7 @@ impl Constructable for Statement<Directed> {
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
-        } else if let Ok((edge, tok_stream)) = Edge::<Directed>::from_lexer(token_stream.clone()) {
+        } else if let Ok((edge, tok_stream)) = Edge::<T>::from_lexer(token_stream.clone()) {
             Ok((Self::Edge(Box::new(edge)), tok_stream))
         } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
             Ok((Self::Node(Box::new(node)), tok_stream))
@@ -36,7 +36,7 @@ impl Constructable for Statement<Directed> {
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
         } else if let Ok((subgraph, tok_stream)) =
-            Subgraph::<Directed>::from_lexer(token_stream.clone())
+            Subgraph::<T>::from_lexer(token_stream.clone())
         {
             Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
         } else {
@@ -45,44 +45,14 @@ impl Constructable for Statement<Directed> {
     }
 }
 
-impl Constructable for Statement<Undirected> {
-    type Output = Self;
-
-    fn from_lexer(
-        mut token_stream: crate::lex::PeekableLexer,
-    ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        
-        token_stream.clear_filler();
-
-        if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
-            Ok((Self::Assignment(Box::new(assignment)), tok_stream))
-        } else if let Ok((edge, tok_stream)) = Edge::<Undirected>::from_lexer(token_stream.clone())
-        {
-            Ok((Self::Edge(Box::new(edge)), tok_stream))
-        } else if let Ok((node, tok_stream)) = Node::from_lexer(token_stream.clone()) {
-            Ok((Self::Node(Box::new(node)), tok_stream))
-        } else if let Ok((attribute, tok_stream)) =
-            AttributeStatement::from_lexer(token_stream.clone())
-        {
-            Ok((Self::Attribute(Box::new(attribute)), tok_stream))
-        } else if let Ok((subgraph, tok_stream)) =
-            Subgraph::<Undirected>::from_lexer(token_stream.clone())
-        {
-            Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
-        } else {
-            Err(anyhow::anyhow!("Invalid statement"))
-        }
-    }
-}
-
-impl Constructable for Vec<Statement<Directed>> {
+impl<T:GraphDirection> Constructable for Vec<Statement<T>> {
     type Output = Self;
 
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let mut statements = vec![];
-        while let Ok(statement) = Statement::<Directed>::from_lexer(token_stream.clone()) {
+        while let Ok(statement) = Statement::<T>::from_lexer(token_stream.clone()) {
             token_stream = statement.1;
             statements.push(statement.0);
             match token_stream.peek() {
@@ -96,26 +66,6 @@ impl Constructable for Vec<Statement<Directed>> {
     }
 }
 
-impl Constructable for Vec<Statement<Undirected>> {
-    type Output = Self;
-
-    fn from_lexer(
-        mut token_stream: crate::lex::PeekableLexer,
-    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let mut statements = vec![];
-        while let Ok(statement) = Statement::<Undirected>::from_lexer(token_stream.clone()) {
-            token_stream = statement.1;
-            statements.push(statement.0);
-            match token_stream.peek() {
-                Some(&Token::SemiColon) | Some(&Token::Comma) => {
-                    token_stream.next();
-                }
-                _ => {} // Intentional no-op
-            };
-        }
-        Ok((statements, token_stream))
-    }
-}
 
 #[cfg(test)]
 mod tests {
