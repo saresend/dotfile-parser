@@ -2,7 +2,7 @@ use logos::Logos;
 
 /// A Token represents all terminals supported by the graphviz dot format
 ///
-/// For more info on the actual tokens, see
+/// For more info on the tokens, see
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
 pub enum Token {
@@ -77,6 +77,10 @@ pub enum Token {
 }
 use logos::Span;
 
+
+/// The Peekable Trait extends the underlying 
+/// token iterator to support basic lookahead 
+/// it also provides 
 pub trait Peekable<'a> {
     type Item;
     fn peek(&mut self) -> Option<&Self::Item>;
@@ -84,8 +88,9 @@ pub trait Peekable<'a> {
     fn slice(&self) -> &'a str;
 }
 
-/// A lexing wrapper that supports the method
-/// .peek()
+/// A lexer wrapper that supports the method
+/// .peek() in addition to the standard set 
+/// of lexing operations
 #[derive(Clone)]
 pub struct PeekableLexer<'a> {
     inner_lexer: logos::Lexer<'a, Token>,
@@ -107,7 +112,7 @@ impl<'a> std::fmt::Debug for PeekableLexer<'a> {
 impl<'a> std::iter::Iterator for PeekableLexer<'a> {
     type Item = Token;
 
-    /// This will actually consume the next token if we don't have an existing token that
+    /// This will consume the next token if we don't have an existing token that
     /// has earlier been peeked, otherwise it will return the peeked token
     fn next(&mut self) -> Option<Token> {
         if let Some(inner_tok) = self.peeked_token.take() {
@@ -146,6 +151,7 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 }
 
 impl<'a> PeekableLexer<'a> {
+
     /// Creates a new lexer from a raw string
     pub fn from(ref_str: &'a str) -> Self {
         let inner_lexer = logos::Lexer::new(ref_str);
@@ -153,6 +159,7 @@ impl<'a> PeekableLexer<'a> {
     }
 
     /// Constructs a new instance of the PeekableLexer
+    /// from an existing underlying lexer
     fn from_lexer(inner_lexer: logos::Lexer<'a, Token>) -> Self {
         let curr_span = inner_lexer.span().clone();
         let curr_slice = inner_lexer.slice();
@@ -163,7 +170,8 @@ impl<'a> PeekableLexer<'a> {
             curr_slice,
         }
     }
-
+    
+    /// A utility method used to clear out lines that only used to delimit constructions 
     pub(crate) fn clear_filler(&mut self) {
         while self.peek() == Some(&Token::NewLine) || self.peek() == Some(&Token::SemiColon) {
             self.next();
