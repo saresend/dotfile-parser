@@ -77,10 +77,9 @@ pub enum Token {
 }
 use logos::Span;
 
-
-/// The Peekable Trait extends the underlying 
-/// token iterator to support basic lookahead 
-/// it also provides 
+/// The Peekable Trait extends the underlying
+/// token iterator to support basic lookahead
+/// it also provides
 pub trait Peekable<'a> {
     type Item;
     fn peek(&mut self) -> Option<&Self::Item>;
@@ -89,7 +88,7 @@ pub trait Peekable<'a> {
 }
 
 /// A lexer wrapper that supports the method
-/// .peek() in addition to the standard set 
+/// .peek() in addition to the standard set
 /// of lexing operations
 #[derive(Clone)]
 pub struct PeekableLexer<'a> {
@@ -151,7 +150,6 @@ impl<'a> Peekable<'a> for PeekableLexer<'a> {
 }
 
 impl<'a> PeekableLexer<'a> {
-
     /// Creates a new lexer from a raw string
     pub fn from(ref_str: &'a str) -> Self {
         let inner_lexer = logos::Lexer::new(ref_str);
@@ -170,8 +168,8 @@ impl<'a> PeekableLexer<'a> {
             curr_slice,
         }
     }
-    
-    /// A utility method used to clear out lines that only used to delimit constructions 
+
+    /// A utility method used to clear out lines that only used to delimit constructions
     pub(crate) fn clear_filler(&mut self) {
         while self.peek() == Some(&Token::NewLine) || self.peek() == Some(&Token::SemiColon) {
             self.next();

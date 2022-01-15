@@ -1,18 +1,19 @@
 use super::ID;
 use crate::parse::Constructable;
-use std::convert::TryFrom;
 
 use crate::lex::{Peekable, PeekableLexer, Token};
 
 /// This is the primary node capable of parsing
-/// constructs of the form 'ID' = 'ID'
+/// constructs of the form `'ID' = 'ID'`
+/// from the this [spec](https://graphviz.org/doc/info/lang.html)
 #[derive(Debug, Clone, PartialEq)]
 pub struct Assignment {
-    lhs: ID,
-    rhs: ID,
+    pub lhs: ID,
+    pub rhs: ID,
 }
 
 impl Assignment {
+    /// Creates a new instance of an Assignment Statement
     pub fn new(lhs: &str, rhs: &str) -> Self {
         Assignment {
             lhs: lhs.to_owned(),
@@ -21,9 +22,84 @@ impl Assignment {
     }
 }
 
+impl Constructable for Assignment {
+    type Output = Self;
+
+    fn from_lexer(
+        mut lexer: PeekableLexer<'_>,
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        if let Some(Token::ID) = lexer.next() {
+            let lhs = String::from(lexer.slice());
+            if let Some(Token::Equals) = lexer.next() {
+                if let Some(Token::ID) = lexer.next() {
+                    let rhs = String::from(lexer.slice());
+                    return Ok((Self { lhs, rhs }, lexer));
+                }
+            }
+        }
+        Err(anyhow::anyhow!("Assignment: Mismatched Tokens"))
+    }
+}
+
+/// AttributeList represent a list of list of assignments
+/// an example of this might be `[[color=red,penwidth=25][size=10,node=A]]`
+/// This type is mapped to attr_list in the graphviz spec
 pub type AttributeList = Vec<AssignmentGroup>;
+
+impl Constructable for AttributeList {
+    type Output = Self;
+
+    fn from_lexer(
+        mut token_stream: PeekableLexer<'_>,
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        let mut result = vec![];
+        if token_stream.peek() != Some(&Token::OpenBracket) {
+            return Err(anyhow::anyhow!("Invalid token to construct attributeList"));
+        }
+        while let Some(Token::OpenBracket) = token_stream.next() {
+            let agroup = AssignmentGroup::from_lexer(token_stream.clone())?;
+            result.push(agroup.0);
+            token_stream = agroup.1;
+            match token_stream.next() {
+                Some(Token::CloseBracket) => {}
+                _ => return Err(anyhow::anyhow!("AttributeList: Mismatched Tokens")),
+            }
+        }
+        Ok((result, token_stream))
+    }
+}
+
+/// Assignment group represents a single list of assignments
+/// this type corresponds o the a_list production in the graphviz
+/// [spec](https://graphviz.org/doc/info/lang.html)
 pub type AssignmentGroup = Vec<Assignment>;
 
+impl Constructable for AssignmentGroup {
+    type Output = Self;
+
+    fn from_lexer(
+        mut token_stream: PeekableLexer<'_>,
+    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        let mut result = vec![];
+        while let Ok((assignment, stream)) = Assignment::from_lexer(token_stream.clone()) {
+            result.push(assignment);
+            token_stream = stream;
+            match token_stream.peek() {
+                Some(Token::Comma) | Some(Token::SemiColon) => {
+                    token_stream.next();
+                }
+                _ => {
+                    // intentional no-op
+                }
+            }
+        }
+        Ok((result, token_stream))
+    }
+}
+
+/// An AttributeStatement is a wrapper type that basically attributes
+/// a set of assignment statements to a given graph construct. This type is mapped
+/// to the attr_stmt production in the graphviz spec
 #[derive(Debug)]
 pub enum AttributeStatement {
     Graph(AttributeList),
@@ -53,71 +129,6 @@ impl Constructable for AttributeStatement {
                 "Invalid token found when parsing AttributeStatement"
             )),
         }
-    }
-}
-
-impl Constructable for Assignment {
-    type Output = Self;
-
-    fn from_lexer(
-        mut lexer: PeekableLexer<'_>,
-    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = lexer.next() {
-            let lhs = String::from(lexer.slice());
-            if let Some(Token::Equals) = lexer.next() {
-                if let Some(Token::ID) = lexer.next() {
-                    let rhs = String::from(lexer.slice());
-                    return Ok((Self { lhs, rhs }, lexer));
-                }
-            }
-        }
-        Err(anyhow::anyhow!("Assignment: Mismatched Tokens"))
-    }
-}
-
-impl Constructable for AssignmentGroup {
-    type Output = Self;
-
-    fn from_lexer(
-        mut token_stream: PeekableLexer<'_>,
-    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
-        let mut result = vec![];
-        while let Ok((assignment, stream)) = Assignment::from_lexer(token_stream.clone()) {
-            result.push(assignment);
-            token_stream = stream;
-            match token_stream.peek() {
-                Some(Token::Comma) | Some(Token::SemiColon) => {
-                    token_stream.next();
-                }
-                _ => {
-                    // intentional no-op
-                }
-            }
-        }
-        Ok((result, token_stream))
-    }
-}
-
-impl Constructable for AttributeList {
-    type Output = Self;
-
-    fn from_lexer(
-        mut token_stream: PeekableLexer<'_>,
-    ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
-        let mut result = vec![];
-        if token_stream.peek() != Some(&Token::OpenBracket) {
-            return Err(anyhow::anyhow!("Invalid token to construct attributeList"));
-        }
-        while let Some(Token::OpenBracket) = token_stream.next() {
-            let agroup = AssignmentGroup::from_lexer(token_stream.clone())?;
-            result.push(agroup.0);
-            token_stream = agroup.1;
-            match token_stream.next() {
-                Some(Token::CloseBracket) => {}
-                _ => return Err(anyhow::anyhow!("AttributeList: Mismatched Tokens")),
-            }
-        }
-        Ok((result, token_stream))
     }
 }
 

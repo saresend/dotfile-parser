@@ -2,7 +2,7 @@ use crate::lex::Peekable;
 use crate::parse::Constructable;
 
 use super::assignment::*;
-use super::edge::{GraphDirection, Directed, Undirected};
+use super::edge::{Directed, GraphDirection, Undirected};
 use super::{Edge, Node, Subgraph};
 
 use crate::lex::Token;
@@ -16,14 +16,13 @@ pub enum Statement<T> {
     Subgraph(Box<Subgraph<T>>),
 }
 
-impl<T:GraphDirection> Constructable for Statement<T> {
+impl<T: GraphDirection> Constructable for Statement<T> {
     type Output = Self;
 
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-
-        token_stream.clear_filler(); 
+        token_stream.clear_filler();
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
@@ -35,9 +34,7 @@ impl<T:GraphDirection> Constructable for Statement<T> {
             AttributeStatement::from_lexer(token_stream.clone())
         {
             Ok((Self::Attribute(Box::new(attribute)), tok_stream))
-        } else if let Ok((subgraph, tok_stream)) =
-            Subgraph::<T>::from_lexer(token_stream.clone())
-        {
+        } else if let Ok((subgraph, tok_stream)) = Subgraph::<T>::from_lexer(token_stream.clone()) {
             Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
         } else {
             Err(anyhow::anyhow!("Invalid statement"))
@@ -45,7 +42,7 @@ impl<T:GraphDirection> Constructable for Statement<T> {
     }
 }
 
-impl<T:GraphDirection> Constructable for Vec<Statement<T>> {
+impl<T: GraphDirection> Constructable for Vec<Statement<T>> {
     type Output = Self;
 
     fn from_lexer(
@@ -65,7 +62,6 @@ impl<T:GraphDirection> Constructable for Vec<Statement<T>> {
         Ok((statements, token_stream))
     }
 }
-
 
 #[cfg(test)]
 mod tests {

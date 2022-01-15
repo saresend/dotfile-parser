@@ -4,7 +4,7 @@ use super::ID;
 use crate::lex::{Peekable, Token};
 use crate::parse::Constructable;
 
-use super::edge::{GraphDirection, Directed, Undirected};
+use super::edge::{Directed, GraphDirection, Undirected};
 
 #[derive(Debug)]
 pub struct Subgraph<T> {
@@ -12,7 +12,7 @@ pub struct Subgraph<T> {
     pub statements: Vec<Statement<T>>,
 }
 
-impl<T:GraphDirection> Constructable for Subgraph<T> {
+impl<T: GraphDirection> Constructable for Subgraph<T> {
     type Output = Self;
 
     fn from_lexer(
@@ -28,8 +28,7 @@ impl<T:GraphDirection> Constructable for Subgraph<T> {
             id = Some(String::from(token_stream.slice()));
         }
         if let Some(Token::OpenParen) = token_stream.next() {
-            let (statements, mut tok_stream) =
-                Vec::<Statement<T>>::from_lexer(token_stream)?;
+            let (statements, mut tok_stream) = Vec::<Statement<T>>::from_lexer(token_stream)?;
             if let Some(Token::CloseParen) = tok_stream.next() {
                 Ok((Self { id, statements }, tok_stream))
             } else {
@@ -40,7 +39,6 @@ impl<T:GraphDirection> Constructable for Subgraph<T> {
         }
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -89,7 +87,7 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(subgraph.id, Some(String::from("cluster_R")));
-        assert_eq!(subgraph.statements.len(), 1); 
+        assert_eq!(subgraph.statements.len(), 1);
     }
 
     #[test]
@@ -100,7 +98,6 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(subgraph.id, Some(String::from("cluster_R")));
-        assert_eq!(subgraph.statements.len(), 1); 
+        assert_eq!(subgraph.statements.len(), 1);
     }
-
 }

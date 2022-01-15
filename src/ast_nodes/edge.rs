@@ -7,7 +7,6 @@ use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
-
 pub trait GraphDirection {
     fn token() -> Token;
 }
@@ -15,10 +14,10 @@ pub trait GraphDirection {
 #[derive(Debug)]
 pub struct Directed;
 
-impl GraphDirection for Directed { 
+impl GraphDirection for Directed {
     fn token() -> Token {
         Token::DirectedEdge
-    } 
+    }
 }
 
 #[derive(Debug)]
@@ -60,10 +59,7 @@ impl<T: GraphDirection> Constructable for EdgeLHS<T> {
             _ => Err(anyhow::anyhow!("Couldn't parse Edge LHS")),
         }
     }
-
-
 }
-
 
 #[derive(Debug)]
 enum EdgeRHS<T> {
