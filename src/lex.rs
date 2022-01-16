@@ -102,7 +102,7 @@ impl<'a> std::fmt::Debug for PeekableLexer<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut v = self.clone();
         while v.next().is_some() {
-            write!(f, "{}", v.slice())?;
+            write!(f, "{} ", v.slice())?;
         }
         write!(f, "\n")
     }

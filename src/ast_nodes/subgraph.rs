@@ -29,6 +29,7 @@ impl<T: GraphDirection> Constructable for Subgraph<T> {
         }
         if let Some(Token::OpenParen) = token_stream.next() {
             let (statements, mut tok_stream) = Vec::<Statement<T>>::from_lexer(token_stream)?;
+            tok_stream.clear_filler();
             if let Some(Token::CloseParen) = tok_stream.next() {
                 Ok((Self { id, statements }, tok_stream))
             } else {
@@ -99,5 +100,16 @@ mod tests {
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(subgraph.id, Some(String::from("cluster_R")));
         assert_eq!(subgraph.statements.len(), 1);
+    }
+
+    #[test]
+    fn test_subgraph_anonymous_undelimited_statement_test() {
+        let test_str = "{rank=same nd_3_l nd_3 nd_3_r}";
+        let pb = PeekableLexer::from(test_str);
+        let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
+        assert_eq!(subgraph.id, None);
+        assert_eq!(subgraph.statements.len(), 4);
+        println!("{:#?}", subgraph);
+
     }
 }

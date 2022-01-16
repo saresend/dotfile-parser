@@ -22,6 +22,7 @@ impl<T: GraphDirection> Constructable for Statement<T> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
+
         token_stream.clear_filler();
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
@@ -37,6 +38,8 @@ impl<T: GraphDirection> Constructable for Statement<T> {
         } else if let Ok((subgraph, tok_stream)) = Subgraph::<T>::from_lexer(token_stream.clone()) {
             Ok((Self::Subgraph(Box::new(subgraph)), tok_stream))
         } else {
+            println!("Failed on: {:?}", token_stream);
+            println!("done --- ");
             Err(anyhow::anyhow!("Invalid statement"))
         }
     }

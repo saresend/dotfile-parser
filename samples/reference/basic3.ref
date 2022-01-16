@@ -1,0 +1,237 @@
+Graph {
+    id: "Q",
+    statements: [
+        Attribute(
+            Node(
+                [
+                    [
+                        Assignment {
+                            lhs: "shape",
+                            rhs: "record",
+                        },
+                    ],
+                ],
+            ),
+        ),
+        Node(
+            Node {
+                id: "nd_1",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Node 1\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_2",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Node 2\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_3_a",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Above Right Node 3\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_3_l",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Left of Node 3\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_3",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Node 3\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_3_r",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Right of Node 3\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "nd_4",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"Node 4\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    "nd_3_a",
+                ),
+                rhs: Node(
+                    "nd_3_r",
+                ),
+                ty: PhantomData,
+                attr_list: [],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    "nd_1",
+                ),
+                rhs: Edge(
+                    Edge {
+                        lhs: Node(
+                            "nd_2",
+                        ),
+                        rhs: Edge(
+                            Edge {
+                                lhs: Node(
+                                    "nd_3",
+                                ),
+                                rhs: Node(
+                                    "nd_4",
+                                ),
+                                ty: PhantomData,
+                                attr_list: [],
+                            },
+                        ),
+                        ty: PhantomData,
+                        attr_list: [],
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [],
+            },
+        ),
+        Subgraph(
+            Subgraph {
+                id: Some(
+                    "cluster_R",
+                ),
+                statements: [
+                    Subgraph(
+                        Subgraph {
+                            id: None,
+                            statements: [
+                                Assignment(
+                                    Assignment {
+                                        lhs: "rank",
+                                        rhs: "same",
+                                    },
+                                ),
+                                Node(
+                                    Node {
+                                        id: "nd_3_l",
+                                        attribute_list: None,
+                                    },
+                                ),
+                                Node(
+                                    Node {
+                                        id: "nd_3",
+                                        attribute_list: None,
+                                    },
+                                ),
+                                Node(
+                                    Node {
+                                        id: "nd_3_r",
+                                        attribute_list: None,
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
+                    Edge(
+                        Edge {
+                            lhs: Node(
+                                "nd_3_l",
+                            ),
+                            rhs: Edge(
+                                Edge {
+                                    lhs: Node(
+                                        "nd_3",
+                                    ),
+                                    rhs: Node(
+                                        "nd_3_r",
+                                    ),
+                                    ty: PhantomData,
+                                    attr_list: [
+                                        [
+                                            Assignment {
+                                                lhs: "color",
+                                                rhs: "grey",
+                                            },
+                                            Assignment {
+                                                lhs: "arrowhead",
+                                                rhs: "none",
+                                            },
+                                        ],
+                                    ],
+                                },
+                            ),
+                            ty: PhantomData,
+                            attr_list: [],
+                        },
+                    ),
+                ],
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}
