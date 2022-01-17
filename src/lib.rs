@@ -1,7 +1,7 @@
 //! A library for parsing graphviz dotfiles into an AST format
 //!
 //! This crate provides a basic parsing capability for the graphviz file format
-//! specified here: https://graphviz.org/doc/info/lang.html
+//! specified [here](https://graphviz.org/doc/info/lang.html)
 //!
 //! What this crate provides is an AST format, and a parser to translate from graphviz files
 //! into that ast format. This means that this crate doesn't do all that much on its own, as

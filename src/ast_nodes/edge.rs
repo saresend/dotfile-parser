@@ -7,10 +7,19 @@ use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
-pub trait GraphDirection {
+
+
+pub(crate) trait GraphDirection {
     fn token() -> Token;
 }
 
+///
+/// Directed is a marker type that is used 
+/// as a paremeter for types that have an associated direction
+///
+/// As an example, a graph can either be directed or undirected, and 
+/// similarly an edge can also have a direction.
+///
 #[derive(Debug)]
 pub struct Directed;
 
@@ -30,10 +39,11 @@ impl GraphDirection for Undirected {
 }
 
 #[derive(Debug)]
-enum EdgeLHS<T> {
+pub enum EdgeLHS<T> {
     Node(ID),
     Subgraph(Subgraph<T>),
 }
+
 impl<T: GraphDirection> Constructable for EdgeLHS<T> {
     type Output = Self;
 
@@ -62,7 +72,7 @@ impl<T: GraphDirection> Constructable for EdgeLHS<T> {
 }
 
 #[derive(Debug)]
-enum EdgeRHS<T> {
+pub enum EdgeRHS<T> {
     Edge(Edge<T>),
     Node(ID),
     Subgraph(Subgraph<T>),
@@ -104,10 +114,10 @@ impl<T: GraphDirection> Constructable for EdgeRHS<T> {
 
 #[derive(Debug)]
 pub struct Edge<T> {
-    lhs: EdgeLHS<T>,
-    rhs: Box<EdgeRHS<T>>,
+    pub lhs: EdgeLHS<T>,
+    pub rhs: Box<EdgeRHS<T>>,
     ty: PhantomData<T>,
-    attr_list: AttributeList,
+    pub attr_list: AttributeList,
 }
 
 impl<T: GraphDirection> Constructable for Edge<T> {
