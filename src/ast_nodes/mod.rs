@@ -37,6 +37,7 @@ impl Constructable for ID {
 #[derive(Debug)]
 pub struct Graph<T> {
     pub id: ID,
+    pub is_strict: bool,
     pub statements: Vec<Statement<T>>,
     _pd: PhantomData<T>,
 }
@@ -46,6 +47,11 @@ impl Constructable for Graph<Directed> {
     fn from_lexer(
         mut token_stream: PeekableLexer,
     ) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        let mut is_strict = false;
+        if token_stream.peek() == Some(&Token::Strict) {
+            token_stream.next();
+            is_strict = true;
+        }
         match token_stream.next() {
             Some(Token::Digraph) => {
                 match (
@@ -60,6 +66,7 @@ impl Constructable for Graph<Directed> {
                             Self {
                                 id: graph_id,
                                 statements,
+                                is_strict,
                                 _pd: PhantomData,
                             },
                             tstream,
@@ -80,6 +87,12 @@ impl Constructable for Graph<Undirected> {
     fn from_lexer(
         mut token_stream: PeekableLexer,
     ) -> anyhow::Result<(Self::Output, PeekableLexer), anyhow::Error> {
+        let mut is_strict = false;
+        if token_stream.peek() == Some(&Token::Strict) {
+            token_stream.next();
+            is_strict = true;
+        }
+
         match token_stream.next() {
             Some(Token::Graph) => {
                 match (
@@ -94,6 +107,7 @@ impl Constructable for Graph<Undirected> {
                             Self {
                                 id: graph_id,
                                 statements,
+                                is_strict,
                                 _pd: PhantomData,
                             },
                             tstream,

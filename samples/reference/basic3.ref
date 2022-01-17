@@ -1,5 +1,6 @@
 Graph {
     id: "Q",
+    is_strict: false,
     statements: [
         Attribute(
             Node(

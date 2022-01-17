@@ -1,5 +1,6 @@
 Graph {
     id: "D",
+    is_strict: false,
     statements: [
         Edge(
             Edge {
