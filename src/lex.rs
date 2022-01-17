@@ -5,7 +5,7 @@ use logos::Logos;
 /// For more info on the tokens, see
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
-pub enum Token {
+pub(crate) enum Token {
     #[token("n")]
     CompassPtNorth,
     #[token("ne")]
@@ -91,7 +91,7 @@ pub trait Peekable<'a> {
 /// .peek() in addition to the standard set
 /// of lexing operations
 #[derive(Clone)]
-pub struct PeekableLexer<'a> {
+pub(crate) struct PeekableLexer<'a> {
     inner_lexer: logos::Lexer<'a, Token>,
     peeked_token: Option<Token>,
     curr_span: Span,

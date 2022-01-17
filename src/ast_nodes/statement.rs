@@ -22,7 +22,6 @@ impl<T: GraphDirection> Constructable for Statement<T> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-
         token_stream.clear_filler();
 
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {

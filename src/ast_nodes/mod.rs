@@ -13,9 +13,9 @@ pub use node::Node;
 pub use statement::Statement;
 pub use subgraph::Subgraph;
 
-/// An ID represents any identifier used inside 
+/// An ID represents any identifier used inside
 /// of a graphviz file. This could represent an attribute
-/// name, an attribute value, a graph or sugraph name, and node names 
+/// name, an attribute value, a graph or sugraph name, and node names
 pub type ID = String;
 
 use crate::lex::{Peekable, PeekableLexer, Token};

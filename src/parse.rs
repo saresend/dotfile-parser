@@ -1,14 +1,15 @@
 use super::lex::PeekableLexer;
 use anyhow::Result;
 
-pub trait Constructable: Sized {
+
+pub(crate) trait Constructable: Sized {
     type Output;
     fn from_lexer(
         token_stream: PeekableLexer,
     ) -> Result<(Self::Output, PeekableLexer), anyhow::Error>;
 }
 
-pub struct ParseOR<T: Constructable, V: Constructable> {
+pub(crate) struct ParseOR<T: Constructable, V: Constructable> {
     pub t_val: Option<T::Output>,
     pub v_val: Option<V::Output>,
 }
@@ -96,6 +97,5 @@ mod tests {
         let g = test_for_file("samples/basic3.dot");
         let reference = std::fs::read_to_string("samples/reference/basic3.ref").unwrap();
         assert_eq!(reference, format!("{:#?}\n", g));
-
     }
 }

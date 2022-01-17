@@ -110,6 +110,5 @@ mod tests {
         assert_eq!(subgraph.id, None);
         assert_eq!(subgraph.statements.len(), 4);
         println!("{:#?}", subgraph);
-
     }
 }

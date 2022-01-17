@@ -15,8 +15,15 @@
 //!   use std::str::FromStr;
 //!
 //!  // read string from file or network
-//!  let dotfile_str = "A -> { B,  D }";
-//!  let graph = DotGraph::from_str(dotfile_str);
+//!  let dotfile_str = "digraph G { A -> { B,  D } } ";
+//!  let graph = DotGraph::from_str(dotfile_str).unwrap();
+//!
+//!  match graph {
+//!   DotGraph::Directed(g) => { 
+//!     assert_eq!(g.id, String::from("G"));
+//!   },
+//!    _ => { unreachable!() } ,
+//!  }
 //!  ```
 
 use ast_nodes::{Directed, Undirected};
@@ -62,4 +69,15 @@ impl std::str::FromStr for DotGraph {
             )),
         }
     }
+}
+
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn lib_api_sanity_test() {
+        let test_str = "A -> { B, D}";
+    }
+
 }

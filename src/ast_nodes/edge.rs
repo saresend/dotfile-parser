@@ -7,17 +7,15 @@ use crate::lex::Token;
 
 use crate::parse::{Constructable, ParseOR};
 
-
-
 pub(crate) trait GraphDirection {
     fn token() -> Token;
 }
 
 ///
-/// Directed is a marker type that is used 
+/// Directed is a marker type that is used
 /// as a paremeter for types that have an associated direction
 ///
-/// As an example, a graph can either be directed or undirected, and 
+/// As an example, a graph can either be directed or undirected, and
 /// similarly an edge can also have a direction.
 ///
 #[derive(Debug)]
