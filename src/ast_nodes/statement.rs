@@ -2,7 +2,7 @@ use crate::lex::Peekable;
 use crate::parse::Constructable;
 
 use super::assignment::*;
-use super::edge::{Directed, GraphDirection, Undirected};
+use super::edge::GraphDirection;
 use super::{Edge, Node, Subgraph};
 
 use crate::lex::Token;
