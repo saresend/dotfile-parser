@@ -8,8 +8,8 @@ use crate::lex::{Peekable, Token};
 /// example: 'A [color = red][length = long]'
 #[derive(Debug)]
 pub struct Node {
-    id: ID,
-    attribute_list: Option<AttributeList>,
+    pub id: ID,
+    pub attribute_list: Option<AttributeList>,
 }
 
 impl Constructable for Node {

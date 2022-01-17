@@ -1,3 +1,34 @@
+//!
+//! The AST nodes module provides all the ast components 
+//! that comprise a graphviz file. These node types 
+//! map quite closely to the graphviz documentation provided 
+//! here: [link](https://graphviz.org/doc/info/lang.html)
+//!
+//! These components provide a better structure for operating on
+//! graph structures. For example, the following code lets us 
+//! list all of the node identifiers that exist inside of a graph:
+//!
+//! ```
+//! use dot_parser::DotGraph;
+//! use dot_parser::ast_nodes::Statement::Node;
+//! use std::str::FromStr;
+//!
+//! let dot_graph = DotGraph::from_str("graph G { a; b; c; }").unwrap();
+//! if let DotGraph::Directed(graph) = dot_graph {
+//!    for statement in graph.statements {
+//!       if let Node(n) = statement {
+//!            println!("{:?}", n.id);
+//!       }
+//!    }
+//! }
+//! 
+//!
+//!
+//! ```
+//!
+//!
+//!
+
 mod assignment;
 mod edge;
 mod node;
