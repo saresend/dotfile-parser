@@ -16,12 +16,10 @@ digraph D {
           c;
           d;
       }
-
     }
-
     subgraph cluster_c2 {
       label = "Child two";
-      e;
+      te;
     }
   }
 }

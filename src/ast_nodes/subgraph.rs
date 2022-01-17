@@ -18,6 +18,8 @@ impl<T: GraphDirection> Constructable for Subgraph<T> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+
+        token_stream.clear_filler();
         let mut id = None;
         if let Some(&Token::Subgraph) = token_stream.peek() {
             token_stream.next();
@@ -109,6 +111,18 @@ mod tests {
         let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(subgraph.id, None);
         assert_eq!(subgraph.statements.len(), 4);
+    }
+
+    #[test]
+    fn test_subgraph_statement_sanity4_test() {
+        let test_str = "subgraph cluster_c2 {
+                            label = \"Child two\";
+                            te;
+                        }";
+        let pb = PeekableLexer::from(test_str);
+        let subgraph = Subgraph::<Directed>::from_lexer(pb).unwrap().0;
+        assert_eq!(subgraph.id, Some(String::from("cluster_c2")));
+        assert_eq!(subgraph.statements.len(), 2);
         println!("{:#?}", subgraph);
     }
 }

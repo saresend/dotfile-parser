@@ -23,7 +23,6 @@ impl<T: GraphDirection> Constructable for Statement<T> {
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
         token_stream.clear_filler();
-
         if let Ok((assignment, tok_stream)) = Assignment::from_lexer(token_stream.clone()) {
             Ok((Self::Assignment(Box::new(assignment)), tok_stream))
         } else if let Ok((edge, tok_stream)) = Edge::<T>::from_lexer(token_stream.clone()) {
