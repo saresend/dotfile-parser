@@ -4,8 +4,9 @@ use super::{assignment::AttributeList, ID};
 use crate::lex::{Peekable, Token};
 
 /// The main ASTNode type that represents
-/// any sort of node statement that configures attributes for a node
-/// example: 'A [color = red][length = long]'
+/// any sort of node statement that declares or configures attributes for a node
+///
+/// An example of a node: `A [color = red][length = long]`
 #[derive(Debug)]
 pub struct Node {
     pub id: ID,

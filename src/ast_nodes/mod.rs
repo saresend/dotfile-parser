@@ -14,16 +14,15 @@
 //! use std::str::FromStr;
 //!
 //! let dot_graph = DotGraph::from_str("graph G { a; b; c; }").unwrap();
+//! let mut node_ids = vec![];
 //! if let DotGraph::Directed(graph) = dot_graph {
 //!    for statement in graph.statements {
 //!       if let Node(n) = statement {
-//!            println!("{:?}", n.id);
+//!             node_ids.push(n.id);
 //!       }
 //!    }
+//!    assert_eq!(node_ids, vec!["a", "b", "c"]);
 //! }
-//! 
-//!
-//!
 //! ```
 //!
 //!
