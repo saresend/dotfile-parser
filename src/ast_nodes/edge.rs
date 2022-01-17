@@ -110,6 +110,21 @@ impl<T: GraphDirection> Constructable for EdgeRHS<T> {
     }
 }
 
+///
+/// An Edge represents the top level struct that contains information about 
+/// an edge representation. An Edge has a Direction (i.e. directed or undirected), 
+/// as well as the left hand side, that can either be a node, or a subgraph, as 
+/// well a rhs, that is either another edge, a node, or a subgraph. 
+///
+/// One thing worth noting is that graphviz represents edges that connect 
+/// two subraphs to represent edges from *all* nodes defined inside the left
+/// sugraph, to *all* nodes inside the right subgraph
+/// 
+/// For example, the graph `{A B} -> {D E}` defines the following edges:
+/// (A, D), (A,E), (B, D), (B, E)
+///
+///
+///
 #[derive(Debug)]
 pub struct Edge<T> {
     pub lhs: EdgeLHS<T>,
