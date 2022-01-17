@@ -98,4 +98,13 @@ mod tests {
         let reference = std::fs::read_to_string("samples/reference/basic3.ref").unwrap();
         assert_eq!(reference, format!("{:#?}\n", g));
     }
+
+    #[test]
+    fn test_ast_build_basic4_test() {
+        let g = test_for_file("samples/basic4.dot");
+        // let reference = std::fs::read_to_string("samples/reference/basic4.ref").unwrap();
+        println!("{:#?}", g);
+        // assert_eq!(reference, format!("{:#?}\n", g));
+    }
+
 }
