@@ -6,22 +6,6 @@ use logos::Logos;
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
 pub(crate) enum Token {
-    #[token("n")]
-    CompassPtNorth,
-    #[token("ne")]
-    CompassPtNorthEast,
-    #[token("e")]
-    CompassPtEast,
-    #[token("se")]
-    CompassPtSouthEast,
-    #[token("s")]
-    CompassPtSouth,
-    #[token("sw")]
-    CompassPtSouthWest,
-    #[token("w")]
-    CompassPtWest,
-    #[token("nw")]
-    CompassPtNorthWest,
     #[regex("(\"[^\"]*\"|[a-zA-Z0-9_]+)")]
     ID,
 

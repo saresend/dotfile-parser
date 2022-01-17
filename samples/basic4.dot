@@ -19,7 +19,7 @@ digraph D {
     }
     subgraph cluster_c2 {
       label = "Child two";
-      te;
+      e;
     }
   }
 }
