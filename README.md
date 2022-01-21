@@ -24,10 +24,10 @@ let result = DotGraph::from_str(graph_text).unwrap();
 
 # Using the AST 
 
-Once you've parsed, the ast provides information about the original underlying graphviz graph; for example,
+Once parsed, the ast provides information about the original underlying graphviz graph - for example,
 the following code reads in the node ids presented the toplevel lines:
 
-```
+```rust
 use dot_parser::DotGraph;
 use dot_parser::ast_nodes::Statement::Node;
 use std::str::FromStr;
