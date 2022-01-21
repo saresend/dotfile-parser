@@ -227,7 +227,18 @@ Graph {
                                 },
                             ),
                             ty: PhantomData,
-                            attr_list: [],
+                            attr_list: [
+                                [
+                                    Assignment {
+                                        lhs: "color",
+                                        rhs: "grey",
+                                    },
+                                    Assignment {
+                                        lhs: "arrowhead",
+                                        rhs: "none",
+                                    },
+                                ],
+                            ],
                         },
                     ),
                 ],

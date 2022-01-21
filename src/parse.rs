@@ -95,6 +95,7 @@ mod tests {
     #[test]
     fn test_ast_build_basic3_test() {
         let g = test_for_file("samples/basic3.dot");
+        println!("{:#?}", g);
         let reference = std::fs::read_to_string("samples/reference/basic3.ref").unwrap();
         assert_eq!(reference, format!("{:#?}\n", g));
     }

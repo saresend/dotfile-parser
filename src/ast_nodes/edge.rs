@@ -27,6 +27,14 @@ impl GraphDirection for Directed {
     }
 }
 
+///
+/// Undirected is a marker type that is used
+/// as a paremeter for types that have an associated direction
+///
+/// As an example, a graph can either be directed or undirected, and
+/// similarly an edge can also have a direction.
+///
+
 #[derive(Debug)]
 pub struct Undirected;
 
@@ -150,7 +158,9 @@ impl<T: GraphDirection> Constructable for Edge<T> {
                 }
                 Err(_) => {} // TODO: Address issues
             };
-
+            if let EdgeRHS::Edge(Edge {lhs: _, rhs: _, ty: _, attr_list: attribs }) = &rhs {
+                attributes = attribs.clone();
+            } 
             Ok((
                 Self {
                     lhs,
