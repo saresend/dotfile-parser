@@ -2,8 +2,11 @@
 name = "dot_parser"
 version = "0.1.0"
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+description = "An AST definition and parser for graphviz files"
+homepage = "https://github.com/saresend/dotfile-parser"
+repository = "https://github.com/saresend/dotfile-parser"
+authors = ["Samuel Resendez <samresendez1@gmail.com>"]
 
 [dependencies]
 logos = "0.12.0"
