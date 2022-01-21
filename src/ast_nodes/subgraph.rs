@@ -4,7 +4,7 @@ use super::ID;
 use crate::lex::{Peekable, Token};
 use crate::parse::Constructable;
 
-use super::edge::{Directed, GraphDirection, Undirected};
+use super::edge::GraphDirection;
 
 #[derive(Debug)]
 pub struct Subgraph<T> {
@@ -46,7 +46,7 @@ impl<T: GraphDirection> Constructable for Subgraph<T> {
 #[cfg(test)]
 mod tests {
 
-    use super::Directed;
+    use super::super::edge::Directed;
     use super::Subgraph;
     use crate::lex::PeekableLexer;
     use crate::parse::Constructable;

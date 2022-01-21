@@ -74,10 +74,13 @@ impl std::str::FromStr for DotGraph {
 
 #[cfg(test)]
 mod tests {
+    use super::DotGraph;
+    use std::str::FromStr;
 
     #[test]
     fn lib_api_sanity_test() {
-        let test_str = "A -> { B, D}";
+        let test_str = "graph G { A -> { B, D} }";
+        let _ = DotGraph::from_str(test_str).unwrap();
     }
 
 }

@@ -64,7 +64,7 @@ impl<T: GraphDirection> Constructable for Vec<Statement<T>> {
 
 #[cfg(test)]
 mod tests {
-    use super::Directed;
+    use super::super::edge::Directed;
     use super::Statement;
     use crate::lex::PeekableLexer;
     use crate::parse::Constructable;
