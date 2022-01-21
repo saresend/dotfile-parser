@@ -15,7 +15,7 @@ to use this, we could write the following:
 ```rust
 
 use std::str::FromStr;
-use dot_parser::DotGraph;
+use graphviz_dot_parser::DotGraph;
 
 let graph_text = "digraph G { A -> B }";
 let result = DotGraph::from_str(graph_text).unwrap();
@@ -28,8 +28,8 @@ Once parsed, the ast provides information about the original underlying graphviz
 the following code reads in the node ids presented the toplevel lines:
 
 ```rust
-use dot_parser::DotGraph;
-use dot_parser::ast_nodes::Statement::Node;
+use graphviz_dot_parser::DotGraph;
+use graphviz_dot_parser::ast_nodes::Statement::Node;
 use std::str::FromStr;
 
 let dot_graph = DotGraph::from_str("graph G { a; b; c; }").unwrap();
