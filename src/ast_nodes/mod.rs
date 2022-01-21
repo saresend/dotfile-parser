@@ -9,8 +9,8 @@
 //! list all of the node identifiers that exist inside of a graph:
 //!
 //! ```
-//! use graphviz_dot_parser::DotGraph;
-//! use graphviz_dot_parser::ast_nodes::Statement::Node;
+//! use graphviz_parser::DotGraph;
+//! use graphviz_parser::ast_nodes::Statement::Node;
 //! use std::str::FromStr;
 //!
 //! let dot_graph = DotGraph::from_str("graph G { a; b; c; }").unwrap();

@@ -11,7 +11,7 @@
 //! To parse dotfiles using this using this dotfile parser, we could simply use the following code
 //!
 //! ```
-//!   use graphviz_dot_parser::DotGraph;
+//!   use graphviz_parser::DotGraph;
 //!   use std::str::FromStr;
 //!
 //!  // read string from file or network

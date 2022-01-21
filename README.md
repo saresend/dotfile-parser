@@ -15,7 +15,7 @@ to use this, we could write the following:
 ```rust
 
 use std::str::FromStr;
-use graphviz_dot_parser::DotGraph;
+use graphviz_parser::DotGraph;
 
 let graph_text = "digraph G { A -> B }";
 let result = DotGraph::from_str(graph_text).unwrap();
