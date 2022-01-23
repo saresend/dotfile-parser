@@ -108,8 +108,17 @@ mod tests {
     }
 
     #[test]
-    fn test_ast_build_comment1_test() {
+    fn test_ast_build_datastruct_test() {
+        let g = test_for_file("samples/datastruct.dot");
+        // let reference = std::fs::read_to_string("samples/reference/basic4.ref").unwrap();
+        // assert_eq!(reference, format!("{:#?}\n", g));
+        println!("{:#?}", g);
 
+    }
+
+    #[test]
+    fn test_ast_build_comment1_test() {
+        
 
     }
 

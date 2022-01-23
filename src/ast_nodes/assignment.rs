@@ -57,7 +57,9 @@ impl Constructable for AttributeList {
             return Err(anyhow::anyhow!("Invalid token to construct attributeList"));
         }
         while let Some(Token::OpenBracket) = token_stream.next() {
+            token_stream.clear_filler();
             let agroup = AssignmentGroup::from_lexer(token_stream.clone())?;
+            token_stream.clear_filler();
             result.push(agroup.0);
             token_stream = agroup.1;
             match token_stream.next() {
@@ -92,6 +94,7 @@ impl Constructable for AssignmentGroup {
                     // intentional no-op
                 }
             }
+            token_stream.clear_filler();
         }
         Ok((result, token_stream))
     }
