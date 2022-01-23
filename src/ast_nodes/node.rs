@@ -99,8 +99,25 @@ mod tests {
     use crate::lex::PeekableLexer;
     use crate::parse::Constructable;
 
-    use super::Node;
+    use super::{Node, Port};
 
+    /*
+     * PORT TESTS
+     */
+    #[test]
+    fn port_statement_sanity_test() {
+        let test_str = ":tst:nw";
+        let pb = PeekableLexer::from(test_str);
+        let port = Port::from_lexer(pb).unwrap().0;
+        assert_eq!(port.id, String::from("tst"));
+        let cmp = port.compass_point.unwrap();
+        assert_eq!(cmp, String::from("nw"));
+    }
+
+
+    /*
+     * NODE TESTS
+     */
     #[test]
     fn node_statement_sanity1_test() {
         let test_str = "A [color = blue, height = s10][length = long]";
