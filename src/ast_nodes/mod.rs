@@ -1,11 +1,11 @@
 //!
-//! The AST nodes module provides all the ast components 
-//! that comprise a graphviz file. These node types 
-//! map quite closely to the graphviz documentation provided 
+//! The AST nodes module provides all the ast components
+//! that comprise a graphviz file. These node types
+//! map quite closely to the graphviz documentation provided
 //! here: [link](https://graphviz.org/doc/info/lang.html)
 //!
 //! These components provide a better structure for operating on
-//! graph structures. For example, the following code lets us 
+//! graph structures. For example, the following code lets us
 //! list all of the node identifiers that exist inside of a graph:
 //!
 //! ```

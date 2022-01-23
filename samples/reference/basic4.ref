@@ -29,6 +29,7 @@ Graph {
                                 Node(
                                     Node {
                                         id: "a",
+                                        port: None,
                                         attribute_list: None,
                                     },
                                 ),
@@ -47,6 +48,7 @@ Graph {
                                             Node(
                                                 Node {
                                                     id: "b",
+                                                    port: None,
                                                     attribute_list: None,
                                                 },
                                             ),
@@ -68,12 +70,14 @@ Graph {
                                             Node(
                                                 Node {
                                                     id: "c",
+                                                    port: None,
                                                     attribute_list: None,
                                                 },
                                             ),
                                             Node(
                                                 Node {
                                                     id: "d",
+                                                    port: None,
                                                     attribute_list: None,
                                                 },
                                             ),
@@ -98,6 +102,7 @@ Graph {
                                 Node(
                                     Node {
                                         id: "e",
+                                        port: None,
                                         attribute_list: None,
                                     },
                                 ),

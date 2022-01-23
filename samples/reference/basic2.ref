@@ -16,18 +16,21 @@ Graph {
                                     Node(
                                         Node {
                                             id: "B",
+                                            port: None,
                                             attribute_list: None,
                                         },
                                     ),
                                     Node(
                                         Node {
                                             id: "C",
+                                            port: None,
                                             attribute_list: None,
                                         },
                                     ),
                                     Node(
                                         Node {
                                             id: "D",
+                                            port: None,
                                             attribute_list: None,
                                         },
                                     ),
@@ -41,6 +44,7 @@ Graph {
                                     Node(
                                         Node {
                                             id: "F",
+                                            port: None,
                                             attribute_list: None,
                                         },
                                     ),

@@ -5,6 +5,7 @@ Graph {
         Node(
             Node {
                 id: "A",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -20,6 +21,7 @@ Graph {
         Node(
             Node {
                 id: "B",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -35,6 +37,7 @@ Graph {
         Node(
             Node {
                 id: "C",
+                port: None,
                 attribute_list: Some(
                     [
                         [

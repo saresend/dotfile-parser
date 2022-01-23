@@ -17,6 +17,7 @@ Graph {
         Node(
             Node {
                 id: "nd_1",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -32,6 +33,7 @@ Graph {
         Node(
             Node {
                 id: "nd_2",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -47,6 +49,7 @@ Graph {
         Node(
             Node {
                 id: "nd_3_a",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -62,6 +65,7 @@ Graph {
         Node(
             Node {
                 id: "nd_3_l",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -77,6 +81,7 @@ Graph {
         Node(
             Node {
                 id: "nd_3",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -92,6 +97,7 @@ Graph {
         Node(
             Node {
                 id: "nd_3_r",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -107,6 +113,7 @@ Graph {
         Node(
             Node {
                 id: "nd_4",
+                port: None,
                 attribute_list: Some(
                     [
                         [
@@ -180,18 +187,21 @@ Graph {
                                 Node(
                                     Node {
                                         id: "nd_3_l",
+                                        port: None,
                                         attribute_list: None,
                                     },
                                 ),
                                 Node(
                                     Node {
                                         id: "nd_3",
+                                        port: None,
                                         attribute_list: None,
                                     },
                                 ),
                                 Node(
                                     Node {
                                         id: "nd_3_r",
+                                        port: None,
                                         attribute_list: None,
                                     },
                                 ),

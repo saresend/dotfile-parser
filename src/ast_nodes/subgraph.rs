@@ -18,7 +18,6 @@ impl<T: GraphDirection> Constructable for Subgraph<T> {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-
         token_stream.clear_filler();
         let mut id = None;
         if let Some(&Token::Subgraph) = token_stream.peek() {

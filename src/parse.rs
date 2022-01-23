@@ -1,7 +1,6 @@
 use super::lex::PeekableLexer;
 use anyhow::Result;
 
-
 pub(crate) trait Constructable: Sized {
     type Output;
     fn from_lexer(
@@ -64,18 +63,16 @@ mod tests {
     }
 
     fn updateable_test(sample_loc: &str, ref_loc: &str) {
-       if std::env::var("UPDATE_TESTS").is_ok() {
+        if std::env::var("UPDATE_TESTS").is_ok() {
             println!("Updating test");
             let g = test_for_file(sample_loc);
             let mut f = std::fs::File::create(ref_loc).unwrap();
             f.write_all(format!("{:#?}", g).as_bytes()).unwrap();
-       } else {
+        } else {
             let g = test_for_file(sample_loc);
             let reference = std::fs::read_to_string(ref_loc).unwrap();
             assert_eq!(format!("{:#?}", g), reference);
-       }
-
-
+        }
     }
 
     #[test]

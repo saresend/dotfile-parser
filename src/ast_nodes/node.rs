@@ -10,7 +10,14 @@ use crate::lex::{Peekable, Token};
 #[derive(Debug)]
 pub struct Node {
     pub id: ID,
+    pub port: Option<Port>,
     pub attribute_list: Option<AttributeList>,
+}
+
+#[derive(Debug)]
+pub struct Port {
+    pub id: ID,
+    pub compass_point: Option<ID>,
 }
 
 impl Constructable for Node {
@@ -20,12 +27,17 @@ impl Constructable for Node {
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
         if let Some(Token::ID) = token_stream.next() {
             let node_id = token_stream.slice().to_owned();
+            let mut port = None;
+            if let Ok((parsed_port, token_stream)) = Port::from_lexer(token_stream.clone()) {
+                port = Some(parsed_port);
+            }
             let attribute_result = AttributeList::from_lexer(token_stream.clone());
             match attribute_result {
                 Ok(agroup) => {
                     return Ok((
                         Self {
                             id: node_id,
+                            port,
                             attribute_list: Some(agroup.0),
                         },
                         agroup.1,
@@ -35,6 +47,7 @@ impl Constructable for Node {
                     return Ok((
                         Self {
                             id: node_id,
+                            port,
                             attribute_list: None,
                         },
                         token_stream,
@@ -43,6 +56,40 @@ impl Constructable for Node {
             }
         }
         Err(anyhow::anyhow!("Invalid Node; can't find ID"))
+    }
+}
+
+impl Constructable for Port {
+    type Output = Self;
+    fn from_lexer(
+        mut token_stream: crate::lex::PeekableLexer,
+    ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
+        // format: ':' ID [ ':' port ]
+        if let Some(Token::Colon) = token_stream.next() {
+            if let Some(Token::ID) = token_stream.next() {
+                let id = token_stream.slice().to_owned();
+                if let Some(Token::Colon) = token_stream.next() {
+                    if let Some(Token::ID) = token_stream.next() {
+                        let compass_id = token_stream.slice().to_owned();
+                        Ok((Self {
+                            id,
+                            compass_point: Some(compass_id),
+                        }, token_stream))
+                    } else {
+                        Err(anyhow::anyhow!("Invalid compass point value"))
+                    }
+                } else {
+                    Ok((Self {
+                        id,
+                        compass_point: None,
+                    }, token_stream))
+                }
+            } else {
+                Err(anyhow::anyhow!("Invalid syntax for port"))
+            }
+        } else {
+            Err(anyhow::anyhow!("Invalid syntax for port"))
+        }
     }
 }
 
@@ -90,6 +137,5 @@ mod tests {
         let node = Node::from_lexer(lexer).unwrap();
         assert_eq!(node.0.id, String::from("nd_1"));
         assert_eq!(node.0.attribute_list.unwrap().len(), 1);
-
     }
 }

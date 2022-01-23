@@ -19,7 +19,7 @@
 //!  let graph = DotGraph::from_str(dotfile_str).unwrap();
 //!
 //!  match graph {
-//!   DotGraph::Directed(g) => { 
+//!   DotGraph::Directed(g) => {
 //!     assert_eq!(g.id, String::from("G"));
 //!   },
 //!    _ => { unreachable!() } ,
@@ -71,7 +71,6 @@ impl std::str::FromStr for DotGraph {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::DotGraph;
@@ -82,5 +81,4 @@ mod tests {
         let test_str = "graph G { A -> { B, D} }";
         let _ = DotGraph::from_str(test_str).unwrap();
     }
-
 }
