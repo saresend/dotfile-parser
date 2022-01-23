@@ -1,0 +1,112 @@
+Graph {
+    id: "D",
+    is_strict: false,
+    statements: [
+        Subgraph(
+            Subgraph {
+                id: Some(
+                    "cluster_p",
+                ),
+                statements: [
+                    Assignment(
+                        Assignment {
+                            lhs: "label",
+                            rhs: "\"Parent\"",
+                        },
+                    ),
+                    Subgraph(
+                        Subgraph {
+                            id: Some(
+                                "cluster_c1",
+                            ),
+                            statements: [
+                                Assignment(
+                                    Assignment {
+                                        lhs: "label",
+                                        rhs: "\"Child one\"",
+                                    },
+                                ),
+                                Node(
+                                    Node {
+                                        id: "a",
+                                        attribute_list: None,
+                                    },
+                                ),
+                                Subgraph(
+                                    Subgraph {
+                                        id: Some(
+                                            "cluster_gc_1",
+                                        ),
+                                        statements: [
+                                            Assignment(
+                                                Assignment {
+                                                    lhs: "label",
+                                                    rhs: "\"Grand-Child one\"",
+                                                },
+                                            ),
+                                            Node(
+                                                Node {
+                                                    id: "b",
+                                                    attribute_list: None,
+                                                },
+                                            ),
+                                        ],
+                                    },
+                                ),
+                                Subgraph(
+                                    Subgraph {
+                                        id: Some(
+                                            "cluster_gc_2",
+                                        ),
+                                        statements: [
+                                            Assignment(
+                                                Assignment {
+                                                    lhs: "label",
+                                                    rhs: "\"Grand-Child two\"",
+                                                },
+                                            ),
+                                            Node(
+                                                Node {
+                                                    id: "c",
+                                                    attribute_list: None,
+                                                },
+                                            ),
+                                            Node(
+                                                Node {
+                                                    id: "d",
+                                                    attribute_list: None,
+                                                },
+                                            ),
+                                        ],
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
+                    Subgraph(
+                        Subgraph {
+                            id: Some(
+                                "cluster_c2",
+                            ),
+                            statements: [
+                                Assignment(
+                                    Assignment {
+                                        lhs: "label",
+                                        rhs: "\"Child two\"",
+                                    },
+                                ),
+                                Node(
+                                    Node {
+                                        id: "e",
+                                        attribute_list: None,
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
+                ],
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}
