@@ -114,6 +114,15 @@ mod tests {
         assert_eq!(cmp, String::from("nw"));
     }
 
+    #[test]
+    fn port_statement_no_compass_test() {
+        let test_str = ":tst";
+        let pb = PeekableLexer::from(test_str);
+        let port = Port::from_lexer(pb).unwrap().0;
+        assert_eq!(port.id, String::from("tst"));
+        assert_eq!(port.compass_point, None);
+    }
+
 
     /*
      * NODE TESTS
