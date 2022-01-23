@@ -1,1 +1,98 @@
-Graph { id: "D", is_strict: false, statements: [Node(Node { id: "A", attribute_list: Some([[Assignment { lhs: "shape", rhs: "diamond" }]]) }), Node(Node { id: "B", attribute_list: Some([[Assignment { lhs: "shape", rhs: "box" }]]) }), Node(Node { id: "C", attribute_list: Some([[Assignment { lhs: "shape", rhs: "circle" }]]) }), Edge(Edge { lhs: Node("A"), rhs: Node("B"), ty: PhantomData, attr_list: [[Assignment { lhs: "style", rhs: "dashed" }, Assignment { lhs: "color", rhs: "grey" }]] }), Edge(Edge { lhs: Node("A"), rhs: Node("D"), ty: PhantomData, attr_list: [[Assignment { lhs: "penwidth", rhs: "5" }, Assignment { lhs: "arrowhead", rhs: "none" }]] })], _pd: PhantomData }
+Graph {
+    id: "D",
+    is_strict: false,
+    statements: [
+        Node(
+            Node {
+                id: "A",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "diamond",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "B",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "box",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "C",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "circle",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    "A",
+                ),
+                rhs: Node(
+                    "B",
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "style",
+                            rhs: "dashed",
+                        },
+                        Assignment {
+                            lhs: "color",
+                            rhs: "grey",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    "A",
+                ),
+                rhs: Node(
+                    "D",
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "penwidth",
+                            rhs: "5",
+                        },
+                        Assignment {
+                            lhs: "arrowhead",
+                            rhs: "none",
+                        },
+                    ],
+                ],
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}

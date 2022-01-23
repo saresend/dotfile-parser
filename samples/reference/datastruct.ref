@@ -1,0 +1,295 @@
+Graph {
+    id: "g",
+    is_strict: false,
+    statements: [
+        Attribute(
+            Graph(
+                [
+                    [
+                        Assignment {
+                            lhs: "rankdir",
+                            rhs: "\"LR\"",
+                        },
+                    ],
+                ],
+            ),
+        ),
+        Attribute(
+            Node(
+                [
+                    [
+                        Assignment {
+                            lhs: "fontsize",
+                            rhs: "\"16\"",
+                        },
+                        Assignment {
+                            lhs: "shape",
+                            rhs: "\"ellipse\"",
+                        },
+                    ],
+                ],
+            ),
+        ),
+        Attribute(
+            Edge(
+                [
+                    [],
+                ],
+            ),
+        ),
+        Node(
+            Node {
+                id: "\"node0\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0x10ba8| <f1>\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node1\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node2\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc44b8| | |2\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node3\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 3.43322790286038071e-06|44.79998779296875|0\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node4\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |2\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node5\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> (nil)| | |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node6\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node7\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |2\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node8\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> (nil)| | |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node9\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> (nil)| | |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node10\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> (nil)| <f1> | <f2> |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node11\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> (nil)| <f1> | <f2> |-1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node12\"",
+                attribute_list: Some(
+                    [
+                        [
+                            Assignment {
+                                lhs: "label",
+                                rhs: "\"<f0> 0xf7fc43e0| | |1\"",
+                            },
+                            Assignment {
+                                lhs: "shape",
+                                rhs: "\"record\"",
+                            },
+                        ],
+                    ],
+                ),
+            },
+        ),
+        Node(
+            Node {
+                id: "\"node0\"",
+                attribute_list: None,
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}
