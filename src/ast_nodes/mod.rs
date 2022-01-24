@@ -64,6 +64,23 @@ impl Constructable for ID {
     }
 }
 
+///
+/// A graph is the underlying structure that represents a toplevel graph in graphviz
+/// this should roughly correspond to the graph production
+/// [here](https://graphviz.org/doc/info/lang.html)
+/// 
+/// Example usage of this: 
+///```
+/// use graphviz_parser::DotGraph;
+/// use graphviz_parser::ast_nodes::Statement::Node;
+/// use std::str::FromStr;
+/// let dot_graph = DotGraph::from_str("graph G { a; b; c; }").unwrap();
+/// if let DotGraph::Directed(graph) = dot_graph {
+///    assert_eq!(graph.id, String::from("G"));
+/// }
+/// ```
+///
+///
 #[derive(Debug)]
 pub struct Graph<T> {
     pub id: ID,
