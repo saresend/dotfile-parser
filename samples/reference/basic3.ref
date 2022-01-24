@@ -136,7 +136,11 @@ Graph {
                     },
                 ),
                 rhs: Node(
-                    "nd_3_r",
+                    Node {
+                        id: "nd_3_r",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 ty: PhantomData,
                 attr_list: [],
@@ -170,7 +174,11 @@ Graph {
                                     },
                                 ),
                                 rhs: Node(
-                                    "nd_4",
+                                    Node {
+                                        id: "nd_4",
+                                        port: None,
+                                        attribute_list: None,
+                                    },
                                 ),
                                 ty: PhantomData,
                                 attr_list: [],
@@ -243,7 +251,11 @@ Graph {
                                         },
                                     ),
                                     rhs: Node(
-                                        "nd_3_r",
+                                        Node {
+                                            id: "nd_3_r",
+                                            port: None,
+                                            attribute_list: None,
+                                        },
                                     ),
                                     ty: PhantomData,
                                     attr_list: [

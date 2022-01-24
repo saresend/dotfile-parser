@@ -1,7 +1,6 @@
 use super::assignment::AttributeList;
 use super::Node;
 use super::Subgraph;
-use super::ID;
 use std::marker::PhantomData;
 
 use crate::lex::Token;
@@ -81,7 +80,7 @@ impl<T: GraphDirection> Constructable for EdgeLHS<T> {
 #[derive(Debug)]
 pub enum EdgeRHS<T> {
     Edge(Edge<T>),
-    Node(ID),
+    Node(Node),
     Subgraph(Subgraph<T>),
 }
 
@@ -92,7 +91,7 @@ impl<T: GraphDirection> Constructable for EdgeRHS<T> {
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let (options, token_stream) =
-            ParseOR::<Edge<T>, ParseOR<ID, Subgraph<T>>>::from_lexer(token_stream)?;
+            ParseOR::<Edge<T>, ParseOR<Node, Subgraph<T>>>::from_lexer(token_stream)?;
         match options {
             ParseOR {
                 t_val: Some(edge),
@@ -102,10 +101,10 @@ impl<T: GraphDirection> Constructable for EdgeRHS<T> {
                 t_val: None,
                 v_val:
                     Some(ParseOR {
-                        t_val: Some(id),
+                        t_val: Some(node),
                         v_val: None,
                     }),
-            } => Ok((EdgeRHS::Node(id), token_stream)),
+            } => Ok((EdgeRHS::Node(node), token_stream)),
             ParseOR {
                 t_val: None,
                 v_val:
@@ -150,7 +149,7 @@ impl<T: GraphDirection> Constructable for Edge<T> {
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         let (lhs, mut token_stream) = EdgeLHS::<T>::from_lexer(token_stream)?;
         if Some(T::token()) == token_stream.next() {
-            let (rhs, mut token_stream) = EdgeRHS::<T>::from_lexer(token_stream)?;
+            let (mut rhs, mut token_stream) = EdgeRHS::<T>::from_lexer(token_stream)?;
             let mut attributes = vec![];
             match AttributeList::from_lexer(token_stream.clone()) {
                 Ok((attr_list, t_stream)) => {
@@ -167,6 +166,18 @@ impl<T: GraphDirection> Constructable for Edge<T> {
             }) = &rhs
             {
                 attributes = attribs.clone();
+            } else if let EdgeRHS::Node(Node {
+                id: _,
+                port: _, 
+                attribute_list: attribs,
+            }) = &mut rhs {
+                let moved_attributes = attribs.take();
+                attributes = match moved_attributes {
+                    Some(v) => {
+                        v
+                    },
+                    None => vec![],
+                };
             }
             Ok((
                 Self {
@@ -200,8 +211,8 @@ mod tests {
         let res = Edge::<Directed>::from_lexer(pb).unwrap();
         let rhs_v = *res.0.rhs;
         let edg_lhs = res.0.lhs;
-        if let EdgeRHS::<Directed>::Node(id) = rhs_v {
-            assert_eq!("B", id);
+        if let EdgeRHS::<Directed>::Node(node) = rhs_v {
+            assert_eq!("B", node.id);
         } else {
             unreachable!()
         };
@@ -270,7 +281,13 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
         if let EdgeLHS::Node(lhs) = edge.lhs{ 
-            assert_eq!(lhs.id, String::from("node0"));
+            assert_eq!(lhs.id, String::from("\"node0\""));
+            assert!(lhs.port.is_some());
         } else { unreachable!() }
+
+        if let EdgeRHS::Node(rhs) = *edge.rhs {
+            assert_eq!(rhs.id, String::from("\"node1\""));
+            assert!(rhs.port.is_some());
+        } else { unreachable!() } 
     }
 }

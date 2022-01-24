@@ -297,16 +297,633 @@ Graph {
                 ),
             },
         ),
-        Node(
-            Node {
-                id: "\"node0\"",
-                port: Some(
-                    Port {
-                        id: "f0",
-                        compass_point: None,
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node0\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
                     },
                 ),
-                attribute_list: None,
+                rhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "0",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node0\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node2\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "1",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node3\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "2",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node4\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "3",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node5\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "4",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node4\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node3\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "5",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node4\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node6\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "6",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node4\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node10\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "7",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node6\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node3\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "8",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node6\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node7\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "9",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node6\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node9\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "10",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node7\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node3\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "11",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node7\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "12",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node7\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node8\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "13",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node10\"",
+                        port: Some(
+                            Port {
+                                id: "f1",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node11\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "14",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node10\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node12\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "15",
+                        },
+                    ],
+                ],
+            },
+        ),
+        Edge(
+            Edge {
+                lhs: Node(
+                    Node {
+                        id: "\"node11\"",
+                        port: Some(
+                            Port {
+                                id: "f2",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                rhs: Node(
+                    Node {
+                        id: "\"node1\"",
+                        port: Some(
+                            Port {
+                                id: "f0",
+                                compass_point: None,
+                            },
+                        ),
+                        attribute_list: None,
+                    },
+                ),
+                ty: PhantomData,
+                attr_list: [
+                    [
+                        Assignment {
+                            lhs: "id",
+                            rhs: "16",
+                        },
+                    ],
+                ],
             },
         ),
     ],

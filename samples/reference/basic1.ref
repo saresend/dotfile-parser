@@ -60,7 +60,11 @@ Graph {
                     },
                 ),
                 rhs: Node(
-                    "B",
+                    Node {
+                        id: "B",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 ty: PhantomData,
                 attr_list: [
@@ -87,7 +91,11 @@ Graph {
                     },
                 ),
                 rhs: Node(
-                    "D",
+                    Node {
+                        id: "D",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 ty: PhantomData,
                 attr_list: [
