@@ -230,6 +230,9 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(res.attr_list[0].len(), 2);
+        if let EdgeRHS::Node(node) = *res.rhs {
+            assert_eq!(node.attribute_list, None); 
+        }
     }
 
     #[test]
