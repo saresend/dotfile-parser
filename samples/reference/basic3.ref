@@ -129,7 +129,11 @@ Graph {
         Edge(
             Edge {
                 lhs: Node(
-                    "nd_3_a",
+                    Node {
+                        id: "nd_3_a",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 rhs: Node(
                     "nd_3_r",
@@ -141,17 +145,29 @@ Graph {
         Edge(
             Edge {
                 lhs: Node(
-                    "nd_1",
+                    Node {
+                        id: "nd_1",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 rhs: Edge(
                     Edge {
                         lhs: Node(
-                            "nd_2",
+                            Node {
+                                id: "nd_2",
+                                port: None,
+                                attribute_list: None,
+                            },
                         ),
                         rhs: Edge(
                             Edge {
                                 lhs: Node(
-                                    "nd_3",
+                                    Node {
+                                        id: "nd_3",
+                                        port: None,
+                                        attribute_list: None,
+                                    },
                                 ),
                                 rhs: Node(
                                     "nd_4",
@@ -211,12 +227,20 @@ Graph {
                     Edge(
                         Edge {
                             lhs: Node(
-                                "nd_3_l",
+                                Node {
+                                    id: "nd_3_l",
+                                    port: None,
+                                    attribute_list: None,
+                                },
                             ),
                             rhs: Edge(
                                 Edge {
                                     lhs: Node(
-                                        "nd_3",
+                                        Node {
+                                            id: "nd_3",
+                                            port: None,
+                                            attribute_list: None,
+                                        },
                                     ),
                                     rhs: Node(
                                         "nd_3_r",

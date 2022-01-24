@@ -5,7 +5,11 @@ Graph {
         Edge(
             Edge {
                 lhs: Node(
-                    "A",
+                    Node {
+                        id: "A",
+                        port: None,
+                        attribute_list: None,
+                    },
                 ),
                 rhs: Edge(
                     Edge {

@@ -1,4 +1,5 @@
 use super::assignment::AttributeList;
+use super::Node;
 use super::Subgraph;
 use super::ID;
 use std::marker::PhantomData;
@@ -46,7 +47,7 @@ impl GraphDirection for Undirected {
 
 #[derive(Debug)]
 pub enum EdgeLHS<T> {
-    Node(ID),
+    Node(Node),
     Subgraph(Subgraph<T>),
 }
 
@@ -56,15 +57,15 @@ impl<T: GraphDirection> Constructable for EdgeLHS<T> {
     fn from_lexer(
         token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        let option = ParseOR::<Subgraph<T>, ID>::from_lexer(token_stream.clone())?;
+        let option = ParseOR::<Subgraph<T>, Node>::from_lexer(token_stream.clone())?;
         match option {
             (
                 ParseOR {
                     t_val: None,
-                    v_val: Some(id),
+                    v_val: Some(node),
                 },
                 tok_s,
-            ) => Ok((EdgeLHS::Node(id), tok_s)),
+            ) => Ok((EdgeLHS::Node(node), tok_s)),
             (
                 ParseOR {
                     t_val: Some(subgraph),
@@ -186,6 +187,7 @@ impl<T: GraphDirection> Constructable for Edge<T> {
 
 #[cfg(test)]
 mod tests {
+
     use super::{EdgeLHS, EdgeRHS};
     use crate::ast_nodes::{edge::Directed, Edge};
     use crate::lex::PeekableLexer;
@@ -204,8 +206,8 @@ mod tests {
             unreachable!()
         };
 
-        if let EdgeLHS::Node(id) = edg_lhs {
-            assert_eq!("A", id);
+        if let EdgeLHS::Node(node) = edg_lhs {
+            assert_eq!("A", node.id);
         } else {
             unreachable!()
         };
@@ -224,22 +226,22 @@ mod tests {
         let test_str = "A -> B -> C -> D -> E";
         let pb = PeekableLexer::from(test_str);
         let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
-        if let EdgeLHS::Node(id) = res.lhs {
-            assert_eq!(id, "A");
+        if let EdgeLHS::Node(node) = res.lhs {
+            assert_eq!(node.id, "A");
         } else {
             unreachable!()
         }
 
         if let EdgeRHS::<Directed>::Edge(inner_edg) = *res.rhs {
-            if let EdgeLHS::Node(id) = inner_edg.lhs {
-                assert_eq!("B", id);
+            if let EdgeLHS::Node(node) = inner_edg.lhs {
+                assert_eq!("B", node.id);
             } else {
                 unreachable!()
             }
 
             if let EdgeRHS::<Directed>::Edge(inner_edg2) = *inner_edg.rhs {
-                if let EdgeLHS::Node(id) = inner_edg2.lhs {
-                    assert_eq!("C", id);
+                if let EdgeLHS::Node(node) = inner_edg2.lhs {
+                    assert_eq!("C", node.id);
                 } else {
                     unreachable!();
                 }
@@ -248,7 +250,7 @@ mod tests {
     }
 
     #[test]
-    fn node_statement_subgraph1_test() {
+    fn edge_statement_subgraph1_test() {
         let test_str = "test1 {A, B} -> {C, D}";
         let pb = PeekableLexer::from(test_str);
         let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
@@ -257,5 +259,18 @@ mod tests {
         } else {
             unreachable!()
         }
+    }
+
+    #[test]
+    fn edge_statement_compass_pt_node_test() {
+        let test_str = "\"node0\":f0 -> \"node1\":f0 [
+            id = 0
+            ];
+            ";
+        let pb = PeekableLexer::from(test_str);
+        let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
+        if let EdgeLHS::Node(lhs) = edge.lhs{ 
+            assert_eq!(lhs.id, String::from("node0"));
+        } else { unreachable!() }
     }
 }
