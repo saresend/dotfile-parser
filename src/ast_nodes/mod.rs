@@ -24,9 +24,6 @@
 //!    assert_eq!(node_ids, vec!["a", "b", "c"]);
 //! }
 //! ```
-//!
-//!
-//!
 
 mod assignment;
 mod edge;
