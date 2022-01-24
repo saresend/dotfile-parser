@@ -4,7 +4,7 @@
 
 Add the following to your cargo.toml file: 
 
-`dot_parser = 0.1`
+`graphviz_parser = 0.1`
 
 # Example Usage
 
