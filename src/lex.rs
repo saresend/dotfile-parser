@@ -6,7 +6,7 @@ use logos::Logos;
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
 pub(crate) enum Token {
-    #[regex("(\"[^\"]*\"|[a-zA-Z0-9_]+)")]
+    #[regex(r##"("[^"]*"|[a-zA-Z0-9_]+)"##)]
     ID,
 
     #[token("strict")]
