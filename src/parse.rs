@@ -117,4 +117,12 @@ mod tests {
     fn test_ast_build_datastruct_test() {
         updateable_test("samples/datastruct.dot", "samples/reference/datastruct.ref");
     }
+
+    #[test]
+    fn test_ast_identifiers() {
+        updateable_test(
+            "samples/identifiers.dot",
+            "samples/reference/identifiers.ref",
+        );
+    }
 }
