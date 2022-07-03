@@ -169,4 +169,22 @@ mod tests {
         assert_eq!(node.0.id, String::from("nd_1"));
         assert_eq!(node.0.attribute_list.unwrap().len(), 1);
     }
+
+    #[test]
+    fn node_statement_empty_test() {
+        let test_str = r##"nd_1 [label = ""]"##;
+        let lexer = PeekableLexer::from(test_str);
+        let node = Node::from_lexer(lexer).unwrap();
+        assert_eq!(node.0.id, String::from("nd_1"));
+        assert_eq!(node.0.attribute_list.unwrap().len(), 1);
+    }
+
+    #[test]
+    fn node_statement_quoting_test() {
+        let test_str = r##"nd_1 [label = "\""]"##;
+        let lexer = PeekableLexer::from(test_str);
+        let node = Node::from_lexer(lexer).unwrap();
+        assert_eq!(node.0.id, String::from("nd_1"));
+        assert_eq!(node.0.attribute_list.unwrap().len(), 1);
+    }
 }
