@@ -23,7 +23,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Node 1\"",
+                                rhs: "Node 1",
                             },
                         ],
                     ],
@@ -39,7 +39,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Node 2\"",
+                                rhs: "Node 2",
                             },
                         ],
                     ],
@@ -55,7 +55,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Above Right Node 3\"",
+                                rhs: "Above Right Node 3",
                             },
                         ],
                     ],
@@ -71,7 +71,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Left of Node 3\"",
+                                rhs: "Left of Node 3",
                             },
                         ],
                     ],
@@ -87,7 +87,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Node 3\"",
+                                rhs: "Node 3",
                             },
                         ],
                     ],
@@ -103,7 +103,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Right of Node 3\"",
+                                rhs: "Right of Node 3",
                             },
                         ],
                     ],
@@ -119,7 +119,7 @@ Graph {
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"Node 4\"",
+                                rhs: "Node 4",
                             },
                         ],
                     ],

@@ -8,7 +8,7 @@ use crate::lex::Token;
 use crate::parse::{Constructable, ParseOR};
 
 pub(crate) trait GraphDirection {
-    fn token() -> Token;
+    fn token() -> Token<'static>;
 }
 
 ///
@@ -22,7 +22,7 @@ pub(crate) trait GraphDirection {
 pub struct Directed;
 
 impl GraphDirection for Directed {
-    fn token() -> Token {
+    fn token() -> Token<'static> {
         Token::DirectedEdge
     }
 }
@@ -39,7 +39,7 @@ impl GraphDirection for Directed {
 pub struct Undirected;
 
 impl GraphDirection for Undirected {
-    fn token() -> Token {
+    fn token() -> Token<'static> {
         Token::UndirectedEdge
     }
 }
@@ -168,14 +168,13 @@ impl<T: GraphDirection> Constructable for Edge<T> {
                 attributes = attribs.clone();
             } else if let EdgeRHS::Node(Node {
                 id: _,
-                port: _, 
+                port: _,
                 attribute_list: attribs,
-            }) = &mut rhs {
+            }) = &mut rhs
+            {
                 let moved_attributes = attribs.take();
                 attributes = match moved_attributes {
-                    Some(v) => {
-                        v
-                    },
+                    Some(v) => v,
                     None => vec![],
                 };
             }
@@ -231,7 +230,7 @@ mod tests {
         let res = Edge::<Directed>::from_lexer(pb).unwrap().0;
         assert_eq!(res.attr_list[0].len(), 2);
         if let EdgeRHS::Node(node) = *res.rhs {
-            assert_eq!(node.attribute_list, None); 
+            assert_eq!(node.attribute_list, None);
         }
     }
 
@@ -283,14 +282,18 @@ mod tests {
             ";
         let pb = PeekableLexer::from(test_str);
         let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
-        if let EdgeLHS::Node(lhs) = edge.lhs{ 
-            assert_eq!(lhs.id, String::from("\"node0\""));
+        if let EdgeLHS::Node(lhs) = edge.lhs {
+            assert_eq!(lhs.id, String::from("node0"));
             assert!(lhs.port.is_some());
-        } else { unreachable!() }
+        } else {
+            unreachable!()
+        }
 
         if let EdgeRHS::Node(rhs) = *edge.rhs {
-            assert_eq!(rhs.id, String::from("\"node1\""));
+            assert_eq!(rhs.id, String::from("node1"));
             assert!(rhs.port.is_some());
-        } else { unreachable!() } 
+        } else {
+            unreachable!()
+        }
     }
 }

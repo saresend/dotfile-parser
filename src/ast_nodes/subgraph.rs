@@ -24,9 +24,9 @@ impl<T: GraphDirection> Constructable for Subgraph<T> {
             token_stream.next();
         }
 
-        if let Some(&Token::ID) = token_stream.peek() {
+        if let Some(&Token::ID(id_)) = token_stream.peek() {
             token_stream.next();
-            id = Some(String::from(token_stream.slice()));
+            id = Some(String::from(id_));
         }
         if let Some(Token::OpenParen) = token_stream.next() {
             let (statements, mut tok_stream) = Vec::<Statement<T>>::from_lexer(token_stream)?;
