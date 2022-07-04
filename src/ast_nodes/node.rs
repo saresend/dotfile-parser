@@ -3,7 +3,6 @@ use crate::parse::Constructable;
 use super::{assignment::AttributeList, ID};
 use crate::lex::{Peekable, Token};
 
-
 #[derive(Debug)]
 pub struct Port {
     pub id: ID,
@@ -23,18 +22,24 @@ impl Constructable for Port {
                     token_stream.next();
                     if let Some(Token::ID) = token_stream.next() {
                         let compass_id = token_stream.slice().to_owned();
-                        Ok((Self {
-                            id,
-                            compass_point: Some(compass_id),
-                        }, token_stream))
+                        Ok((
+                            Self {
+                                id,
+                                compass_point: Some(compass_id),
+                            },
+                            token_stream,
+                        ))
                     } else {
                         Err(anyhow::anyhow!("Invalid compass point value"))
                     }
                 } else {
-                    Ok((Self {
-                        id,
-                        compass_point: None,
-                    }, token_stream))
+                    Ok((
+                        Self {
+                            id,
+                            compass_point: None,
+                        },
+                        token_stream,
+                    ))
                 }
             } else {
                 Err(anyhow::anyhow!("Invalid syntax for port"))
@@ -96,8 +101,6 @@ impl Constructable for Node {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use crate::ast_nodes::assignment::*;
@@ -127,7 +130,6 @@ mod tests {
         assert_eq!(port.id, String::from("tst"));
         assert_eq!(port.compass_point, None);
     }
-
 
     /*
      * NODE TESTS

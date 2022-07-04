@@ -34,8 +34,8 @@ mod subgraph;
 use std::marker::PhantomData;
 
 pub use assignment::Assignment;
-pub use edge::{EdgeLHS, EdgeRHS, Edge};
 pub use edge::{Directed, Undirected};
+pub use edge::{Edge, EdgeLHS, EdgeRHS};
 pub use node::Node;
 pub use statement::Statement;
 pub use subgraph::Subgraph;
@@ -65,8 +65,8 @@ impl Constructable for ID {
 /// A graph is the underlying structure that represents a toplevel graph in graphviz
 /// this should roughly correspond to the graph production
 /// [here](https://graphviz.org/doc/info/lang.html)
-/// 
-/// Example usage of this: 
+///
+/// Example usage of this:
 ///```
 /// use graphviz_parser::DotGraph;
 /// use graphviz_parser::ast_nodes::Statement::Node;

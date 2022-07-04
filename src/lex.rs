@@ -173,7 +173,7 @@ mod tests {
 
     #[test]
     fn lexer_test_lex_basic_dotfile() {
-        let test_str = "strict graph { 
+        let test_str = "strict graph {
                         a -- b
                         b -- a [color=blue]
                         }
@@ -231,7 +231,7 @@ mod tests {
     fn lexer_no_semicolon_test() {
         let test_string = "
             hi
-            there 
+            there
         ";
         let mut lexer = PeekableLexer::from(test_string);
         println!("{}", test_string);
