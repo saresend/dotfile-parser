@@ -1,12 +1,22 @@
 use logos::Logos;
 
+/// Remove the quotes from "quoted identifiers"
+fn unquote_quoted_id<'a>(lex: &mut logos::Lexer<'a, Token<'a>>) -> Option<&'a str> {
+    let slice = lex.slice();
+    assert!(slice.len() >= 2);
+    assert!(slice[0..1] == *"\"");
+    assert!(slice[slice.len() - 1..] == *"\"");
+    Some(&slice[1..slice.len() - 1])
+}
+
 /// A Token represents all terminals supported by the graphviz dot format
 ///
 /// For more info on the tokens, see
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
 pub(crate) enum Token<'a> {
-    #[regex(r##"("([^"]|\\")*"|[a-zA-Z0-9_]+|-?(\.[0-9]+|[0-9]+(\.[0-9]*)?))"##)]
+    #[regex(r##"([a-zA-Z0-9_]+|-?(\.[0-9]+|[0-9]+(\.[0-9]*)?))"##)]
+    #[regex(r##""([^"]|\\")*""##, unquote_quoted_id)]
     ID(&'a str),
 
     #[token("strict")]
@@ -203,7 +213,10 @@ mod tests {
     fn token_test_for_id_regex() {
         let test_str = "\"___ooogabooga:asdf\"";
         let mut lxt = PeekableLexer::from(test_str);
-        assert_eq!(Some(Token::ID(test_str)), lxt.next());
+        assert_eq!(
+            Some(Token::ID(&test_str[1..test_str.len() - 1])),
+            lxt.next()
+        );
     }
 
     #[test]
