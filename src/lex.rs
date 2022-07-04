@@ -6,7 +6,8 @@ use logos::Logos;
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
 pub(crate) enum Token<'a> {
-    #[regex(r##"("([^"]|\\")*"|[a-zA-Z0-9_]+|-?(\.[0-9]+|[0-9]+(\.[0-9]*)?))"##)]
+    #[regex(r##"([a-zA-Z0-9_]+|-?(\.[0-9]+|[0-9]+(\.[0-9]*)?))"##)]
+    #[regex(r##""([^"]|\\")*""##)]
     ID(&'a str),
 
     #[token("strict")]
@@ -64,13 +65,44 @@ pub(crate) enum Token<'a> {
 }
 use logos::Span;
 
-/// Remove the quotes from "quoted identifiers"
-fn unquote_quoted_id<'a>(lex: &mut logos::Lexer<'a, Token<'a>>) -> Option<&'a str> {
-    let slice = lex.slice();
-    assert!(slice.len() >= 2);
-    assert!(slice[0..1] == *"\"");
-    assert!(slice[slice.len() - 1..] == *"\"");
-    Some(&slice[1..slice.len() - 1])
+// Used by other parts of code to convert "s\\tstring" to s\tstring
+pub(crate) fn unquote_string(str: &str) -> String {
+    let mut iterator = str.chars();
+    if iterator.next() == Some('"') {
+        let mut res = String::new();
+        let mut quoted = false;
+        let mut process = |ch| {
+            if quoted {
+                let replacement = match ch {
+                    'n' => '\n',
+                    't' => '\t',
+                    '\\' => '\\',
+                    other => other,
+                };
+                res.push(replacement);
+                quoted = false;
+            } else if ch == '\\' {
+                quoted = true;
+            } else {
+                res.push(ch);
+            }
+        };
+        // Don't process the first or the last characters
+        match iterator.next() {
+            Some(mut prev_char) => {
+                while let Some(cur_char) = iterator.next() {
+                    process(prev_char);
+                    prev_char = cur_char;
+                }
+            }
+            None => {
+                // well this is surprising, there was no end " in the string?
+            }
+        }
+        res
+    } else {
+        str.to_string()
+    }
 }
 
 /// The Peekable Trait extends the underlying
@@ -303,5 +335,14 @@ mod tests {
             let _v = lexer_to_test.next();
             assert_eq!(lexer_to_test.slice(), sol.trim());
         }
+    }
+
+    #[test]
+    fn unquote_string_test() {
+        assert_eq!(unquote_string(r#""""#), r#""#.to_string());
+        assert_eq!(unquote_string(r#""a""#), r#"a"#.to_string());
+        assert_eq!(unquote_string(r#""\\a""#), r#"\a"#.to_string());
+        assert_eq!(unquote_string(r#""\\a\"""#), r#"\a""#.to_string());
+        assert_eq!(unquote_string(r#""\\a\"a""#), r#"\a"a"#.to_string());
     }
 }

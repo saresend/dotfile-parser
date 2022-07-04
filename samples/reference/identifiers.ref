@@ -39,14 +39,14 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"a\"",
+                id: "a",
                 port: None,
                 attribute_list: None,
             },
         ),
         Node(
             Node {
-                id: "\"a\\\"a\"",
+                id: "a\"a",
                 port: None,
                 attribute_list: None,
             },

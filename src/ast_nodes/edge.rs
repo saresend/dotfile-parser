@@ -283,14 +283,14 @@ mod tests {
         let pb = PeekableLexer::from(test_str);
         let edge = Edge::<Directed>::from_lexer(pb).unwrap().0;
         if let EdgeLHS::Node(lhs) = edge.lhs {
-            assert_eq!(lhs.id, String::from("\"node0\""));
+            assert_eq!(lhs.id, String::from("node0"));
             assert!(lhs.port.is_some());
         } else {
             unreachable!()
         }
 
         if let EdgeRHS::Node(rhs) = *edge.rhs {
-            assert_eq!(rhs.id, String::from("\"node1\""));
+            assert_eq!(rhs.id, String::from("node1"));
             assert!(rhs.port.is_some());
         } else {
             unreachable!()

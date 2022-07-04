@@ -54,7 +54,7 @@ impl Constructable for ID {
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         if let Some(Token::ID(id)) = token_stream.next() {
-            Ok((id.to_owned(), token_stream))
+            Ok((crate::lex::unquote_string(id), token_stream))
         } else {
             Err(anyhow::anyhow!("Expected type ID"))
         }
@@ -103,7 +103,7 @@ impl Constructable for Graph<Directed> {
                         Vec::<Statement<Directed>>::from_lexer(token_stream)?;
                     Ok((
                         Self {
-                            id: graph_id.to_string(),
+                            id: crate::lex::unquote_string(graph_id),
                             statements,
                             is_strict,
                             _pd: PhantomData,
@@ -138,7 +138,7 @@ impl Constructable for Graph<Undirected> {
                         Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
                     Ok((
                         Self {
-                            id: graph_id.to_string(),
+                            id: crate::lex::unquote_string(graph_id),
                             statements,
                             is_strict,
                             _pd: PhantomData,

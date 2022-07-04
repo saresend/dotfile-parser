@@ -11,7 +11,7 @@ Graph {
                     Assignment(
                         Assignment {
                             lhs: "label",
-                            rhs: "\"Parent\"",
+                            rhs: "Parent",
                         },
                     ),
                     Subgraph(
@@ -23,7 +23,7 @@ Graph {
                                 Assignment(
                                     Assignment {
                                         lhs: "label",
-                                        rhs: "\"Child one\"",
+                                        rhs: "Child one",
                                     },
                                 ),
                                 Node(
@@ -42,7 +42,7 @@ Graph {
                                             Assignment(
                                                 Assignment {
                                                     lhs: "label",
-                                                    rhs: "\"Grand-Child one\"",
+                                                    rhs: "Grand-Child one",
                                                 },
                                             ),
                                             Node(
@@ -64,7 +64,7 @@ Graph {
                                             Assignment(
                                                 Assignment {
                                                     lhs: "label",
-                                                    rhs: "\"Grand-Child two\"",
+                                                    rhs: "Grand-Child two",
                                                 },
                                             ),
                                             Node(
@@ -96,7 +96,7 @@ Graph {
                                 Assignment(
                                     Assignment {
                                         lhs: "label",
-                                        rhs: "\"Child two\"",
+                                        rhs: "Child two",
                                     },
                                 ),
                                 Node(
