@@ -47,6 +47,7 @@ pub(crate) enum Token<'a> {
     SemiColon,
 
     #[token("\n")]
+    #[regex(r"//[^\n]*\n")] // line comment is like a NewLine
     NewLine,
 
     #[token(":")]
@@ -57,9 +58,20 @@ pub(crate) enum Token<'a> {
 
     #[error]
     #[regex(r"[ \t\f]", logos::skip)]
+    // actual block comment regexp picked from lalrpop documentation, seems to work :)
+    #[regex(r##"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/"##, logos::skip)]
     Error,
 }
 use logos::Span;
+
+/// Remove the quotes from "quoted identifiers"
+fn unquote_quoted_id<'a>(lex: &mut logos::Lexer<'a, Token<'a>>) -> Option<&'a str> {
+    let slice = lex.slice();
+    assert!(slice.len() >= 2);
+    assert!(slice[0..1] == *"\"");
+    assert!(slice[slice.len() - 1..] == *"\"");
+    Some(&slice[1..slice.len() - 1])
+}
 
 /// The Peekable Trait extends the underlying
 /// token iterator to support basic lookahead
@@ -240,6 +252,32 @@ mod tests {
 
         assert_eq!(lexer.next(), Some(Token::ID("there")));
         assert_eq!(lexer.next(), Some(Token::NewLine));
+    }
+
+    #[test]
+    fn lexer_comments() {
+        let test_string = "
+            hi // hello
+            /* a */ there /***/
+            /*//*/a/*/* /*/b
+            c/*
+            d
+          */e";
+        let mut lexer = PeekableLexer::from(test_string);
+        println!("{}", test_string);
+        assert_eq!(lexer.next(), Some(Token::NewLine));
+        assert_eq!(lexer.next(), Some(Token::ID("hi")));
+        assert_eq!(lexer.next(), Some(Token::NewLine));
+
+        assert_eq!(lexer.next(), Some(Token::ID("there")));
+        assert_eq!(lexer.next(), Some(Token::NewLine));
+
+        assert_eq!(lexer.next(), Some(Token::ID("a")));
+        assert_eq!(lexer.next(), Some(Token::ID("b")));
+        assert_eq!(lexer.next(), Some(Token::NewLine));
+        assert_eq!(lexer.next(), Some(Token::ID("c")));
+        assert_eq!(lexer.next(), Some(Token::ID("e")));
+        assert_eq!(lexer.next(), None);
     }
 
     #[test]
