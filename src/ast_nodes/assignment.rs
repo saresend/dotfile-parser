@@ -28,11 +28,11 @@ impl Constructable for Assignment {
     fn from_lexer(
         mut lexer: PeekableLexer<'_>,
     ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = lexer.next() {
-            let lhs = String::from(lexer.slice());
+        if let Some(Token::ID(lhs)) = lexer.next() {
             if let Some(Token::Equals) = lexer.next() {
-                if let Some(Token::ID) = lexer.next() {
-                    let rhs = String::from(lexer.slice());
+                if let Some(Token::ID(rhs)) = lexer.next() {
+                    let lhs = lhs.to_owned();
+                    let rhs = rhs.to_owned();
                     return Ok((Self { lhs, rhs }, lexer));
                 }
             }

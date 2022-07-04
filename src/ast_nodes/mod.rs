@@ -53,8 +53,8 @@ impl Constructable for ID {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = token_stream.next() {
-            Ok((token_stream.slice().to_owned(), token_stream))
+        if let Some(Token::ID(id)) = token_stream.next() {
+            Ok((id.to_owned(), token_stream))
         } else {
             Err(anyhow::anyhow!("Expected type ID"))
         }
@@ -97,30 +97,24 @@ impl Constructable for Graph<Directed> {
             is_strict = true;
         }
         match token_stream.next() {
-            Some(Token::Digraph) => {
-                match (
-                    token_stream.next(),
-                    String::from(token_stream.slice()),
-                    token_stream.next(),
-                ) {
-                    (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) =
-                            Vec::<Statement<Directed>>::from_lexer(token_stream)?;
-                        Ok((
-                            Self {
-                                id: graph_id,
-                                statements,
-                                is_strict,
-                                _pd: PhantomData,
-                            },
-                            tstream,
-                        ))
-                    }
-                    _ => {
-                        todo!()
-                    }
+            Some(Token::Digraph) => match (token_stream.next(), token_stream.next()) {
+                (Some(Token::ID(graph_id)), Some(Token::OpenParen)) => {
+                    let (statements, tstream) =
+                        Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+                    Ok((
+                        Self {
+                            id: graph_id.to_string(),
+                            statements,
+                            is_strict,
+                            _pd: PhantomData,
+                        },
+                        tstream,
+                    ))
                 }
-            }
+                _ => {
+                    todo!()
+                }
+            },
             _ => Err(anyhow::anyhow!("Error; invalid start token")),
         }
     }
@@ -138,30 +132,24 @@ impl Constructable for Graph<Undirected> {
         }
 
         match token_stream.next() {
-            Some(Token::Graph) => {
-                match (
-                    token_stream.next(),
-                    String::from(token_stream.slice()),
-                    token_stream.next(),
-                ) {
-                    (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) =
-                            Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
-                        Ok((
-                            Self {
-                                id: graph_id,
-                                statements,
-                                is_strict,
-                                _pd: PhantomData,
-                            },
-                            tstream,
-                        ))
-                    }
-                    _ => {
-                        todo!()
-                    }
+            Some(Token::Graph) => match (token_stream.next(), token_stream.next()) {
+                (Some(Token::ID(graph_id)), Some(Token::OpenParen)) => {
+                    let (statements, tstream) =
+                        Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
+                    Ok((
+                        Self {
+                            id: graph_id.to_string(),
+                            statements,
+                            is_strict,
+                            _pd: PhantomData,
+                        },
+                        tstream,
+                    ))
                 }
-            }
+                _ => {
+                    todo!()
+                }
+            },
             _ => Err(anyhow::anyhow!("Error; invalid start token")),
         }
     }

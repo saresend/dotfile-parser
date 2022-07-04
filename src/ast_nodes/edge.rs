@@ -8,7 +8,7 @@ use crate::lex::Token;
 use crate::parse::{Constructable, ParseOR};
 
 pub(crate) trait GraphDirection {
-    fn token() -> Token;
+    fn token() -> Token<'static>;
 }
 
 ///
@@ -22,7 +22,7 @@ pub(crate) trait GraphDirection {
 pub struct Directed;
 
 impl GraphDirection for Directed {
-    fn token() -> Token {
+    fn token() -> Token<'static> {
         Token::DirectedEdge
     }
 }
@@ -39,7 +39,7 @@ impl GraphDirection for Directed {
 pub struct Undirected;
 
 impl GraphDirection for Undirected {
-    fn token() -> Token {
+    fn token() -> Token<'static> {
         Token::UndirectedEdge
     }
 }

@@ -16,12 +16,12 @@ impl Constructable for Port {
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         // format: ':' ID [ ':' port ]
         if let Some(Token::Colon) = token_stream.next() {
-            if let Some(Token::ID) = token_stream.next() {
-                let id = token_stream.slice().to_owned();
+            if let Some(Token::ID(id)) = token_stream.next() {
+                let id = id.to_owned();
                 if let Some(Token::Colon) = token_stream.peek() {
                     token_stream.next();
-                    if let Some(Token::ID) = token_stream.next() {
-                        let compass_id = token_stream.slice().to_owned();
+                    if let Some(Token::ID(compass_id)) = token_stream.next() {
+                        let compass_id = compass_id.to_owned();
                         Ok((
                             Self {
                                 id,
@@ -66,8 +66,8 @@ impl Constructable for Node {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = token_stream.next() {
-            let node_id = token_stream.slice().to_owned();
+        if let Some(Token::ID(node_id)) = token_stream.next() {
+            let node_id = node_id.to_owned();
             let mut port = None;
             if let Ok((parsed_port, tok_stream)) = Port::from_lexer(token_stream.clone()) {
                 port = Some(parsed_port);

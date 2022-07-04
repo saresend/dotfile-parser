@@ -5,9 +5,9 @@ use logos::Logos;
 /// For more info on the tokens, see
 /// the graphviz language spec here: https://graphviz.org/doc/info/lang.html
 #[derive(Logos, Debug, PartialEq, Clone)]
-pub(crate) enum Token {
+pub(crate) enum Token<'a> {
     #[regex(r##"("([^"]|\\")*"|[a-zA-Z0-9_]+|-?(\.[0-9]+|[0-9]+(\.[0-9]*)?))"##)]
-    ID,
+    ID(&'a str),
 
     #[token("strict")]
     Strict,
@@ -76,8 +76,8 @@ pub trait Peekable<'a> {
 /// of lexing operations
 #[derive(Clone)]
 pub(crate) struct PeekableLexer<'a> {
-    inner_lexer: logos::Lexer<'a, Token>,
-    peeked_token: Option<Token>,
+    inner_lexer: logos::Lexer<'a, Token<'a>>,
+    peeked_token: Option<Token<'a>>,
     curr_span: Span,
     curr_slice: &'a str,
 }
@@ -93,11 +93,11 @@ impl<'a> std::fmt::Debug for PeekableLexer<'a> {
 }
 
 impl<'a> std::iter::Iterator for PeekableLexer<'a> {
-    type Item = Token;
+    type Item = Token<'a>;
 
     /// This will consume the next token if we don't have an existing token that
     /// has earlier been peeked, otherwise it will return the peeked token
-    fn next(&mut self) -> Option<Token> {
+    fn next(&mut self) -> Option<Token<'a>> {
         if let Some(inner_tok) = self.peeked_token.take() {
             self.update_splice();
             Some(inner_tok)
@@ -110,9 +110,9 @@ impl<'a> std::iter::Iterator for PeekableLexer<'a> {
 }
 
 impl<'a> Peekable<'a> for PeekableLexer<'a> {
-    type Item = Token;
+    type Item = Token<'a>;
 
-    fn peek(&mut self) -> Option<&Token> {
+    fn peek(&mut self) -> Option<&Token<'a>> {
         if self.peeked_token.is_none() {
             self.update_splice();
             self.peeked_token = self.inner_lexer.next();
@@ -142,7 +142,7 @@ impl<'a> PeekableLexer<'a> {
 
     /// Constructs a new instance of the PeekableLexer
     /// from an existing underlying lexer
-    fn from_lexer(inner_lexer: logos::Lexer<'a, Token>) -> Self {
+    fn from_lexer(inner_lexer: logos::Lexer<'a, Token<'a>>) -> Self {
         let curr_span = inner_lexer.span().clone();
         let curr_slice = inner_lexer.slice();
         Self {
@@ -183,18 +183,18 @@ mod tests {
         assert_eq!(lexer_sut.next(), Some(Token::Graph));
         assert_eq!(lexer_sut.next(), Some(Token::OpenParen));
         assert_eq!(lexer_sut.next(), Some(Token::NewLine));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("a")));
         assert_eq!(lexer_sut.next(), Some(Token::UndirectedEdge));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("b")));
         assert_eq!(lexer_sut.next(), Some(Token::NewLine));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("b")));
         assert_eq!(lexer_sut.next(), Some(Token::UndirectedEdge));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("a")));
 
         assert_eq!(lexer_sut.next(), Some(Token::OpenBracket));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("color")));
         assert_eq!(lexer_sut.next(), Some(Token::Equals));
-        assert_eq!(lexer_sut.next(), Some(Token::ID));
+        assert_eq!(lexer_sut.next(), Some(Token::ID("blue")));
         assert_eq!(lexer_sut.next(), Some(Token::CloseBracket));
         assert_eq!(lexer_sut.next(), Some(Token::NewLine));
     }
@@ -203,8 +203,7 @@ mod tests {
     fn token_test_for_id_regex() {
         let test_str = "\"___ooogabooga:asdf\"";
         let mut lxt = PeekableLexer::from(test_str);
-        assert_eq!(Some(Token::ID), lxt.next());
-        assert_eq!(String::from(test_str), lxt.slice());
+        assert_eq!(Some(Token::ID(test_str)), lxt.next());
     }
 
     #[test]
@@ -236,10 +235,10 @@ mod tests {
         let mut lexer = PeekableLexer::from(test_string);
         println!("{}", test_string);
         assert_eq!(lexer.next(), Some(Token::NewLine));
-        assert_eq!(lexer.next(), Some(Token::ID));
+        assert_eq!(lexer.next(), Some(Token::ID("hi")));
         assert_eq!(lexer.next(), Some(Token::NewLine));
 
-        assert_eq!(lexer.next(), Some(Token::ID));
+        assert_eq!(lexer.next(), Some(Token::ID("there")));
         assert_eq!(lexer.next(), Some(Token::NewLine));
     }
 
