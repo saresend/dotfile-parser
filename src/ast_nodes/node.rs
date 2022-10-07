@@ -3,7 +3,6 @@ use crate::parse::Constructable;
 use super::{assignment::AttributeList, ID};
 use crate::lex::{Peekable, Token};
 
-
 #[derive(Debug)]
 pub struct Port {
     pub id: ID,
@@ -17,24 +16,30 @@ impl Constructable for Port {
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
         // format: ':' ID [ ':' port ]
         if let Some(Token::Colon) = token_stream.next() {
-            if let Some(Token::ID) = token_stream.next() {
-                let id = token_stream.slice().to_owned();
+            if let Some(Token::ID(id)) = token_stream.next() {
+                let id = crate::lex::unquote_string(id);
                 if let Some(Token::Colon) = token_stream.peek() {
                     token_stream.next();
-                    if let Some(Token::ID) = token_stream.next() {
-                        let compass_id = token_stream.slice().to_owned();
-                        Ok((Self {
-                            id,
-                            compass_point: Some(compass_id),
-                        }, token_stream))
+                    if let Some(Token::ID(compass_id)) = token_stream.next() {
+                        let compass_id = crate::lex::unquote_string(compass_id);
+                        Ok((
+                            Self {
+                                id,
+                                compass_point: Some(compass_id),
+                            },
+                            token_stream,
+                        ))
                     } else {
                         Err(anyhow::anyhow!("Invalid compass point value"))
                     }
                 } else {
-                    Ok((Self {
-                        id,
-                        compass_point: None,
-                    }, token_stream))
+                    Ok((
+                        Self {
+                            id,
+                            compass_point: None,
+                        },
+                        token_stream,
+                    ))
                 }
             } else {
                 Err(anyhow::anyhow!("Invalid syntax for port"))
@@ -61,8 +66,8 @@ impl Constructable for Node {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self, crate::lex::PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = token_stream.next() {
-            let node_id = token_stream.slice().to_owned();
+        if let Some(Token::ID(node_id)) = token_stream.next() {
+            let node_id = crate::lex::unquote_string(node_id);
             let mut port = None;
             if let Ok((parsed_port, tok_stream)) = Port::from_lexer(token_stream.clone()) {
                 port = Some(parsed_port);
@@ -96,8 +101,6 @@ impl Constructable for Node {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use crate::ast_nodes::assignment::*;
@@ -127,7 +130,6 @@ mod tests {
         assert_eq!(port.id, String::from("tst"));
         assert_eq!(port.compass_point, None);
     }
-
 
     /*
      * NODE TESTS
@@ -164,6 +166,24 @@ mod tests {
     #[test]
     fn node_statement_port_id_specifier_test() {
         let test_str = "nd_1 [label = \"Node 1\"]";
+        let lexer = PeekableLexer::from(test_str);
+        let node = Node::from_lexer(lexer).unwrap();
+        assert_eq!(node.0.id, String::from("nd_1"));
+        assert_eq!(node.0.attribute_list.unwrap().len(), 1);
+    }
+
+    #[test]
+    fn node_statement_empty_test() {
+        let test_str = r##"nd_1 [label = ""]"##;
+        let lexer = PeekableLexer::from(test_str);
+        let node = Node::from_lexer(lexer).unwrap();
+        assert_eq!(node.0.id, String::from("nd_1"));
+        assert_eq!(node.0.attribute_list.unwrap().len(), 1);
+    }
+
+    #[test]
+    fn node_statement_quoting_test() {
+        let test_str = r##"nd_1 [label = "\""]"##;
         let lexer = PeekableLexer::from(test_str);
         let node = Node::from_lexer(lexer).unwrap();
         assert_eq!(node.0.id, String::from("nd_1"));

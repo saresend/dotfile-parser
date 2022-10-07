@@ -34,8 +34,8 @@ mod subgraph;
 use std::marker::PhantomData;
 
 pub use assignment::Assignment;
-pub use edge::{EdgeLHS, EdgeRHS, Edge};
 pub use edge::{Directed, Undirected};
+pub use edge::{Edge, EdgeLHS, EdgeRHS};
 pub use node::Node;
 pub use statement::Statement;
 pub use subgraph::Subgraph;
@@ -53,8 +53,8 @@ impl Constructable for ID {
     fn from_lexer(
         mut token_stream: crate::lex::PeekableLexer,
     ) -> anyhow::Result<(Self::Output, crate::lex::PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = token_stream.next() {
-            Ok((token_stream.slice().to_owned(), token_stream))
+        if let Some(Token::ID(id)) = token_stream.next() {
+            Ok((crate::lex::unquote_string(id), token_stream))
         } else {
             Err(anyhow::anyhow!("Expected type ID"))
         }
@@ -65,8 +65,8 @@ impl Constructable for ID {
 /// A graph is the underlying structure that represents a toplevel graph in graphviz
 /// this should roughly correspond to the graph production
 /// [here](https://graphviz.org/doc/info/lang.html)
-/// 
-/// Example usage of this: 
+///
+/// Example usage of this:
 ///```
 /// use graphviz_parser::DotGraph;
 /// use graphviz_parser::ast_nodes::Statement::Node;
@@ -97,30 +97,24 @@ impl Constructable for Graph<Directed> {
             is_strict = true;
         }
         match token_stream.next() {
-            Some(Token::Digraph) => {
-                match (
-                    token_stream.next(),
-                    String::from(token_stream.slice()),
-                    token_stream.next(),
-                ) {
-                    (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) =
-                            Vec::<Statement<Directed>>::from_lexer(token_stream)?;
-                        Ok((
-                            Self {
-                                id: graph_id,
-                                statements,
-                                is_strict,
-                                _pd: PhantomData,
-                            },
-                            tstream,
-                        ))
-                    }
-                    _ => {
-                        todo!()
-                    }
+            Some(Token::Digraph) => match (token_stream.next(), token_stream.next()) {
+                (Some(Token::ID(graph_id)), Some(Token::OpenParen)) => {
+                    let (statements, tstream) =
+                        Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+                    Ok((
+                        Self {
+                            id: crate::lex::unquote_string(graph_id),
+                            statements,
+                            is_strict,
+                            _pd: PhantomData,
+                        },
+                        tstream,
+                    ))
                 }
-            }
+                _ => {
+                    todo!()
+                }
+            },
             _ => Err(anyhow::anyhow!("Error; invalid start token")),
         }
     }
@@ -138,30 +132,24 @@ impl Constructable for Graph<Undirected> {
         }
 
         match token_stream.next() {
-            Some(Token::Graph) => {
-                match (
-                    token_stream.next(),
-                    String::from(token_stream.slice()),
-                    token_stream.next(),
-                ) {
-                    (Some(Token::ID), graph_id, Some(Token::OpenParen)) => {
-                        let (statements, tstream) =
-                            Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
-                        Ok((
-                            Self {
-                                id: graph_id,
-                                statements,
-                                is_strict,
-                                _pd: PhantomData,
-                            },
-                            tstream,
-                        ))
-                    }
-                    _ => {
-                        todo!()
-                    }
+            Some(Token::Graph) => match (token_stream.next(), token_stream.next()) {
+                (Some(Token::ID(graph_id)), Some(Token::OpenParen)) => {
+                    let (statements, tstream) =
+                        Vec::<Statement<Undirected>>::from_lexer(token_stream)?;
+                    Ok((
+                        Self {
+                            id: crate::lex::unquote_string(graph_id),
+                            statements,
+                            is_strict,
+                            _pd: PhantomData,
+                        },
+                        tstream,
+                    ))
                 }
-            }
+                _ => {
+                    todo!()
+                }
+            },
             _ => Err(anyhow::anyhow!("Error; invalid start token")),
         }
     }

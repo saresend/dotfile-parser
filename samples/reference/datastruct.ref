@@ -8,7 +8,7 @@ Graph {
                     [
                         Assignment {
                             lhs: "rankdir",
-                            rhs: "\"LR\"",
+                            rhs: "LR",
                         },
                     ],
                 ],
@@ -20,11 +20,11 @@ Graph {
                     [
                         Assignment {
                             lhs: "fontsize",
-                            rhs: "\"16\"",
+                            rhs: "16",
                         },
                         Assignment {
                             lhs: "shape",
-                            rhs: "\"ellipse\"",
+                            rhs: "ellipse",
                         },
                     ],
                 ],
@@ -39,18 +39,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node0\"",
+                id: "node0",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0x10ba8| <f1>\"",
+                                rhs: "<f0> 0x10ba8| <f1>",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -59,18 +59,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node1\"",
+                id: "node1",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |-1\"",
+                                rhs: "<f0> 0xf7fc4380| <f1> | <f2> |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -79,18 +79,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node2\"",
+                id: "node2",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc44b8| | |2\"",
+                                rhs: "<f0> 0xf7fc44b8| | |2",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -99,18 +99,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node3\"",
+                id: "node3",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 3.43322790286038071e-06|44.79998779296875|0\"",
+                                rhs: "<f0> 3.43322790286038071e-06|44.79998779296875|0",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -119,18 +119,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node4\"",
+                id: "node4",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |2\"",
+                                rhs: "<f0> 0xf7fc4380| <f1> | <f2> |2",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -139,18 +139,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node5\"",
+                id: "node5",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> (nil)| | |-1\"",
+                                rhs: "<f0> (nil)| | |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -159,18 +159,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node6\"",
+                id: "node6",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |1\"",
+                                rhs: "<f0> 0xf7fc4380| <f1> | <f2> |1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -179,18 +179,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node7\"",
+                id: "node7",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc4380| <f1> | <f2> |2\"",
+                                rhs: "<f0> 0xf7fc4380| <f1> | <f2> |2",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -199,18 +199,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node8\"",
+                id: "node8",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> (nil)| | |-1\"",
+                                rhs: "<f0> (nil)| | |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -219,18 +219,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node9\"",
+                id: "node9",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> (nil)| | |-1\"",
+                                rhs: "<f0> (nil)| | |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -239,18 +239,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node10\"",
+                id: "node10",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> (nil)| <f1> | <f2> |-1\"",
+                                rhs: "<f0> (nil)| <f1> | <f2> |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -259,18 +259,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node11\"",
+                id: "node11",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> (nil)| <f1> | <f2> |-1\"",
+                                rhs: "<f0> (nil)| <f1> | <f2> |-1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -279,18 +279,18 @@ Graph {
         ),
         Node(
             Node {
-                id: "\"node12\"",
+                id: "node12",
                 port: None,
                 attribute_list: Some(
                     [
                         [
                             Assignment {
                                 lhs: "label",
-                                rhs: "\"<f0> 0xf7fc43e0| | |1\"",
+                                rhs: "<f0> 0xf7fc43e0| | |1",
                             },
                             Assignment {
                                 lhs: "shape",
-                                rhs: "\"record\"",
+                                rhs: "record",
                             },
                         ],
                     ],
@@ -301,7 +301,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node0\"",
+                        id: "node0",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -313,7 +313,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -338,7 +338,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node0\"",
+                        id: "node0",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -350,7 +350,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node2\"",
+                        id: "node2",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -375,7 +375,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -387,7 +387,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node3\"",
+                        id: "node3",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -412,7 +412,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -424,7 +424,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node4\"",
+                        id: "node4",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -449,7 +449,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -461,7 +461,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node5\"",
+                        id: "node5",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -486,7 +486,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node4\"",
+                        id: "node4",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -498,7 +498,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node3\"",
+                        id: "node3",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -523,7 +523,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node4\"",
+                        id: "node4",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -535,7 +535,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node6\"",
+                        id: "node6",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -560,7 +560,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node4\"",
+                        id: "node4",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -572,7 +572,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node10\"",
+                        id: "node10",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -597,7 +597,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node6\"",
+                        id: "node6",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -609,7 +609,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node3\"",
+                        id: "node3",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -634,7 +634,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node6\"",
+                        id: "node6",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -646,7 +646,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node7\"",
+                        id: "node7",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -671,7 +671,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node6\"",
+                        id: "node6",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -683,7 +683,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node9\"",
+                        id: "node9",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -708,7 +708,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node7\"",
+                        id: "node7",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -720,7 +720,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node3\"",
+                        id: "node3",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -745,7 +745,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node7\"",
+                        id: "node7",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -757,7 +757,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -782,7 +782,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node7\"",
+                        id: "node7",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -794,7 +794,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node8\"",
+                        id: "node8",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -819,7 +819,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node10\"",
+                        id: "node10",
                         port: Some(
                             Port {
                                 id: "f1",
@@ -831,7 +831,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node11\"",
+                        id: "node11",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -856,7 +856,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node10\"",
+                        id: "node10",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -868,7 +868,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node12\"",
+                        id: "node12",
                         port: Some(
                             Port {
                                 id: "f0",
@@ -893,7 +893,7 @@ Graph {
             Edge {
                 lhs: Node(
                     Node {
-                        id: "\"node11\"",
+                        id: "node11",
                         port: Some(
                             Port {
                                 id: "f2",
@@ -905,7 +905,7 @@ Graph {
                 ),
                 rhs: Node(
                     Node {
-                        id: "\"node1\"",
+                        id: "node1",
                         port: Some(
                             Port {
                                 id: "f0",

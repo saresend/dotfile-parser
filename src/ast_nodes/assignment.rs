@@ -16,8 +16,8 @@ impl Assignment {
     /// Creates a new instance of an Assignment Statement
     pub fn new(lhs: &str, rhs: &str) -> Self {
         Assignment {
-            lhs: lhs.to_owned(),
-            rhs: rhs.to_owned(),
+            lhs: crate::lex::unquote_string(lhs),
+            rhs: crate::lex::unquote_string(rhs),
         }
     }
 }
@@ -28,11 +28,11 @@ impl Constructable for Assignment {
     fn from_lexer(
         mut lexer: PeekableLexer<'_>,
     ) -> Result<(Self::Output, PeekableLexer), anyhow::Error> {
-        if let Some(Token::ID) = lexer.next() {
-            let lhs = String::from(lexer.slice());
+        if let Some(Token::ID(lhs)) = lexer.next() {
             if let Some(Token::Equals) = lexer.next() {
-                if let Some(Token::ID) = lexer.next() {
-                    let rhs = String::from(lexer.slice());
+                if let Some(Token::ID(rhs)) = lexer.next() {
+                    let lhs = crate::lex::unquote_string(lhs);
+                    let rhs = crate::lex::unquote_string(rhs);
                     return Ok((Self { lhs, rhs }, lexer));
                 }
             }

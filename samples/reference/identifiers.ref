@@ -1,0 +1,56 @@
+Graph {
+    id: "D",
+    is_strict: false,
+    statements: [
+        Node(
+            Node {
+                id: "A",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: "0",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: "-1",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: "0.1",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: ".1",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: "a",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+        Node(
+            Node {
+                id: "a\"a",
+                port: None,
+                attribute_list: None,
+            },
+        ),
+    ],
+    _pd: PhantomData,
+}
