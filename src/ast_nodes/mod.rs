@@ -33,7 +33,7 @@ mod subgraph;
 
 use std::marker::PhantomData;
 
-pub use assignment::Assignment;
+pub use assignment::{Assignment, AssignmentGroup, AttributeList};
 pub use edge::{Directed, Undirected};
 pub use edge::{Edge, EdgeLHS, EdgeRHS};
 pub use node::Node;
