@@ -1,4 +1,4 @@
-digraph D {
+digraph {
   A [shape=diamond]
   B [shape=box]
   C [shape=circle]
