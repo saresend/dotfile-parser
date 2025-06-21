@@ -97,24 +97,34 @@ impl Constructable for Graph<Directed> {
             is_strict = true;
         }
         match token_stream.next() {
-            Some(Token::Digraph) => match (token_stream.next(), token_stream.next()) {
-                (Some(Token::ID(graph_id)), Some(Token::OpenParen)) => {
-                    let (statements, tstream) =
-                        Vec::<Statement<Directed>>::from_lexer(token_stream)?;
-                    Ok((
-                        Self {
-                            id: crate::lex::unquote_string(graph_id),
-                            statements,
-                            is_strict,
-                            _pd: PhantomData,
-                        },
-                        tstream,
-                    ))
-                }
-                _ => {
-                    todo!()
-                }
-            },
+            Some(Token::Digraph) => {
+		let graph_id = match token_stream.peek() {
+		    Some(Token::ID(graph_id)) => {
+			let graph_id = crate::lex::unquote_string(graph_id);
+			token_stream.next();
+			graph_id
+		    }
+		    _ => String::new(), // Missing graph id is interpreted to be empty
+		};
+		match token_stream.next() {
+                    Some(Token::OpenParen) => {
+			let (statements, tstream) =
+                            Vec::<Statement<Directed>>::from_lexer(token_stream)?;
+			Ok((
+                            Self {
+				id: graph_id,
+				statements,
+				is_strict,
+				_pd: PhantomData,
+                            },
+                            tstream,
+			))
+                    }
+                    _ => {
+			Err(anyhow::anyhow!("Error; expected either graph name or {"))
+                    }
+		}
+	    },
             _ => Err(anyhow::anyhow!("Error; invalid start token")),
         }
     }
