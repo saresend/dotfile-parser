@@ -142,7 +142,7 @@ Graph {
                         attribute_list: None,
                     },
                 ),
-                ty: PhantomData,
+                ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                 attr_list: [],
             },
         ),
@@ -180,15 +180,15 @@ Graph {
                                         attribute_list: None,
                                     },
                                 ),
-                                ty: PhantomData,
+                                ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                                 attr_list: [],
                             },
                         ),
-                        ty: PhantomData,
+                        ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                         attr_list: [],
                     },
                 ),
-                ty: PhantomData,
+                ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                 attr_list: [],
             },
         ),
@@ -257,7 +257,7 @@ Graph {
                                             attribute_list: None,
                                         },
                                     ),
-                                    ty: PhantomData,
+                                    ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                                     attr_list: [
                                         [
                                             Assignment {
@@ -272,7 +272,7 @@ Graph {
                                     ],
                                 },
                             ),
-                            ty: PhantomData,
+                            ty: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
                             attr_list: [
                                 [
                                     Assignment {
@@ -291,5 +291,5 @@ Graph {
             },
         ),
     ],
-    _pd: PhantomData,
+    _pd: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
 }

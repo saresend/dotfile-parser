@@ -52,5 +52,5 @@ Graph {
             },
         ),
     ],
-    _pd: PhantomData,
+    _pd: PhantomData<graphviz_parser::ast_nodes::edge::Directed>,
 }
