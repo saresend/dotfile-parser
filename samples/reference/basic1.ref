@@ -1,5 +1,5 @@
 Graph {
-    id: "D",
+    id: "",
     is_strict: false,
     statements: [
         Node(
